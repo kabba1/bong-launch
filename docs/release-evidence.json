@@ -1,0 +1,244 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-09-27T17:19:55.468Z",
+  "releaseReady": false,
+  "disposition": "BLOCKED: owner/editorial/provider/staging/independent-review gates remain open",
+  "candidateSHA256": "6fc9a70876182ae821f35d4022c37c3a1be32bdaf1c6cfb25646de9bc618318f",
+  "buildId": "ifod-872AGPJhszNIz8RK",
+  "sourceIdentityMethod": "scripts/candidate.ts hashes application source, tests, migrations, content/artifacts, CI and locked dependency/configuration bytes. Documentation and generated local build caches are excluded.",
+  "environment": {
+    "os": "Windows",
+    "node": "v24.19.0",
+    "server": "next start on 127.0.0.1:3210",
+    "providerConfiguration": "Not configured; public content works independently and community requests fail truthfully.",
+    "database": "Real PostgreSQL semantics in isolated PGlite databases; no hosted service or TCP pool evidence."
+  },
+  "content": {
+    "schemaVersion": 1,
+    "datasetId": "bong-1000-v1",
+    "sourceSha256": "d47f279eb2cce77a5730e9dbb7ab156bd5675787e18e926cd5434b20ebe8baf9",
+    "hash": "f97d063e6cc814db55ca6c551ebf372b5ce38ccf8ab56878c7d961bc81526111",
+    "url": "/data/ideas.f97d063e6cc814db55ca6c551ebf372b5ce38ccf8ab56878c7d961bc81526111.json",
+    "activeCount": 1000,
+    "categoryCount": 22
+  },
+  "lockfile": {
+    "path": "package-lock.json",
+    "sha256": "061ec6f695112d49c57b200a6d6deff9f54d09a93f4fe79153b1015385a49d38"
+  },
+  "migration": {
+    "path": "supabase/migrations/202609270001_bong.sql",
+    "sha256": "075765bad09db0c2199caf260a2e0d322bd9bde385c96677f22f2c1d8d41e989"
+  },
+  "checks": {
+    "cleanInstall": "PASS",
+    "lint": "PASS",
+    "typecheck": "PASS",
+    "content:validate": "PASS",
+    "test:unit": "PASS",
+    "test:integration": "PASS",
+    "test:security": "PASS",
+    "test:e2e": "PASS",
+    "test:a11y": "PASS",
+    "build": "PASS",
+    "dependencyAudit": "PASS",
+    "secretScan": "PASS"
+  },
+  "runs": [
+    {
+      "key": "cleanInstall",
+      "command": "npm ci",
+      "status": "PASS",
+      "exitCode": 0,
+      "proof": "../bong_codex_handoff/.build-evidence/final-clean-install.log",
+      "proofSHA256": "d388d3c7903c5e9df75908a48343de4aec3ab0648847f697494a0fefe9a51083"
+    },
+    {
+      "key": "lint",
+      "command": "npm run lint",
+      "status": "PASS",
+      "exitCode": 0,
+      "proof": "../bong_codex_handoff/.build-evidence/final-lint.log",
+      "proofSHA256": "ee518536dd3b4817ee3705130adc1049eb5eef284c4fd407f8900f39ff1d6510"
+    },
+    {
+      "key": "typecheck",
+      "command": "npm run typecheck",
+      "status": "PASS",
+      "exitCode": 0,
+      "proof": "../bong_codex_handoff/.build-evidence/final-typecheck.log",
+      "proofSHA256": "79863d4808b04c9a695bf66a95a0403b4fc62c514a3f7aa9cf18131a85f3bfe0"
+    },
+    {
+      "key": "content:validate",
+      "command": "npm run content:validate",
+      "status": "PASS",
+      "exitCode": 0,
+      "proof": "../bong_codex_handoff/.build-evidence/final-content.log",
+      "proofSHA256": "9325ba93d62f31e30f248627bed75af199187082f1377ea1513fa15de8acb884"
+    },
+    {
+      "key": "test:unit",
+      "command": "npm run test:unit",
+      "status": "PASS",
+      "exitCode": 0,
+      "tests": 28,
+      "proof": "../bong_codex_handoff/.build-evidence/final-unit.log",
+      "proofSHA256": "3d785dabacc257326feb027f21411628689bbf4561b9e00aeb1c655fd1b39992"
+    },
+    {
+      "key": "test:integration",
+      "command": "npm run test:integration",
+      "status": "PASS",
+      "exitCode": 0,
+      "tests": 30,
+      "proof": "../bong_codex_handoff/.build-evidence/final-integration.log",
+      "proofSHA256": "1ad7f3c20d30d1dadafb238871b46cb908b7c9e6707f608955c5b90a019a4ae4"
+    },
+    {
+      "key": "test:security",
+      "command": "npm run test:security",
+      "status": "PASS",
+      "exitCode": 0,
+      "tests": 45,
+      "proof": "../bong_codex_handoff/.build-evidence/final-security.log",
+      "proofSHA256": "3f58601f3973a3af927643ad54907f3f3c9ee9b8050e63df3ae2e1f5c6932a38"
+    },
+    {
+      "key": "test:e2e",
+      "command": "npm run test:e2e",
+      "status": "PASS",
+      "exitCode": 0,
+      "tests": 24,
+      "proof": "../bong_codex_handoff/.build-evidence/final-e2e.log",
+      "proofSHA256": "7386b9483e3bb691ebaf3f0d4def635c702aa42bd2289bda21d21462ddec455b"
+    },
+    {
+      "key": "test:a11y",
+      "command": "npm run test:a11y",
+      "status": "PASS",
+      "exitCode": 0,
+      "tests": 17,
+      "proof": "../bong_codex_handoff/.build-evidence/final-a11y.log",
+      "proofSHA256": "da051a32daeeefef09b2cddb766db96bb010d9415cf8c3206be4d3dcc8b85c70"
+    },
+    {
+      "key": "build",
+      "command": "npm run build",
+      "status": "PASS",
+      "exitCode": 0,
+      "proof": "../bong_codex_handoff/.build-evidence/final-build.log",
+      "proofSHA256": "d91abb6d710745b27fd8ae380ae0accf254233c780f137bd9d3eb7906debdd7e"
+    },
+    {
+      "key": "dependencyAudit",
+      "command": "npm audit --json",
+      "status": "PASS",
+      "exitCode": 0,
+      "proof": "../bong_codex_handoff/.build-evidence/final-audit.json",
+      "proofSHA256": "4f4144080d2d1061c5426baccbcb38ff94710dab66bb06677313baf7a85fe3e0"
+    },
+    {
+      "key": "secretScan",
+      "command": "npm run security:scan",
+      "status": "PASS",
+      "exitCode": 0,
+      "proof": "../bong_codex_handoff/.build-evidence/final-secret-scan.log",
+      "proofSHA256": "a07c0c4a4a76176dfd8065fd4e1e40ac9a2b68bcbea64353910b4c428c7cd366"
+    }
+  ],
+  "automatedTestTotal": 144,
+  "acceptanceSummary": {
+    "total": 148,
+    "byStatus": {
+      "PASS": 8,
+      "PARTIAL": 104,
+      "NOT RUN": 36
+    },
+    "warning": "Passing local suites never imply full release acceptance."
+  },
+  "securityReview": "Internal implementation and separate agent review only; independent human security assessment remains required.",
+  "performance": {
+    "report": "PERFORMANCE.md",
+    "rawArtifact": "../bong_codex_handoff/.build-evidence/performance.json",
+    "sha256": "b079f63b23514774c5cd59690aa82af9669a5b474da95b22dd43f7b424aaa21f",
+    "scope": "Three cold navigations each for desktop and mobile, 60 total idea draws, final production build; homepage lab only."
+  },
+  "screenshots": {
+    "directory": "../bong_codex_handoff/.build-evidence/screenshots",
+    "viewports": [
+      1440,
+      390
+    ],
+    "reviewed": [
+      "home-1440.png",
+      "home-390.png"
+    ],
+    "scope": "Final build captures; engineering visual inspection, not owner visual approval."
+  },
+  "releaseGate": {
+    "command": "npm run release:check",
+    "status": "BLOCKED",
+    "exitCode": 1,
+    "expectedFailure": true,
+    "blockerCount": 40,
+    "blockers": [
+      "At least eight genuine reviewed timeline articles are required.",
+      "A real monitored support contact is required.",
+      "A real monitored security contact is required.",
+      "Approved terms content is missing.",
+      "Approved privacy content is missing.",
+      "Approved community-rules content is missing.",
+      "Approved accessibility content is missing.",
+      "Owner/reviewer evidence is missing: visual.",
+      "Owner/reviewer evidence is missing: artworkRights.",
+      "Owner/reviewer evidence is missing: ideaEditorial.",
+      "Owner/reviewer evidence is missing: legal.",
+      "Owner/reviewer evidence is missing: providersBudgetRegion.",
+      "Owner/reviewer evidence is missing: moderationStaffing.",
+      "Owner/reviewer evidence is missing: independentSecurityReview (independent security review).",
+      "Owner/reviewer evidence is missing: restoreDrill.",
+      "Owner/reviewer evidence is missing: stagingIntegrations.",
+      "Owner/reviewer evidence is missing: manualAccessibility.",
+      "Owner/reviewer evidence is missing: loadAndPerformance.",
+      "Owner/reviewer evidence is missing: productionAuthorization.",
+      "The production environment and canonical origin are not verified.",
+      "Required deployment configuration is missing: APP_ORIGIN.",
+      "Required deployment configuration is missing: BONG_DATABASE_URL.",
+      "Required deployment configuration is missing: BONG_MAINTENANCE_DATABASE_URL.",
+      "Required deployment configuration is missing: SUPABASE_URL.",
+      "Required deployment configuration is missing: SUPABASE_PUBLISHABLE_KEY.",
+      "Required deployment configuration is missing: SUPABASE_STORAGE_SERVICE_KEY.",
+      "Required deployment configuration is missing: SUPABASE_AUTH_ADMIN_KEY.",
+      "Required deployment configuration is missing: SUPABASE_MEDIA_BUCKET.",
+      "Required deployment configuration is missing: SUPABASE_EXPORT_BUCKET.",
+      "Required deployment configuration is missing: CSRF_SECRET.",
+      "Required deployment configuration is missing: RATE_LIMIT_SECRET.",
+      "Required deployment configuration is missing: LOG_HMAC_SECRET.",
+      "Required deployment configuration is missing: MAINTENANCE_TOKEN.",
+      "Required deployment configuration is missing: TURNSTILE_SITE_KEY.",
+      "Required deployment configuration is missing: TURNSTILE_SECRET_KEY.",
+      "Required deployment configuration is missing: COMMUNITY_RULES_VERSION.",
+      "Required deployment configuration is missing: TERMS_VERSION.",
+      "140 required acceptance scenarios remain PARTIAL, NOT RUN or failed; see docs/acceptance-evidence.json.",
+      "253 ASVS controls still require independent assessment or a specifically approved exclusion.",
+      "Provider Auth CAPTCHA has not been confirmed enabled."
+    ],
+    "proof": "../bong_codex_handoff/.build-evidence/final-release-check.log",
+    "proofSHA256": "c5c4099f12fcad0279d17e4816415dbc4daef7d60c4a00b72a4975fcdbf98d10",
+    "interpretation": "Executed successfully and correctly rejected launch. This is an unresolved release gate, not a passing release check."
+  },
+  "limitations": [
+    "At least eight genuinely sourced, reviewed timeline articles are missing.",
+    "Operator contacts, approved legal/editorial/rights material, visual acceptance and real staff coverage are missing.",
+    "Actual provider settings, SMTP, MFA, CAPTCHA, private storage, scheduler and hosted access controls require isolated staging configuration and verification.",
+    "Full provider success journeys, network pool/concurrency, private media expiry and deletion, real SQL-plus-object restore and monitored alerts remain unverified.",
+    "Manual accessibility, additional-route/hosted performance, independent control-level security review and explicit production authorization remain required."
+  ],
+  "deployment": {
+    "performed": false,
+    "paidProvisioning": false,
+    "productionChanges": false
+  },
+  "proofPathsRelativeTo": "application root"
+}
