@@ -9,6 +9,7 @@ import "@/styles/globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { origin, isProduction } from "@/lib/site";
+import { communityEnabled } from "@/lib/launch-scope";
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   metadataBase: new URL(origin()),
@@ -17,22 +18,23 @@ export const metadata: Metadata = {
     template: "%s · BONG",
   },
   description:
-    "Some ideas change the world. Some just sound good at the time. Find an unexpected thought, explore history, and share what you make.",
+    "Some ideas change the world. Some just sound good at the time. Find an unexpected thought, explore history, and follow the BONG story.",
   robots: isProduction()
     ? { index: true, follow: true }
     : { index: false, follow: false },
   icons: { icon: "/icon.svg" },
 };
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const community = communityEnabled();
   return (
     <html lang="en" data-scroll-behavior="smooth">
       <body>
         <a className="skip-link" href="#main">
           Skip to content
         </a>
-        <Header />
+        <Header communityEnabled={community} />
         <main id="main">{children}</main>
-        <Footer />
+        <Footer communityEnabled={community} />
       </body>
     </html>
   );

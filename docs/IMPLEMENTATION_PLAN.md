@@ -4,6 +4,22 @@
 **Architecture:** Next.js App Router, strict TypeScript, dynamic nonce-bearing HTML, immutable hashed content. Server-only Supabase Auth/Storage adapters and restricted PostgreSQL transactions; private `bong` schema, RLS, no browser provider client.
 **Spec:** Supplied BONG handoff, reviewed before implementation. The application-local guardrails, acceptance matrix and release report carry the implementation requirements and remaining owner gates for this standalone checkout. Local implementation does not authorize public launch.
 
+## Approved v1 scope revision (2026-09-27)
+
+The owner's new instruction supersedes the original all-features launch scope. Public v1 retains the canned generator, exact corpus, timeline renderer/content controls, About/lore and factual $BONG information. Community is a polished Coming Soon page with only configured official social links. Accounts, forum, moderation, private database/Auth/email/CAPTCHA/uploads and lifecycle services are preserved for a future community release, disabled by default.
+
+Plan and acceptance mapping:
+
+1. Preserve source CSV bytes across Git checkout while retaining exact IDs/text and strict tamper checks (DATA-01–09; CSV regression).
+2. Add a default-off server community boundary before private page rendering and API handling; retain nonce CSP, no-store/private responses and every future community security control (V1-01–03, SEC-01/05–08/14/17).
+3. Remove public account/submit/report/session dependencies, add Coming Soon and conditional official links, preserve generator/timeline/About/token behavior and unrelated design (V1-01/04/05, GEN-01–15, TIME-01–09, UX-01–09; GEN-16 discussion is deferred).
+4. Separate v1 release requirements from deferred full community requirements, without relabeling unknown evidence as passed (OPS-01/11/13; v1 acceptance and ASVS registers).
+5. Verify exact content, current unit/integration/security suites, a fresh production build, public v1 browser/accessibility behavior and selected preserved community regressions. Bind new evidence to this candidate and retain historical failures/fixes.
+
+Implementation and verification only. No commit, push, deployment, provider provisioning or unrelated redesign is part of this scope-change turn. See V1_SCOPE.md and RELEASE_REPORT.md for the resulting gates. The earlier plan below describes preserved implementation history; its full-community launch gates apply to the future release.
+
+**Scope revision completed and locally verified:** all five steps above are implemented. Final results: unit 42, SQL integration 30, security 60, public browser 22, axe 10 and preserved community browser 7 passed; lint, typecheck, exact content, production build, audit and secret scan passed. The default v1 release check remains blocked by 20 actual content/owner/public-host/evidence findings; the separate community check retains 44 full-scope findings. Historical failed checks and corrections are recorded in RELEASE_REPORT.md and release-evidence.json. No owner, independent reviewer or hosted-provider result was fabricated.
+
 ## Global constraints
 
 - All 1,000 source strings and IDs; 22 categories; content hash derived from emitted bytes.

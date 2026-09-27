@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 // Fixtures are confined to a browser interception; this test makes no persistence claim.
-test("BOARD-11 an addressable feed restores its filter and continuation", async ({
+test("@community BOARD-11 an addressable feed restores its filter and continuation", async ({
   page,
 }) => {
   const seen: string[] = [];

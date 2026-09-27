@@ -1,0 +1,10 @@
+# Source/configuration bytes must be identical across checkouts for candidate hashes.
+* text=auto eol=lf
+
+# Preserve the supplied CSV's original bytes, including its CRLF record endings.
+# Its SHA-256 is an editorial integrity contract; Git must not normalize it.
+/content/source/bong_highdeas_1000_revised.csv -text whitespace=cr-at-eol
+
+# Generated artifacts are compared byte-for-byte with deterministic UTF-8/LF output.
+/content/generated/* text eol=lf
+/public/data/* text eol=lf

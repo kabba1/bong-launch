@@ -8,7 +8,11 @@ import type { Corpus, CorpusManifest, Idea } from "./types";
 import type { DeckState } from "./deck";
 import { IdeaActions } from "./IdeaActions";
 const KEY = "bong:deck:v1";
-export function Generator() {
+export function Generator({
+  communityEnabled = false,
+}: {
+  communityEnabled?: boolean;
+}) {
   const [loaded, setLoaded] = useState<{
     corpus: Corpus;
     manifest: CorpusManifest;
@@ -247,7 +251,7 @@ export function Generator() {
               )}
             </div>
             {idea ? (
-              <IdeaActions idea={idea} />
+              <IdeaActions idea={idea} communityEnabled={communityEnabled} />
             ) : (
               <p className="status-message">
                 {failure

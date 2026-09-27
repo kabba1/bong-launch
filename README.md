@@ -1,12 +1,14 @@
 # BONG
 
-A curated idea generator and moderated community, built from the supplied BONG specification. This is the standalone application directory; its source corpus, artwork, implementation notes and release gates are included here.
+BONG v1 is a public canned idea generator, canonical idea pages, reviewed timeline, About/lore and $BONG information, with **Community Coming Soon**. The source corpus, supplied artwork, application code and release documentation are included in this standalone folder.
 
-**Public launch is blocked.** Missing owner-approved history/legal/rights/contact information, real provider configuration, independent security review, and staging/restore evidence are release gates. `release:check` deliberately exits nonzero until they are supplied and verified. A working local generator does not mean that accounts or uploads are cleared to launch.
+`COMMUNITY_ENABLED` is disabled by default. Public v1 requires no database, Supabase, email delivery, CAPTCHA, accounts, staff or private upload service. The implemented community code is retained for a separately reviewed v2 release; credentials alone must never activate it. Direct private pages, APIs and privileged migration/maintenance/staff commands remain closed in v1.
+
+**Public deployment still requires real content and owner approval.** At least eight genuinely sourced/reviewed timeline entries, public legal/contact/rights information, security/accessibility/visual/performance review, hosting checks and production authorization remain gates. No historical articles, official accounts, token address or approval identity may be invented.
 
 ## Run locally
 
-Use Node **24.19.0** (Node 24 LTS). From this folder:
+Use Node **24.19.0** (Node 24 LTS):
 
 ```powershell
 npm ci
@@ -14,18 +16,16 @@ npm run content:build
 npm run dev
 ```
 
-Open `http://127.0.0.1:3210`. The generator, idea permalinks, timeline renderer and informational pages do not require a backend. Community calls fail truthfully when the private backend is unavailable. There are no invented posts or accounts.
+Open `http://127.0.0.1:3210`. Keep `COMMUNITY_ENABLED=false` or unset. Leave all private-service environment variables empty; no cloud project or paid service is needed for the public preview.
 
-For a production-build preview:
+For a production-build preview, stop the development server and run:
 
 ```powershell
 npm run build
 npm run start
 ```
 
-Stop the development server before starting the production server on the same port. No cloud project or paid service has been created by this build.
-
-## Checks
+## Verify the public release
 
 ```powershell
 npm run lint
@@ -43,21 +43,16 @@ npm audit --audit-level=high
 npm run release:check
 ```
 
-Integration tests execute real PostgreSQL SQL, roles, policies and constraints in isolated PGlite databases. They do **not** certify a hosted Supabase deployment, TCP/TLS pool behavior, or direct REST/RPC/GraphQL/Storage policy configuration. Those tests and actual provider flows remain mandatory staging evidence. Browser tests run against the production server. The ordinary local suite never signs a fabricated user into production or emits real email.
+The default release check is **v1**. Local integration tests retain real PostgreSQL/WASM regression coverage for dormant community code; they do not need a provisioned database and do not certify hosted private services. Public browser/axe results must identify the v1 scope and exact candidate. Release checks remain blocked until their genuine applicable requirements pass.
 
-## Content
+The full future community gate is `npm run release:check:community` (equivalent to `npm run release:check -- --scope=community`). It preserves the original 148 scenarios, full ASVS review, private-service configuration, staff, real provider journeys and recovery requirements. Public-only evidence cannot authorize that release.
 
-The original CSV, all 1,000 IDs/texts, and all 22 categories are retained. `content:import` compares the exact approved source hash and generates structured content; `content:validate` checks equality and artifact drift; `content:build` emits the immutable corpus plus its manifest and SQL catalog. The browser fetches that corpus once and generates locally without AI or database requests.
+## Content and configuration
 
-Source artwork is preserved in `assets/bong-logo.png`; optimized delivery variants are in `public/images`. `npm run assets:build` reproduces them. Artwork ownership must still be confirmed. Fonts are bundled under the SIL Open Font License; see `docs/ASSETS.md`.
+All 1,000 original IDs/texts and 22 categories are preserved. `content:import`, `content:validate` and `content:build` verify exact source equality and deterministic artifacts. The browser loads the public corpus and draws locally without AI, accounts or database calls. Generated SQL catalog output remains for future v2; deploying it is not a v1 prerequisite.
 
-No approved timeline articles were supplied. Place genuine reviewed JSON in `content/timeline`, satisfying `schemas/timeline-entry.schema.json`; drafts stay out of public artifacts. Full launch requires at least eight independently checked articles. Do not fill review fields with invented people.
+Supplied art is retained in `assets/bong-logo.png`; optimized public variants and self-hosted licensed fonts have their records in `docs/ASSETS.md`. Actual artwork rights still need owner approval. Historical entries belong in `content/timeline`; drafts remain private to the build inputs. At least eight real reviewed entries are required before public release.
 
-Approved operational/legal pages live in `content/legal/{privacy,terms,community-rules,accessibility}.json` with `title`, `version`, `approvedBy`, `approvedAt` and `sections: [{heading, paragraphs: string[]}]`. Missing pages explicitly say approval is pending and do not pretend to provide legal coverage. See `docs/CONTENT_AND_RELEASE.md` before publishing.
+Configure only genuine owner-approved social links and token state in `content/site.json`. Missing social values are omitted; prelaunch mode has no invented contract. No wallet, trading or token gate is present. Approved public legal JSON belongs in `content/legal/{privacy,terms,accessibility}.json`. Community rules and account privacy operations remain v2 concerns while those features are disabled.
 
-## Private backend and release
-
-Read `docs/SETUP.md`, `docs/API.md`, `docs/RUNBOOKS.md`, and `docs/RELEASE_REPORT.md`. `.env.example` contains empty secret fields and closed participation flags. Enter real secrets through approved environment/secret stores; never commit them. SQL migrations and staff grants use distinct owner-operated identities; the ordinary website uses `bong_runtime` only.
-
-The release evidence and all 148 acceptance scenarios are tracked in `docs/acceptance-evidence.json`. Keep unknown/blocked requirements visible. The independent security assessment is a human release gate, not an automated test badge.
-
+Read [V1_SCOPE.md](docs/V1_SCOPE.md), [SETUP.md](docs/SETUP.md), [CONTENT_AND_RELEASE.md](docs/CONTENT_AND_RELEASE.md) and [RELEASE_REPORT.md](docs/RELEASE_REPORT.md). The current public acceptance map is [v1-acceptance-evidence.json](docs/v1-acceptance-evidence.json); the historical full matrix is preserved separately. Neither local preview nor a passing build authorizes production deployment, DNS changes or paid provisioning.

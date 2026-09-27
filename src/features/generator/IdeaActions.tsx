@@ -3,7 +3,13 @@ import Link from "next/link";
 import { useState } from "react";
 import type { Idea } from "./types";
 import { Icon } from "@/components/Icon";
-export function IdeaActions({ idea }: { idea: Idea }) {
+export function IdeaActions({
+  idea,
+  communityEnabled = false,
+}: {
+  idea: Idea;
+  communityEnabled?: boolean;
+}) {
   const [notice, setNotice] = useState("");
   const [fallback, setFallback] = useState("");
   async function copy(value: string, label: string) {
@@ -50,9 +56,14 @@ export function IdeaActions({ idea }: { idea: Idea }) {
         <Link
           prefetch={false}
           className="tool-button discuss"
-          href={`/board/new?sourceIdeaId=${idea.id}`}
+          href={
+            communityEnabled
+              ? `/board/new?sourceIdeaId=${idea.id}`
+              : "/community"
+          }
         >
-          Discuss this <Icon name="arrow" size={16} />
+          {communityEnabled ? "Discuss this" : "Community"}{" "}
+          <Icon name="arrow" size={16} />
         </Link>
       </div>
       {notice && (

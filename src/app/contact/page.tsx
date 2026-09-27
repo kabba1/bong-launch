@@ -14,9 +14,8 @@ export default function Contact() {
         </>
       ) : (
         <p className="notice">
-          The operator’s support and appeal contact is being confirmed.
-          Community accounts will remain closed until there’s a real person to
-          contact.
+          The operator’s support contact is being confirmed. Official contact
+          details will appear here when they’re ready.
         </p>
       )}
       {publicSettings.contacts.security && (

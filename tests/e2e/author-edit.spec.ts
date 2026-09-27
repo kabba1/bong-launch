@@ -30,7 +30,7 @@ const post = {
   assets: [],
 };
 
-test("BOARD-06 edit UI declines a different author and hidden/deleted records", async ({
+test("@community BOARD-06 edit UI declines a different author and hidden/deleted records", async ({
   page,
 }) => {
   await page.route("**/api/session", (route) =>
@@ -59,7 +59,7 @@ test("BOARD-06 edit UI declines a different author and hidden/deleted records", 
   }
 });
 
-test("BOARD-04/10 UX-06 private edit source and text survive reload and an unconfirmed response", async ({
+test("@community BOARD-04/10 UX-06 private edit source and text survive reload and an unconfirmed response", async ({
   page,
 }) => {
   await page.route("**/api/session", (route) =>

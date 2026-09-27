@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ApiError } from "../../src/server/security/errors";
 import { readPageData } from "../../src/server/services/page-read";
 
@@ -32,10 +32,12 @@ const anonymous = {
 
 describe("AUTH-06 BOARD-03 private page session recovery adapter", () => {
   beforeEach(() => {
+    vi.stubEnv("COMMUNITY_ENABLED", "true");
     vi.resetAllMocks();
     boundary.limit.mockResolvedValue(undefined);
     boundary.database.mockRejectedValue(new Error("NOT_FOUND"));
   });
+  afterEach(() => vi.unstubAllEnvs());
   it("keeps genuine anonymous unknown posts as not-found", async () => {
     boundary.auth.mockResolvedValue(anonymous);
     await expect(

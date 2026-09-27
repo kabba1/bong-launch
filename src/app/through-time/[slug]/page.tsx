@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getTimelineEntry, listPublishedTimeline } from "@/server/content";
 import type { TimelineParagraph } from "@/features/timeline/types";
 import { ReportForm } from "@/features/board/ReportForm";
+import { communityEnabled } from "@/lib/launch-scope";
 export async function generateMetadata({
   params,
 }: {
@@ -89,7 +90,9 @@ export default async function Story({
       {entry.correctionNote && (
         <p className="notice">Correction: {entry.correctionNote}</p>
       )}
-      <ReportForm targetType="timeline" targetId={entry.slug} />
+      {communityEnabled() && (
+        <ReportForm targetType="timeline" targetId={entry.slug} />
+      )}
       <div className="neighbor-links">
         {entries[i - 1] && (
           <Link href={`/through-time/${entries[i - 1].slug}`}>

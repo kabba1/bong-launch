@@ -1,17 +1,21 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-09-27T17:19:55.468Z",
+  "scope": "v1",
+  "recordedAt": "2026-09-27T22:59:27.255Z",
   "releaseReady": false,
-  "disposition": "BLOCKED: owner/editorial/provider/staging/independent-review gates remain open",
-  "candidateSHA256": "6fc9a70876182ae821f35d4022c37c3a1be32bdaf1c6cfb25646de9bc618318f",
-  "buildId": "ifod-872AGPJhszNIz8RK",
-  "sourceIdentityMethod": "scripts/candidate.ts hashes application source, tests, migrations, content/artifacts, CI and locked dependency/configuration bytes. Documentation and generated local build caches are excluded.",
+  "disposition": "BLOCKED: genuine public content, owner and independent/hosted review gates remain open. Private providers are deferred to community v2.",
+  "candidateSHA256": "44b5faa1224ae1fabbcf29c048ff3bdedda753ee24892be556aaa6b94a09ccc0",
+  "buildId": "hFl3CNZJ89DXOMCMqUjPA",
+  "sourceIdentityMethod": "scripts/candidate.ts hashes source, tests, migrations, content/assets, CI and locked configuration including .gitattributes. Documentation and generated build caches are excluded.",
+  "sourceGitBaseline": "5d5a8a4e48aaec41e5d964ca38b7930b077ac4d9",
+  "workingTreeChanges": true,
   "environment": {
     "os": "Windows",
     "node": "v24.19.0",
     "server": "next start on 127.0.0.1:3210",
-    "providerConfiguration": "Not configured; public content works independently and community requests fail truthfully.",
-    "database": "Real PostgreSQL semantics in isolated PGlite databases; no hosted service or TCP pool evidence."
+    "community": "Default off; public Playwright scope explicitly false. Seven retained community browser regressions separately use explicit opt-in.",
+    "providers": "None provisioned or required for public v1. Security tests assert denial before configuration/Auth/SQL/fetch, including invalid provider settings and stale cookies.",
+    "database": "30 retained tests use real PostgreSQL/WASM semantics in isolated PGlite databases; no hosted provider or TCP pool certification."
   },
   "content": {
     "schemaVersion": 1,
@@ -22,16 +26,23 @@
     "activeCount": 1000,
     "categoryCount": 22
   },
+  "sourceCSV": {
+    "path": "content/source/bong_highdeas_1000_revised.csv",
+    "sha256": "d47f279eb2cce77a5730e9dbb7ab156bd5675787e18e926cd5434b20ebe8baf9",
+    "bytes": 153935,
+    "gitCorrection": "Original CRLF bytes preserved with -text; actual temp Git index and autocrlf true/false/input checkout regressions pass. Remote remains unchanged until a later commit/push."
+  },
   "lockfile": {
     "path": "package-lock.json",
-    "sha256": "061ec6f695112d49c57b200a6d6deff9f54d09a93f4fe79153b1015385a49d38"
+    "sha256": "061ec6f695112d49c57b200a6d6deff9f54d09a93f4fe79153b1015385a49d38",
+    "changed": false
   },
   "migration": {
     "path": "supabase/migrations/202609270001_bong.sql",
-    "sha256": "075765bad09db0c2199caf260a2e0d322bd9bde385c96677f22f2c1d8d41e989"
+    "sha256": "c0e99826151a326dfd38d13a28f0d74125e23f3dc5e044ba8bc9f63ca620f397",
+    "note": "Only line-ending normalization this turn; SQL semantics preserved. Not deployed."
   },
   "checks": {
-    "cleanInstall": "PASS",
     "lint": "PASS",
     "typecheck": "PASS",
     "content:validate": "PASS",
@@ -46,19 +57,11 @@
   },
   "runs": [
     {
-      "key": "cleanInstall",
-      "command": "npm ci",
-      "status": "PASS",
-      "exitCode": 0,
-      "proof": "../bong_codex_handoff/.build-evidence/final-clean-install.log",
-      "proofSHA256": "d388d3c7903c5e9df75908a48343de4aec3ab0648847f697494a0fefe9a51083"
-    },
-    {
       "key": "lint",
       "command": "npm run lint",
       "status": "PASS",
       "exitCode": 0,
-      "proof": "../bong_codex_handoff/.build-evidence/final-lint.log",
+      "proof": "../bong_codex_handoff/.build-evidence/v1/lint.log",
       "proofSHA256": "ee518536dd3b4817ee3705130adc1049eb5eef284c4fd407f8900f39ff1d6510"
     },
     {
@@ -66,7 +69,7 @@
       "command": "npm run typecheck",
       "status": "PASS",
       "exitCode": 0,
-      "proof": "../bong_codex_handoff/.build-evidence/final-typecheck.log",
+      "proof": "../bong_codex_handoff/.build-evidence/v1/typecheck.log",
       "proofSHA256": "79863d4808b04c9a695bf66a95a0403b4fc62c514a3f7aa9cf18131a85f3bfe0"
     },
     {
@@ -74,7 +77,7 @@
       "command": "npm run content:validate",
       "status": "PASS",
       "exitCode": 0,
-      "proof": "../bong_codex_handoff/.build-evidence/final-content.log",
+      "proof": "../bong_codex_handoff/.build-evidence/v1/content.log",
       "proofSHA256": "9325ba93d62f31e30f248627bed75af199187082f1377ea1513fa15de8acb884"
     },
     {
@@ -82,9 +85,9 @@
       "command": "npm run test:unit",
       "status": "PASS",
       "exitCode": 0,
-      "tests": 28,
-      "proof": "../bong_codex_handoff/.build-evidence/final-unit.log",
-      "proofSHA256": "3d785dabacc257326feb027f21411628689bbf4561b9e00aeb1c655fd1b39992"
+      "tests": 42,
+      "proof": "../bong_codex_handoff/.build-evidence/v1/unit.log",
+      "proofSHA256": "1fd9802899d2f4bb79d1adbca958d0893c9d262fe9e44f3bf65d8b88086ad2d9"
     },
     {
       "key": "test:integration",
@@ -92,50 +95,50 @@
       "status": "PASS",
       "exitCode": 0,
       "tests": 30,
-      "proof": "../bong_codex_handoff/.build-evidence/final-integration.log",
-      "proofSHA256": "1ad7f3c20d30d1dadafb238871b46cb908b7c9e6707f608955c5b90a019a4ae4"
+      "proof": "../bong_codex_handoff/.build-evidence/v1/integration.log",
+      "proofSHA256": "6aa2b58f037b889d8540e39758d41690e27e657b3c13d0d7fa2c1b430ce0db2a"
     },
     {
       "key": "test:security",
       "command": "npm run test:security",
       "status": "PASS",
       "exitCode": 0,
-      "tests": 45,
-      "proof": "../bong_codex_handoff/.build-evidence/final-security.log",
-      "proofSHA256": "3f58601f3973a3af927643ad54907f3f3c9ee9b8050e63df3ae2e1f5c6932a38"
+      "tests": 60,
+      "proof": "../bong_codex_handoff/.build-evidence/v1/security.log",
+      "proofSHA256": "cf50f9788ab440254ba91ccbb9d08d7289c37c656cf9abdf5230988522664637"
     },
     {
       "key": "test:e2e",
       "command": "npm run test:e2e",
       "status": "PASS",
       "exitCode": 0,
-      "tests": 24,
-      "proof": "../bong_codex_handoff/.build-evidence/final-e2e.log",
-      "proofSHA256": "7386b9483e3bb691ebaf3f0d4def635c702aa42bd2289bda21d21462ddec455b"
+      "tests": 22,
+      "proof": "../bong_codex_handoff/.build-evidence/v1/e2e.log",
+      "proofSHA256": "91647c786109a38be787596b66a8179b6c6f405c7512e1cd94750761ad32288b"
     },
     {
       "key": "test:a11y",
       "command": "npm run test:a11y",
       "status": "PASS",
       "exitCode": 0,
-      "tests": 17,
-      "proof": "../bong_codex_handoff/.build-evidence/final-a11y.log",
-      "proofSHA256": "da051a32daeeefef09b2cddb766db96bb010d9415cf8c3206be4d3dcc8b85c70"
+      "tests": 10,
+      "proof": "../bong_codex_handoff/.build-evidence/v1/a11y.log",
+      "proofSHA256": "1f1098618a2711f33951702e62755b2136348e09dc9f63e201b4f219b9615148"
     },
     {
       "key": "build",
       "command": "npm run build",
       "status": "PASS",
       "exitCode": 0,
-      "proof": "../bong_codex_handoff/.build-evidence/final-build.log",
-      "proofSHA256": "d91abb6d710745b27fd8ae380ae0accf254233c780f137bd9d3eb7906debdd7e"
+      "proof": "../bong_codex_handoff/.build-evidence/v1/build.log",
+      "proofSHA256": "18ff103dae23d5161a497bce2ec198ce98d43d8d56138496c05b4dceb479e005"
     },
     {
       "key": "dependencyAudit",
       "command": "npm audit --json",
       "status": "PASS",
       "exitCode": 0,
-      "proof": "../bong_codex_handoff/.build-evidence/final-audit.json",
+      "proof": "../bong_codex_handoff/.build-evidence/v1/audit.json",
       "proofSHA256": "4f4144080d2d1061c5426baccbcb38ff94710dab66bb06677313baf7a85fe3e0"
     },
     {
@@ -143,46 +146,83 @@
       "command": "npm run security:scan",
       "status": "PASS",
       "exitCode": 0,
-      "proof": "../bong_codex_handoff/.build-evidence/final-secret-scan.log",
-      "proofSHA256": "a07c0c4a4a76176dfd8065fd4e1e40ac9a2b68bcbea64353910b4c428c7cd366"
+      "proof": "../bong_codex_handoff/.build-evidence/v1/secret-scan.log",
+      "proofSHA256": "83bee159f750ff6e886eb4ebd3d2b8274bfd4bce7f3926ba17ce44c9306e44cf"
     }
   ],
-  "automatedTestTotal": 144,
-  "acceptanceSummary": {
-    "total": 148,
-    "byStatus": {
-      "PASS": 8,
-      "PARTIAL": 104,
-      "NOT RUN": 36
-    },
-    "warning": "Passing local suites never imply full release acceptance."
+  "automatedTestTotal": 164,
+  "preservedCommunityBrowser": {
+    "tests": 7,
+    "status": "PASS",
+    "proof": "../bong_codex_handoff/.build-evidence/v1/community-regressions.log",
+    "proofSHA256": "8628f5f3eb8b46f9ba2258e562f7f51391a01164a43aa5da3ece774125bed674",
+    "limitation": "Presentation, preserved denial/outage and intercepted DTO flows only; real hosted success journeys remain deferred."
   },
-  "securityReview": "Internal implementation and separate agent review only; independent human security assessment remains required.",
+  "acceptanceSummary": {
+    "total": 70,
+    "byStatus": {
+      "PASS": 11,
+      "PARTIAL": 49,
+      "NOT RUN": 10,
+      "FAIL": 0
+    },
+    "warning": "Local automated passes do not imply owner approval, hosted verification or full release acceptance."
+  },
+  "securityReview": "Separate agent engineering review plus automated security/SQL/browser checks. Independent public control assessment remains required; 114 public ASVS controls are NOT RUN, without claimed exclusions.",
   "performance": {
     "report": "PERFORMANCE.md",
     "rawArtifact": "../bong_codex_handoff/.build-evidence/performance.json",
-    "sha256": "b079f63b23514774c5cd59690aa82af9669a5b474da95b22dd43f7b424aaa21f",
-    "scope": "Three cold navigations each for desktop and mobile, 60 total idea draws, final production build; homepage lab only."
+    "sha256": "6a24770c7a0d1eeda8357e323f757e066df6bacd3b9819fdb36826ee8489aa96",
+    "scope": "Public v1, three cold desktop plus three cold mobile homepage navigations and 60 draws. Local throttled lab only; hosted multi-route/load and physical-device review remain open."
   },
   "screenshots": {
     "directory": "../bong_codex_handoff/.build-evidence/screenshots",
-    "viewports": [
-      1440,
-      390
-    ],
     "reviewed": [
-      "home-1440.png",
-      "home-390.png"
+      "community-1440.png",
+      "community-390.png"
     ],
-    "scope": "Final build captures; engineering visual inspection, not owner visual approval."
+    "scope": "Fresh production-build engineering inspection; no owner approval inferred."
   },
   "releaseGate": {
+    "scope": "v1",
     "command": "npm run release:check",
     "status": "BLOCKED",
     "exitCode": 1,
-    "expectedFailure": true,
-    "blockerCount": 40,
+    "blockerCount": 20,
     "blockers": [
+      "At least eight genuine reviewed timeline articles are required.",
+      "A real monitored support contact is required.",
+      "A real monitored security contact is required.",
+      "Approved terms content is missing.",
+      "Approved privacy content is missing.",
+      "Approved accessibility content is missing.",
+      "Owner/reviewer evidence is missing: visual.",
+      "Owner/reviewer evidence is missing: artworkRights.",
+      "Owner/reviewer evidence is missing: ideaEditorial.",
+      "Owner/reviewer evidence is missing: legal.",
+      "Owner/reviewer evidence is missing: independentSecurityReview (independent security review).",
+      "Owner/reviewer evidence is missing: manualAccessibility.",
+      "Owner/reviewer evidence is missing: loadAndPerformance.",
+      "Owner/reviewer evidence is missing: productionAuthorization.",
+      "Owner/reviewer evidence is missing: publicHosting.",
+      "Owner/reviewer evidence is missing: publicDeploymentReview.",
+      "The production environment and canonical origin are not verified.",
+      "Required deployment configuration is missing: APP_ORIGIN.",
+      "59 public v1 acceptance scenarios remain unresolved; see docs/v1-acceptance-evidence.json.",
+      "114 v1 ASVS controls still require independent assessment or a specifically approved exclusion."
+    ],
+    "proof": "../bong_codex_handoff/.build-evidence/v1/release-check.log",
+    "proofSHA256": "e600d8dd4bb9f36ee5752f194085e650e6fe11d45732bf0b1aa0a6a40f6d2454",
+    "interpretation": "This is an unresolved release gate, not a passing release check."
+  },
+  "futureCommunityReleaseGate": {
+    "scope": "community",
+    "command": "npm run release:check:community",
+    "status": "BLOCKED",
+    "exitCode": 1,
+    "blockerCount": 44,
+    "blockers": [
+      "The community release requires an explicitly enabled and fully verified community scope.",
       "At least eight genuine reviewed timeline articles are required.",
       "A real monitored support contact is required.",
       "A real monitored security contact is required.",
@@ -194,14 +234,14 @@
       "Owner/reviewer evidence is missing: artworkRights.",
       "Owner/reviewer evidence is missing: ideaEditorial.",
       "Owner/reviewer evidence is missing: legal.",
-      "Owner/reviewer evidence is missing: providersBudgetRegion.",
-      "Owner/reviewer evidence is missing: moderationStaffing.",
       "Owner/reviewer evidence is missing: independentSecurityReview (independent security review).",
-      "Owner/reviewer evidence is missing: restoreDrill.",
-      "Owner/reviewer evidence is missing: stagingIntegrations.",
       "Owner/reviewer evidence is missing: manualAccessibility.",
       "Owner/reviewer evidence is missing: loadAndPerformance.",
       "Owner/reviewer evidence is missing: productionAuthorization.",
+      "Owner/reviewer evidence is missing: providersBudgetRegion.",
+      "Owner/reviewer evidence is missing: moderationStaffing.",
+      "Owner/reviewer evidence is missing: restoreDrill.",
+      "Owner/reviewer evidence is missing: stagingIntegrations.",
       "The production environment and canonical origin are not verified.",
       "Required deployment configuration is missing: APP_ORIGIN.",
       "Required deployment configuration is missing: BONG_DATABASE_URL.",
@@ -220,25 +260,58 @@
       "Required deployment configuration is missing: TURNSTILE_SECRET_KEY.",
       "Required deployment configuration is missing: COMMUNITY_RULES_VERSION.",
       "Required deployment configuration is missing: TERMS_VERSION.",
+      "Automated evidence must explicitly identify scope=community; evidence for a different or unspecified scope cannot authorize this release.",
       "140 required acceptance scenarios remain PARTIAL, NOT RUN or failed; see docs/acceptance-evidence.json.",
-      "253 ASVS controls still require independent assessment or a specifically approved exclusion.",
+      "253 community ASVS controls still require independent assessment or a specifically approved exclusion.",
+      "The ASVS working record is not bound to this source candidate.",
+      "The acceptance record is not bound to this exact source candidate.",
       "Provider Auth CAPTCHA has not been confirmed enabled."
     ],
-    "proof": "../bong_codex_handoff/.build-evidence/final-release-check.log",
-    "proofSHA256": "c5c4099f12fcad0279d17e4816415dbc4daef7d60c4a00b72a4975fcdbf98d10",
-    "interpretation": "Executed successfully and correctly rejected launch. This is an unresolved release gate, not a passing release check."
+    "proof": "../bong_codex_handoff/.build-evidence/v1/community-release-check.log",
+    "proofSHA256": "8bd479baef259853dff9e4bfd494cd5136691e40a1d6bf83659d4680499f6548",
+    "interpretation": "This is an unresolved release gate, not a passing release check."
   },
-  "limitations": [
-    "At least eight genuinely sourced, reviewed timeline articles are missing.",
-    "Operator contacts, approved legal/editorial/rights material, visual acceptance and real staff coverage are missing.",
-    "Actual provider settings, SMTP, MFA, CAPTCHA, private storage, scheduler and hosted access controls require isolated staging configuration and verification.",
-    "Full provider success journeys, network pool/concurrency, private media expiry and deletion, real SQL-plus-object restore and monitored alerts remain unverified.",
-    "Manual accessibility, additional-route/hosted performance, independent control-level security review and explicit production authorization remain required."
+  "correctedFailures": [
+    {
+      "issue": "CSV Git EOL conversion caused raw source hash drift",
+      "proof": "../bong_codex_handoff/.build-evidence/v1/csv-git-red.log",
+      "resolution": "Original CSV bytes preserved; full 42-test unit suite including Git checkout regressions passes."
+    },
+    {
+      "issue": "Default-off community boundary initially absent",
+      "proof": "../bong_codex_handoff/.build-evidence/v1/boundary-red.log",
+      "resolution": "API/page/server-read gates now pass negative tests."
+    },
+    {
+      "issue": "Browser JSON import needed a JSON import attribute on Node 24",
+      "proof": "../bong_codex_handoff/.build-evidence/v1/e2e-loader-red.log",
+      "resolution": "Import corrected; all 22 public browser tests pass."
+    },
+    {
+      "issue": "Release policy scope inversion and evidence cross-scope use",
+      "proof": "../bong_codex_handoff/.build-evidence/v1-release-policy-red.log",
+      "resolution": "Both-scope production HTTPS, community-only CAPTCHA checks and scope-specific evidence verified by 11 release-policy unit tests."
+    },
+    {
+      "issue": "Migration CLI originally lacked the default-off community guard",
+      "proof": "../bong_codex_handoff/.build-evidence/v1/cli-red.log",
+      "resolution": "Guard added and migration/staff/maintenance subprocess denial checks pass."
+    }
   ],
+  "limitations": [
+    "No genuine reviewed timeline articles are supplied; at least eight are still required for launch. Timeline renderer/search and content validation work.",
+    "Actual support/security contacts, approved legal copy and rights/editorial/visual review are missing. Social links are optional and currently absent; token remains not launched.",
+    "Public host/domain/budget/region/access/alerts, actual edge review, independent security, manual accessibility, broader performance/load evidence and production authorization remain open.",
+    "Hosted database/Auth/email/CAPTCHA/private media/staff/MFA/maintenance/restore and the full community matrices remain deferred, preserved requirements for v2.",
+    "Linux CI and a hosted deployment were not executed. Exact pinned dependencies are unchanged; the prior clean-install result remains historical, not a new clean-install claim."
+  ],
+  "historicalEvidence": "docs/history/pre-v1-scope-release-evidence.json",
   "deployment": {
     "performed": false,
     "paidProvisioning": false,
-    "productionChanges": false
+    "productionChanges": false,
+    "committed": false,
+    "pushed": false
   },
-  "proofPathsRelativeTo": "application root"
+  "proofPathsRelativeTo": "application root; raw execution artifacts remain in the local sibling handoff evidence folder"
 }

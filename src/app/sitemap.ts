@@ -1,15 +1,17 @@
 import type { MetadataRoute } from "next";
 import { origin, isProduction } from "@/lib/site";
 import { getAllIdeas, listPublishedTimeline } from "@/server/content";
+import { communityEnabled } from "@/lib/launch-scope";
 export default function sitemap(): MetadataRoute.Sitemap {
   if (!isProduction()) return [];
   return [
     "",
     "/about",
     "/through-time",
+    "/community",
     "/privacy",
     "/terms",
-    "/community-rules",
+    ...(communityEnabled() ? ["/community-rules"] : []),
     "/contact",
     "/accessibility",
     ...getAllIdeas().map((i) => `/idea/${i.id}`),

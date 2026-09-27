@@ -6,6 +6,7 @@ import { randomUUID } from "node:crypto";
 
 describe("SEC-01/04/07/17 BFF request boundary and fail-closed outages", () => {
   beforeEach(() => {
+    vi.stubEnv("COMMUNITY_ENABLED", "true");
     vi.stubEnv("APP_ENV", "local");
     vi.stubEnv("APP_ORIGIN", "https://bong.example");
     vi.stubEnv("CSRF_SECRET", "isolated-csrf-test-material-".repeat(3));

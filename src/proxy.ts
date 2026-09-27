@@ -1,23 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
 import overrides from "../content/idea-overrides.json";
+import {
+  communityEnabled,
+  communityPagePath,
+  communityApiPath,
+  communityDisabledResponse,
+} from "./lib/launch-scope";
 export function proxy(request: NextRequest) {
+  const community = communityEnabled();
   const nonce = Buffer.from(
     crypto.getRandomValues(new Uint8Array(18)),
   ).toString("base64");
   const dev = process.env.NODE_ENV === "development";
   let storage = "";
   try {
-    storage = new URL(process.env.SUPABASE_URL || "").origin;
+    storage = community ? new URL(process.env.SUPABASE_URL || "").origin : "";
   } catch {}
   const csp = [
     "default-src 'self'",
-    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https://challenges.cloudflare.com${dev ? " 'unsafe-eval'" : ""}`,
+    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${community ? " https://challenges.cloudflare.com" : ""}${dev ? " 'unsafe-eval'" : ""}`,
     `style-src 'self' 'nonce-${nonce}'`,
     "style-src-attr 'unsafe-inline'",
     `img-src 'self' data: blob:${storage ? " " + storage : ""}`,
     "font-src 'self'",
-    `connect-src 'self' https://challenges.cloudflare.com${dev ? " ws:" : ""}`,
-    "frame-src https://challenges.cloudflare.com",
+    `connect-src 'self'${community ? " https://challenges.cloudflare.com" : ""}${dev ? " ws:" : ""}`,
+    community
+      ? "frame-src https://challenges.cloudflare.com"
+      : "frame-src 'none'",
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self'",
@@ -31,15 +40,19 @@ export function proxy(request: NextRequest) {
   headers.set("Content-Security-Policy", csp);
   const ideaMatch = request.nextUrl.pathname.match(/^\/idea\/(BONG-\d{4})$/);
   const response =
-    ideaMatch && overrides.excludedIds.includes(ideaMatch[1] as never)
-      ? new NextResponse(
-          '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Idea withdrawn · BONG</title></head><body><main><h1>This idea has been withdrawn.</h1><p>It is no longer part of the public collection.</p><a href="/">Back to the Bong</a></main></body></html>',
-          {
-            status: 410,
-            headers: { "Content-Type": "text/html; charset=utf-8" },
-          },
-        )
-      : NextResponse.next({ request: { headers } });
+    !community && communityApiPath(request.nextUrl.pathname)
+      ? communityDisabledResponse()
+      : !community && communityPagePath(request.nextUrl.pathname)
+        ? NextResponse.redirect(new URL("/community", request.url))
+        : ideaMatch && overrides.excludedIds.includes(ideaMatch[1] as never)
+          ? new NextResponse(
+              '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Idea withdrawn · BONG</title></head><body><main><h1>This idea has been withdrawn.</h1><p>It is no longer part of the public collection.</p><a href="/">Back to the Bong</a></main></body></html>',
+              {
+                status: 410,
+                headers: { "Content-Type": "text/html; charset=utf-8" },
+              },
+            )
+          : NextResponse.next({ request: { headers } });
   response.headers.set("Content-Security-Policy", csp);
   response.headers.set("Cache-Control", "private, no-store, max-age=0");
   response.headers.set("X-Content-Type-Options", "nosniff");

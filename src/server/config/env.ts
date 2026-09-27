@@ -1,5 +1,6 @@
 import "server-only";
 import { unavailable } from "../security/errors";
+import { communityEnabled } from "../../lib/launch-scope";
 
 export function required(name: string): string {
   const value = process.env[name];
@@ -42,9 +43,12 @@ export function appConfig() {
     environment,
     origin: origin.origin,
     secureCookies: !(environment === "local" && local),
-    registrationsEnabled: process.env.REGISTRATIONS_ENABLED === "true",
-    postingEnabled: process.env.POSTING_ENABLED === "true",
-    uploadsEnabled: process.env.UPLOADS_ENABLED === "true",
+    registrationsEnabled:
+      communityEnabled() && process.env.REGISTRATIONS_ENABLED === "true",
+    postingEnabled:
+      communityEnabled() && process.env.POSTING_ENABLED === "true",
+    uploadsEnabled:
+      communityEnabled() && process.env.UPLOADS_ENABLED === "true",
     reviewAll: process.env.REVIEW_ALL_SUBMISSIONS !== "false",
     rulesVersion: process.env.COMMUNITY_RULES_VERSION || "",
     termsVersion: process.env.TERMS_VERSION || "",

@@ -2,10 +2,12 @@ import Link from "next/link";
 import { Generator } from "@/features/generator/Generator";
 import { BoardPreview } from "@/components/BoardPreview";
 import { Icon } from "@/components/Icon";
+import { communityEnabled } from "@/lib/launch-scope";
 export default function Home() {
+  const community = communityEnabled();
   return (
     <>
-      <Generator />
+      <Generator communityEnabled={community} />
       <div className="ticker-strip">
         <span>BIG THOUGHTS. SMALL EXPECTATIONS.</span>
         <Icon name="spark" />
@@ -35,7 +37,21 @@ export default function Home() {
               Take a trip through time <Icon name="arrow" size={18} />
             </Link>
           </article>
-          <BoardPreview />
+          {community ? (
+            <BoardPreview />
+          ) : (
+            <article className="explore-panel">
+              <span className="panel-index">02 / COMMUNITY</span>
+              <h3>Good thoughts deserve good company.</h3>
+              <p>
+                A place for half-baked ideas and the people behind them. The
+                BONG community space is coming soon.
+              </p>
+              <Link className="text-link" href="/community">
+                See what’s next <Icon name="arrow" size={18} />
+              </Link>
+            </article>
+          )}
         </div>
       </section>
     </>

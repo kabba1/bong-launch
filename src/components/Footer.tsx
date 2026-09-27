@@ -1,6 +1,10 @@
 import Link from "next/link";
 import { publicSettings, safeHttps } from "@/lib/site";
-export function Footer() {
+export function Footer({
+  communityEnabled = false,
+}: {
+  communityEnabled?: boolean;
+}) {
   return (
     <footer className="site-footer">
       <div className="footer-top">
@@ -12,9 +16,13 @@ export function Footer() {
         </div>
         <div className="footer-links">
           <Link href="/through-time">Through Time</Link>
-          <Link href="/board">The Board</Link>
+          <Link href={communityEnabled ? "/board" : "/community"}>
+            {communityEnabled ? "The Board" : "Community"}
+          </Link>
           <Link href="/about">About / $BONG</Link>
-          <Link href="/community-rules">Community rules</Link>
+          {communityEnabled && (
+            <Link href="/community-rules">Community rules</Link>
+          )}
           <Link href="/contact">Contact</Link>
           {safeHttps(publicSettings.socials.x) && (
             <a href={publicSettings.socials.x} rel="noopener noreferrer">

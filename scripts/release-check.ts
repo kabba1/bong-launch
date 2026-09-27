@@ -1,9 +1,18 @@
 import { readFileSync, existsSync, readdirSync } from "node:fs";
 import { createHash } from "node:crypto";
-import { evaluateRelease, acceptanceBlockers } from "./release-policy";
+import {
+  evaluateRelease,
+  acceptanceBlockers,
+  publicAcceptanceBlockers,
+  asvsBlockers,
+  releaseScope,
+  productionOriginBlockers,
+  evidenceScopeBlockers,
+} from "./release-policy";
 import { candidateHash } from "./candidate";
 import { siteSchema, policySchema } from "../src/lib/content-config";
 const json = (path: string) => JSON.parse(readFileSync(path, "utf8"));
+const scope = releaseScope(process.argv.slice(2));
 const site = siteSchema.parse(json("content/site.json"));
 const manifest = json("content/generated/manifest.json");
 const evidence = existsSync("docs/release-evidence.json")
@@ -19,46 +28,40 @@ const legal = readdirSync("content/legal")
     return policySchema.safeParse(json(`content/legal/${f}`)).success;
   })
   .map((f) => f.replace(".json", ""));
-const evaluation = evaluateRelease({
-  timelineCount: Array.isArray(entries)
-    ? entries.length
-    : (entries.entries?.length ?? 0),
-  activeIdeas: manifest.activeCount,
-  contacts: site.contacts,
-  legal,
-  approvals: site.approvals,
-  environment: process.env.APP_ENV ?? "local",
-  configured,
-  checks: evidence.checks ?? {},
-});
+const evaluation = evaluateRelease(
+  {
+    timelineCount: Array.isArray(entries)
+      ? entries.length
+      : (entries.entries?.length ?? 0),
+    activeIdeas: manifest.activeCount,
+    contacts: site.contacts,
+    legal,
+    approvals: site.approvals,
+    environment: process.env.APP_ENV ?? "local",
+    configured,
+    checks: evidence.checks ?? {},
+    communityEnabled: process.env.COMMUNITY_ENABLED === "true",
+  },
+  scope,
+);
+evaluation.blockers.push(...evidenceScopeBlockers(evidence.scope, scope));
 const corpus = readFileSync(`public${manifest.url}`);
-const acceptance = existsSync("docs/acceptance-evidence.json")
-  ? json("docs/acceptance-evidence.json")
-  : {};
-evaluation.blockers.push(...acceptanceBlockers(acceptance.scenarios));
-const asvs = existsSync("docs/asvs-5.0-l2-evidence.json")
-  ? json("docs/asvs-5.0-l2-evidence.json")
-  : {};
-if (
-  !Array.isArray(asvs.controls) ||
-  asvs.controls.length !== 253 ||
-  new Set(asvs.controls.map((control: { id: string }) => control.id)).size !==
-    253
-)
-  evaluation.blockers.push(
-    "The complete versioned ASVS Level 2 review register is missing.",
-  );
-else {
-  const open = asvs.controls.filter(
-    (control: { status: string; exclusionApproved?: boolean }) =>
-      control.status !== "PASS" &&
-      !(control.status === "EXCLUDED" && control.exclusionApproved === true),
-  );
-  if (open.length)
-    evaluation.blockers.push(
-      `${open.length} ASVS controls still require independent assessment or a specifically approved exclusion.`,
-    );
-}
+const acceptancePath =
+  scope === "v1"
+    ? "docs/v1-acceptance-evidence.json"
+    : "docs/acceptance-evidence.json";
+const acceptance = existsSync(acceptancePath) ? json(acceptancePath) : {};
+evaluation.blockers.push(
+  ...(scope === "v1"
+    ? publicAcceptanceBlockers(acceptance.scenarios)
+    : acceptanceBlockers(acceptance.scenarios)),
+);
+const asvsPath =
+  scope === "v1"
+    ? "docs/v1-asvs-evidence.json"
+    : "docs/asvs-5.0-l2-evidence.json";
+const asvs = existsSync(asvsPath) ? json(asvsPath) : {};
+evaluation.blockers.push(...asvsBlockers(asvs.controls, scope));
 if (asvs.exactCandidateSHA256 !== candidateHash())
   evaluation.blockers.push(
     "The ASVS working record is not bound to this source candidate.",
@@ -73,17 +76,15 @@ if (evidence.candidateSHA256 !== candidateHash())
   );
 if (createHash("sha256").update(corpus).digest("hex") !== manifest.hash)
   evaluation.blockers.push("Public artifact hash does not match its manifest.");
-if (process.env.PROVIDER_CAPTCHA_ENABLED !== "true")
+if (scope === "community" && process.env.PROVIDER_CAPTCHA_ENABLED !== "true")
   evaluation.blockers.push(
     "Provider Auth CAPTCHA has not been confirmed enabled.",
   );
+if (process.env.APP_ENV === "production")
+  evaluation.blockers.push(...productionOriginBlockers(process.env.APP_ORIGIN));
 if (
   process.env.APP_ENV === "production" &&
-  !/^https:\/\//.test(process.env.APP_ORIGIN ?? "")
-)
-  evaluation.blockers.push("Production APP_ORIGIN must use HTTPS.");
-if (
-  process.env.APP_ENV === "production" &&
+  scope === "community" &&
   /^1x|^2x|^3x/.test(process.env.TURNSTILE_SITE_KEY ?? "")
 )
   evaluation.blockers.push("Production must not use a Turnstile test key.");
@@ -95,7 +96,7 @@ if (
     "Owner and migration credentials must be absent from the application release runtime.",
   );
 console.log(
-  `BONG release check — ${evaluation.blockers.length ? "NOT READY FOR PUBLIC LAUNCH" : "GATES SATISFIED"}\nCorpus: ${manifest.activeCount} active ideas · ${manifest.hash}`,
+  `BONG ${scope} release check — ${evaluation.blockers.length ? "NOT READY FOR PUBLIC LAUNCH" : "GATES SATISFIED"}\nCorpus: ${manifest.activeCount} active ideas · ${manifest.hash}`,
 );
 for (const blocker of evaluation.blockers) console.log(`BLOCKED: ${blocker}`);
 if (evaluation.blockers.length) process.exitCode = 1;

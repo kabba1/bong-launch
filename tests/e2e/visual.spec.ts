@@ -10,11 +10,16 @@ test("UX-01/07 capture core desktop/mobile screens", async ({ page }) => {
     for (const [name, route] of [
       ["home", "/"],
       ["timeline", "/through-time"],
-      ["board", "/board"],
-      ["composer", "/board/new"],
-      ["sign-in", "/sign-in"],
-      ["account", "/account"],
-      ["moderation", "/moderation"],
+      ["community", "/community"],
+      ...(process.env.COMMUNITY_ENABLED === "true"
+        ? [
+            ["board", "/board"],
+            ["composer", "/board/new"],
+            ["sign-in", "/sign-in"],
+            ["account", "/account"],
+            ["moderation", "/moderation"],
+          ]
+        : []),
       ["about", "/about"],
     ]) {
       await page.goto(route);

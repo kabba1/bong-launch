@@ -1,15 +1,27 @@
 # Editorial and release process
 
-`content/site.json` is reviewed project identity/configuration. Token mode starts deliberately `not_launched`. Do not enter a guessed address, network, account or project link. A live token record requires exact owner-verified address/network/official URL and creator-interest disclosure. No wallet or transaction feature is present.
+Current release scope is public **v1** as described in [V1_SCOPE.md](V1_SCOPE.md). The community implementation remains disabled and is subject to a separate future release. Do not create a database, SMTP/CAPTCHA service, staff identity or private bucket just to clear a public v1 check.
 
-The supplied art, visual direction and 1,000 idea texts require real owner approval. Review concerning entertainment entries and use explicit withdrawals, never silent rewrites. The stable IDs and exact source JSON/CSV continue to match after exclusions; active public content is a separate deterministic artifact.
+`content/site.json` holds reviewed public identity/configuration. Token mode starts `not_launched`; never guess an address, network, social account or project URL. Live token mode needs exact owner-verified identifiers, official URL and creator-interest disclosure. Only configured genuine social links render; missing values are omitted. No wallet or transaction capability is included.
 
-Each of at least eight public historical entries needs genuine reviewers, claim-level source references, precise treatment of uncertainty and rights for any images. Follow the supplied timeline schema and documentation. Sort ranges by the documented beginning year, use dateLabel for uncertain/BCE display, and keep fiction labels in every card/detail. Do not use executable MDX or HTML.
+The supplied art, visual direction and all 1,000 exact idea texts require owner approval. Use explicit known-ID withdrawals for concerning entries; never silently rewrite the original corpus or reassign an ID. Public active content and its hash are deterministic. SQL catalog generation remains compatible with v2, but no database deployment is needed in v1.
 
-Legal/community/accessibility page JSON contains plain paragraphs only. The operator supplies approved title/version/sections with actual approvedBy/approvedAt metadata. Privacy must match the live data flows, cookies, storage, provider logs, retention, backups and absence of live AI/marketing trackers. The adult acknowledgment is not verified-age certification. Neither a schema nor a disclaimer establishes legal clearance.
+At least **eight** public timeline entries need real reviewers, claim-level sources, accurate uncertainty/date treatment and actual rights for included images. This requirement was not waived by the v1 scope change. Follow the timeline schema, use numeric sortYear rather than parsing human BCE labels, and visibly distinguish fictional BONG narration from historical facts. Never add fabricated reviews, fixture articles, executable HTML or MDX.
 
-Approval keys in `content/site.json.approvals`: `visual`, `artworkRights`, `ideaEditorial`, `legal`, `providersBudgetRegion`, `moderationStaffing`, `independentSecurityReview`, `restoreDrill`, `stagingIntegrations`, `manualAccessibility`, `loadAndPerformance`, `productionAuthorization`. Each holds `{approvedBy, approvedAt, evidence}` referring to actual review/evidence. Empty means no approval. No tool or operator should fill them simply to make the check green.
+Public terms/privacy/accessibility JSON must contain approved title/version/sections and genuine `approvedBy`/`approvedAt`. V1 notices describe browser generator storage, public content, hosting logs and real contacts accurately; they must not imply active accounts, uploads, verified age, live AI or private account services. Community rules and member retention/export/deletion policy become mandatory before v2 opens.
 
-`docs/release-evidence.json` records actual automated check results. `docs/acceptance-evidence.json` lists all 148 scenarios, including manual/provider gaps. Before release regenerate evidence for the exact candidate and retain source/dependency/migration/content identity. Current local browser/SQL results are not public staging results, load capacity, independent security assessment or owner acceptance.
+## Approval records
 
-Full public launch requires **all** relevant acceptance scenarios and release gates, not just command exit codes. The release check is a safeguard and cannot authenticate human sign-off by itself. A qualified reviewer must assess the actual deployment and evidence. No production migration, DNS change, paid provisioning or public feature enablement is authorized by this implementation.
+Each `content/site.json.approvals` record has `{approvedBy, approvedAt, evidence}` and must refer to real review of the candidate. Empty records remain missing; scripts cannot authenticate the reviewer.
+
+Both scopes require `visual`, `artworkRights`, `ideaEditorial`, `legal`, `independentSecurityReview`, `manualAccessibility`, `loadAndPerformance`, and `productionAuthorization`.
+
+V1 additionally requires `publicHosting` (actual public hosting region, budget, access and incident contacts) and `publicDeploymentReview` (public staging/edge HTTPS, canonical origin, CSP/cache behavior, direct dormant-route denial and configured identity links). These replace the private-provider portions of the old mixed approvals.
+
+Community v2 instead retains `providersBudgetRegion`, `moderationStaffing`, `restoreDrill` and `stagingIntegrations`, together with approved community rules and actual provider/database/private-media/account checks.
+
+## Evidence and authorization
+
+The automated report in `release-evidence.json` must identify `scope: "v1"` or `scope: "community"` and the exact source candidate. Default `release:check` uses `v1-acceptance-evidence.json` and `v1-asvs-evidence.json`. `release:check -- --scope=community` uses the preserved full matrices. Do not rebind historical provider/community passes to a new source hash without rerunning their actual scope.
+
+Script success does not replace manual reviews or owner approval. Every applicable public requirement stays a blocker until supported; deferred v2 requirements do not block v1. Actual production deployment, DNS changes and paid provisioning still require explicit authorization.

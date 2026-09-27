@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-test("AUTH-13 account navigation reflects the isolated session response", async ({
+test("@community AUTH-13 account navigation reflects the isolated session response", async ({
   page,
 }) => {
   await page.route("**/api/session", (route) =>

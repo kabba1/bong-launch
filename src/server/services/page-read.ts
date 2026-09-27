@@ -6,6 +6,7 @@ import { appConfig } from "../config/env";
 import { dbAction, type Actor } from "../db/database";
 import { ApiError } from "../security/errors";
 import { ipLimit } from "../security/rate-limit";
+import { communityEnabled } from "../../lib/launch-scope";
 
 /** Read-only RSC adapter. It never refreshes a provider token or discards a Set-Cookie response. */
 export async function readPageData<T>(
@@ -13,6 +14,12 @@ export async function readPageData<T>(
   action: "post.get" | "member.get",
   payload: Record<string, unknown>,
 ): Promise<T> {
+  if (!communityEnabled())
+    throw new ApiError(
+      404,
+      "COMMUNITY_DISABLED",
+      "The BONG community is coming soon.",
+    );
   const requestId = randomUUID();
   let actor: Actor = { userId: null, sessionId: null, aal: "aal1", requestId };
   const jar = new CookieJar(request, appConfig().secureCookies);

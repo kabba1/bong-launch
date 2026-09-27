@@ -175,7 +175,7 @@ export function validateContent(
     );
   if (sourceHash !== corpus.sourceSha256 || sourceHash !== INITIAL_SOURCE_HASH)
     throw new Error(
-      "Source SHA-256 drift; preserve the supplied input or approve a revised source manifest.",
+      "Source SHA-256 drift; preserve the supplied input bytes (including CRLF record endings). Ensure the checked-in .gitattributes is applied; do not normalize CSV bytes or replace its expected hash to bypass integrity checks.",
     );
   if (
     typeof overrides !== "object" ||

@@ -4,9 +4,14 @@ import { readdir, readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import postgres from "postgres";
 import { runContentCommand } from "./content";
+import { communityEnabled } from "../src/lib/launch-scope";
 
 // Run only in a specifically authorized local/staging/deployment environment.
 // Credentials are supplied by a secret manager, never arguments or logged URLs.
+if (!communityEnabled()) {
+  console.error("Community is disabled. No database was changed.");
+  process.exit(1);
+}
 const connectionString = process.env.BONG_MIGRATION_DATABASE_URL;
 if (!connectionString) {
   console.error(

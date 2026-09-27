@@ -33,6 +33,7 @@ export function candidateHash(root = process.cwd()) {
     "vitest.config.ts",
     "playwright.config.ts",
     ".env.example",
+    ".gitattributes",
   ])
     files.push(resolve(root, name));
   for (const file of files.sort()) {

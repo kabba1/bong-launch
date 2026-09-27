@@ -2,6 +2,7 @@ import "dotenv/config";
 import { z } from "zod";
 import { dbOwnerAction } from "../src/server/db/owner";
 import { verifiedStaffIdentity } from "../src/server/auth/administration";
+import { communityEnabled } from "../src/lib/launch-scope";
 const input = z.strictObject({
   action: z.enum(["grant", "revoke", "recover"]),
   userId: z.uuid(),
@@ -10,6 +11,7 @@ const input = z.strictObject({
   reason: z.string().min(10).max(1000),
 });
 try {
+  if (!communityEnabled()) throw new Error("COMMUNITY_DISABLED");
   const args = process.argv.slice(2);
   const values: Record<string, string> = {};
   for (let i = 0; i < args.length; i += 2) {

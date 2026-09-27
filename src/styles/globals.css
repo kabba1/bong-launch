@@ -559,6 +559,67 @@ svg {
 .page.narrow {
   max-width: 840px;
 }
+.community-card {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  overflow: hidden;
+  border: 1.5px solid var(--ink);
+  border-radius: 14px;
+  background: var(--surface);
+}
+.community-copy {
+  padding: clamp(24px, 4vw, 48px);
+}
+.community-copy h1 {
+  margin: 24px 0;
+  font-size: clamp(36px, 4vw, 57px);
+}
+.community-copy h1 span {
+  display: block;
+  font-size: 0.65em;
+  margin-top: 12px;
+}
+.community-copy .lead {
+  font-size: 21px;
+  margin-bottom: 16px;
+}
+.community-socials {
+  margin: 28px 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  font-size: 15px;
+}
+.community-socials .form-actions {
+  margin-top: 16px;
+}
+.community-art {
+  background: var(--orange);
+  border-left: 1.5px solid var(--ink);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+.community-art img {
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+.community-art-note {
+  padding: 16px 0 24px;
+  font: 600 16px/1.5 var(--display);
+  text-align: center;
+}
+.community-next {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-top: 28px;
+  font-size: 15px;
+}
 .page > h1 {
   margin: 13px 0 22px;
 }
@@ -1111,6 +1172,24 @@ dialog h2 {
   }
 }
 @media (max-width: 760px) {
+  .community-card {
+    grid-template-columns: 1fr;
+  }
+  .community-art {
+    border-left: 0;
+    border-top: 1.5px solid var(--ink);
+  }
+  .community-art img {
+    max-width: 220px;
+  }
+  .community-art-note {
+    padding-bottom: 10px;
+  }
+  .community-next {
+    align-items: start;
+    flex-direction: column;
+    gap: 12px;
+  }
   .header-inner {
     height: 77px;
     padding: 0 22px;

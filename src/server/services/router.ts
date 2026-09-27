@@ -43,6 +43,10 @@ import { signedPrivate } from "../media/storage";
 import { issueAuthorizedUrl } from "../media/delivery";
 import { runMaintenance } from "./maintenance";
 import { readiness } from "./readiness";
+import {
+  communityEnabled,
+  communityDisabledResponse,
+} from "../../lib/launch-scope";
 
 type Policy = "public" | "session" | "member" | "staff" | "admin" | "reauth";
 type Route = {
@@ -494,6 +498,7 @@ export async function handleApi(
   request: Request,
   path: string[],
 ): Promise<Response> {
+  if (!communityEnabled()) return communityDisabledResponse();
   const requestId = randomUUID();
   const start = performance.now();
   let jar: CookieJar | undefined;

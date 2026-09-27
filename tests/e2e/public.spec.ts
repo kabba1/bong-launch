@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-test("BOARD-14 GEN-14 failure is truthful and generator remains usable", async ({
+test("@community BOARD-14 GEN-14 failure is truthful and generator remains usable", async ({
   page,
 }) => {
   await page.goto("/board");
@@ -74,7 +74,7 @@ test("GEN-11 cancellation is not reported as an error", async ({ page }) => {
     0,
   );
 });
-test("BOARD-10 draft survives reload and source does not submit itself", async ({
+test("@community BOARD-10 draft survives reload and source does not submit itself", async ({
   page,
 }) => {
   await page.goto("/board/new?sourceIdeaId=BONG-0001");
@@ -106,7 +106,7 @@ test("TIME-08/09 no invented history is published", async ({
     404,
   );
 });
-test("SEC-05/06 invalid browser writes and mutation GETs fail", async ({
+test("@community SEC-05/06 invalid browser writes and mutation GETs fail", async ({
   request,
 }) => {
   for (const path of [
@@ -131,10 +131,11 @@ test("UX-01 public pages reflow at 320 pixels", async ({ page }) => {
   for (const route of [
     "/",
     "/through-time",
-    "/board",
-    "/board/new",
+    "/community",
     "/about",
-    "/sign-in",
+    ...(process.env.COMMUNITY_ENABLED === "true"
+      ? ["/board", "/board/new", "/sign-in"]
+      : []),
     "/privacy",
     "/contact",
   ]) {

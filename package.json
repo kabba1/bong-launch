@@ -20,6 +20,7 @@
     "test:a11y": "playwright test --project=accessibility",
     "build": "npm run content:build && next build",
     "release:check": "tsx scripts/release-check.ts",
+    "release:check:community": "tsx scripts/release-check.ts --scope=community",
     "db:migrate": "tsx scripts/db-migrate.ts",
     "staff:manage": "node --conditions=react-server --import tsx scripts/staff.ts",
     "maintenance": "node --conditions=react-server --import tsx scripts/maintenance.ts",

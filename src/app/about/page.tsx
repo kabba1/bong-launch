@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { CopyAddress } from "@/components/CopyAddress";
 import { publicSettings, safeHttps } from "@/lib/site";
+import { communityEnabled } from "@/lib/launch-scope";
 export const metadata = {
   title: "About / $BONG",
   alternates: { canonical: "/about" },
 };
 export default function About() {
   const token = publicSettings.token;
+  const community = communityEnabled();
   return (
     <article className="page narrow reading">
       <p className="eyebrow">The story so far</p>
@@ -32,7 +34,7 @@ export default function About() {
       </p>
       <p>
         Here, you can pull a thought from a curated collection, follow the real
-        stories behind historical ideas, or share something of your own.
+        stories behind historical ideas, and explore the BONG story.
       </p>
       <h2>One thousand starting points.</h2>
       <p>
@@ -46,16 +48,33 @@ export default function About() {
         entertainment, not instructions, professional advice, or a promise that
         nobody has thought of them before.
       </p>
-      <h2>Hear me out. Made this.</h2>
-      <p>
-        The board has room for both. Share a thought you’re considering, or
-        something you’ve actually worked on. Tell people what you contributed
-        and what stage it’s reached. A sketch, a render, and a finished build
-        each have their place when they’re described honestly.
-      </p>
-      <Link href="/board" className="button primary">
-        Explore the board
-      </Link>
+      {community ? (
+        <>
+          <h2>Hear me out. Made this.</h2>
+          <p>
+            The board has room for both. Share a thought you’re considering, or
+            something you’ve actually worked on. Tell people what you
+            contributed and what stage it’s reached. A sketch, a render, and a
+            finished build each have their place when they’re described
+            honestly.
+          </p>
+          <Link href="/board" className="button primary">
+            Explore the board
+          </Link>
+        </>
+      ) : (
+        <>
+          <h2>Good company is coming.</h2>
+          <p>
+            The BONG community space is coming soon. For now, explore the ideas
+            and follow along through our official social channels when
+            available.
+          </p>
+          <Link href="/community" className="button primary">
+            Community — Coming Soon
+          </Link>
+        </>
+      )}
       <section id="bong-token">
         <h2>About $BONG.</h2>
         <p>

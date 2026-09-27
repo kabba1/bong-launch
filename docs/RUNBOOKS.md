@@ -1,4 +1,23 @@
-# Operating BONG
+# Operating public BONG v1
+
+Current scope is public generator, reviewed timeline, About/lore, $BONG and Community Coming Soon. Keep `COMMUNITY_ENABLED=false` or unset. V1 has no accounts, incoming user content, private uploads, mail/CAPTCHA provider or database maintenance. Retained private commands/APIs must refuse disabled scope even if credentials exist. Do not perform v2 procedures below to operate a v1 deployment.
+
+## Public publishing and incident response
+
+Edit only owner-approved structured content/configuration. Preserve all original source IDs/texts and use explicit withdrawals. Verify timeline source/review/rights, social URLs and token mode; missing official values stay omitted. Run content validation and the production build, review actual public screenshots and metadata, then run the v1 release check with fresh candidate/scope evidence. Obtain authorization before deployment or DNS changes.
+
+For an incorrect idea/history/source/official link, publish a reviewed correction or known-ID withdrawal, rebuild hashed data, invalidate appropriate first-party caches and verify canonical status/text. Preserve approved correction records; a rollback must not restore a withdrawn idea or wrong official token destination. Downloaded public content cannot be recalled.
+
+For a public host incident, retain limited diagnostic evidence, contact the real hosting/security owner, close public access or serve the approved static maintenance state if necessary, and roll back to the last safe public artifact while retaining corrections/withdrawals. Keep community disabled throughout. Verify generator/public pages, CSP/headers, canonical links and all dormant endpoint denials after recovery. No private-service availability should be needed for that recovery.
+
+Back up public source/content/configuration, supplied rights records and known-good build artifacts in owner-controlled versioned storage. Reproduce a clean install/build, restore to an isolated preview, and compare corpus hashes and corrected canonical pages before reopening. This public artifact recovery is different from the future SQL-plus-object drill below.
+
+Protect publishing/hosting accounts with the platform's strong authentication, least access and reviewed recovery ownership. Rotate compromised deployment credentials, inspect access logs and confirm no secrets reached public bundles. Configure actual public host/CDN spend/error/availability alerts to a monitored contact; verify receipt and whether limits are hard caps or notifications. Public notices must match actual browser generator storage and hosting-log retention.
+
+## Retained community v2 procedures — inactive in v1
+
+The remainder preserves private implementation operation. These procedures require a separately authorized and fully verified community environment with explicit enablement. They are not evidence that providers, staff, alerts or recovery drills have been configured. Full community release uses `release:check -- --scope=community`; v1 evidence cannot authorize it.
+
 
 These procedures describe implemented controls and required drills. Provider-console configuration, actual alerts, staff identity and deployment have not been completed by generating this file. Record who ran each staging drill, exact candidate, observed result and artifact. Never test destructive recovery against the only production copy.
 
@@ -48,7 +67,7 @@ Restore to a new isolated project with outgoing email and participation disabled
 
 ## Rollback and deployment
 
-Close writes, retain the current database/takedown state, roll back to the last compatible application artifact, and verify health and visibility. Do not blindly reverse schema migrations. Future schema changes use expand/migrate/contract. Any rollback must retain current bans, deletions and corrected official token destinations. `release:check` and the full acceptance matrix remain the go/no-go record.
+Close writes, retain the current database/takedown state, roll back to the last compatible application artifact, and verify health and visibility. Do not blindly reverse schema migrations. Future schema changes use expand/migrate/contract. Any rollback must retain current bans, deletions and corrected official token destinations. `release:check -- --scope=community` and the full acceptance matrix remain the go/no-go record.
 
 ## Cost and alerts
 

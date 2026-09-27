@@ -38,7 +38,8 @@ jobs:
           node-version: 24.19.0
           cache: npm
       - run: npm ci
-      # Intentionally fails until a reviewed production candidate has real evidence.
+      # Public v1 only: intentionally fails until content/owner/public hosting evidence exists.
+      # Future community gates are preserved in npm run release:check:community.
       # This workflow has no deployment or infrastructure provisioning step.
       - run: npm run release:check
 

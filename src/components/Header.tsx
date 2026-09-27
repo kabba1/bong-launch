@@ -4,17 +4,27 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { api, type Session } from "@/lib/api-client";
 import { Icon } from "./Icon";
-const links = [
+const publicLinks = [
   ["/", "The Bong"],
   ["/through-time", "Through Time"],
-  ["/board", "The Board"],
+  ["/community", "Community"],
   ["/about", "About / $BONG"],
 ];
-export function Header() {
+export function Header({
+  communityEnabled = false,
+}: {
+  communityEnabled?: boolean;
+}) {
   const pathname = usePathname();
+  const links = publicLinks.map(([href, label]) =>
+    communityEnabled && href === "/community"
+      ? ["/board", "The Board"]
+      : [href, label],
+  );
   const [open, setOpen] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
   useEffect(() => {
+    if (!communityEnabled) return;
     const controller = new AbortController();
     void api<Session>("/session", { signal: controller.signal })
       .then((result) => {
@@ -22,7 +32,7 @@ export function Header() {
       })
       .catch(() => {});
     return () => controller.abort();
-  }, [pathname]);
+  }, [pathname, communityEnabled]);
   const toggle = useRef<HTMLButtonElement>(null);
   return (
     <header className="site-header">
@@ -45,13 +55,15 @@ export function Header() {
             </Link>
           ))}
         </nav>
-        <Link
-          className="sign-in-link"
-          href={signedIn ? "/account" : "/sign-in"}
-        >
-          {signedIn ? "Your account" : "Come on in"}{" "}
-          <Icon name="arrow" size={17} />
-        </Link>
+        {communityEnabled && (
+          <Link
+            className="sign-in-link"
+            href={signedIn ? "/account" : "/sign-in"}
+          >
+            {signedIn ? "Your account" : "Come on in"}{" "}
+            <Icon name="arrow" size={17} />
+          </Link>
+        )}
         <button
           ref={toggle}
           className="mobile-toggle icon-button"
@@ -87,12 +99,14 @@ export function Header() {
                 {label}
               </Link>
             ))}
-          <Link
-            href={signedIn ? "/account" : "/sign-in"}
-            onClick={() => setOpen(false)}
-          >
-            {signedIn ? "Your account" : "Sign in"}
-          </Link>
+          {communityEnabled && (
+            <Link
+              href={signedIn ? "/account" : "/sign-in"}
+              onClick={() => setOpen(false)}
+            >
+              {signedIn ? "Your account" : "Sign in"}
+            </Link>
+          )}
         </nav>
       )}
     </header>

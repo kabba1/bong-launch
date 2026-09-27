@@ -29,6 +29,7 @@ vi.mock("../../src/server/db/database", () => ({
 
 describe("AUTH-12 provider refresh outage preserves renewable browser credentials", () => {
   beforeEach(() => {
+    vi.stubEnv("COMMUNITY_ENABLED", "true");
     vi.resetAllMocks();
     vi.stubEnv("APP_ENV", "local");
     vi.stubEnv("APP_ORIGIN", "https://bong.example");

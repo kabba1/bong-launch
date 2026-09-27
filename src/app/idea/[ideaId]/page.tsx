@@ -9,6 +9,7 @@ import {
 } from "@/server/content";
 import { IdeaActions } from "@/features/generator/IdeaActions";
 import { ReportForm } from "@/features/board/ReportForm";
+import { communityEnabled } from "@/lib/launch-scope";
 export async function generateMetadata({
   params,
 }: {
@@ -39,6 +40,7 @@ export default async function IdeaPage({
   const status = getIdeaStatus(ideaId);
   if (status === "unknown") notFound();
   const idea = getIdea(ideaId);
+  const community = communityEnabled();
   return (
     <section className="page narrow">
       <p className="eyebrow">A thought from the collection / {ideaId}</p>
@@ -53,7 +55,7 @@ export default async function IdeaPage({
           <div className="generator-card">
             <p className="result-meta">{getCategoryLabel(idea.categoryId)}</p>
             <p className="idea-text">{idea.text}</p>
-            <IdeaActions idea={idea} />
+            <IdeaActions idea={idea} communityEnabled={community} />
           </div>
           <p className="tiny">
             One of 1,000 curated, AI-origin ideas. Entertainment, not
@@ -63,14 +65,16 @@ export default async function IdeaPage({
             <Link href="/" className="button primary">
               Another idea
             </Link>
-            <ReportForm targetType="idea" targetId={idea.id} />
+            {community && <ReportForm targetType="idea" targetId={idea.id} />}
           </div>
         </>
       )}
-      <p className="notice">
-        Discussing an idea starts a draft. Add your own title and thought before
-        you submit it to the board.
-      </p>
+      {community && (
+        <p className="notice">
+          Discussing an idea starts a draft. Add your own title and thought
+          before you submit it to the board.
+        </p>
+      )}
     </section>
   );
 }
