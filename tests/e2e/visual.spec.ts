@@ -1,15 +1,20 @@
 import { test, expect } from "@playwright/test";
 import { mkdir } from "node:fs/promises";
-test("UX-01/07 capture core desktop/mobile screens", async ({ page }) => {
-  test.setTimeout(90000);
-  await mkdir("../bong_codex_handoff/.build-evidence/screenshots", {
-    recursive: true,
-  });
-  for (const width of [1440, 390]) {
+
+test("UX-01/07 capture public brand screens and reflow at phone, tablet, laptop and desktop widths", async ({
+  page,
+}) => {
+  test.setTimeout(120000);
+  const folder =
+    "../bong_codex_handoff/.build-evidence/copy-edit/screenshots" +
+    (process.env.COMMUNITY_ENABLED === "true" ? "/community-v2" : "");
+  await mkdir(folder, { recursive: true });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  for (const width of [1440, 1024, 768, 390]) {
     await page.setViewportSize({ width, height: width === 390 ? 844 : 1000 });
     for (const [name, route] of [
       ["home", "/"],
-      ["timeline", "/through-time"],
+      ["through-time", "/through-time"],
       ["community", "/community"],
       ...(process.env.COMMUNITY_ENABLED === "true"
         ? [
@@ -23,18 +28,44 @@ test("UX-01/07 capture core desktop/mobile screens", async ({ page }) => {
       ["about", "/about"],
     ]) {
       await page.goto(route);
-      await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
       if (route === "/") {
-        await page
-          .getByRole("button", { name: "Give me an idea", exact: true })
-          .click();
+        await page.evaluate(() => localStorage.removeItem("bong:deck:v1"));
+        await page.reload();
+      }
+      await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+      await page.evaluate(() => document.fonts.ready);
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth <= window.innerWidth,
+        ),
+        `${route} at ${width}px`,
+      ).toBe(true);
+      if (route === "/") {
+        const firstDraw = page.getByRole("button", {
+          name: "Give me a highdea",
+          exact: true,
+        });
+        await expect(firstDraw).toBeEnabled();
+        await page.screenshot({
+          path: `${folder}/home-pre-result-${width}.png`,
+          fullPage: true,
+        });
+        await firstDraw.click();
         await expect(page.locator("[data-idea-id]")).toBeVisible();
         await expect(
-          page.getByRole("button", { name: "Another idea", exact: true }),
+          page
+            .locator(".generator-actions")
+            .getByRole("button", { name: "Another one", exact: true }),
         ).toBeEnabled();
+        expect(
+          await page.evaluate(
+            () => document.documentElement.scrollWidth <= window.innerWidth,
+          ),
+          `generated result at ${width}px`,
+        ).toBe(true);
       }
       await page.screenshot({
-        path: `../bong_codex_handoff/.build-evidence/screenshots/${name}-${width}.png`,
+        path: `${folder}/${name === "home" ? "home-result" : name}-${width}.png`,
         fullPage: true,
       });
     }

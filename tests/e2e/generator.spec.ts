@@ -4,7 +4,7 @@ test("GEN-04/05/12/13 generation persists, history does not draw, and rapid clic
 }) => {
   await page.goto("/");
   const button = page.getByRole("button", {
-    name: "Give me an idea",
+    name: "Give me a highdea",
     exact: true,
   });
   await expect(button).toBeEnabled();
@@ -16,10 +16,13 @@ test("GEN-04/05/12/13 generation persists, history does not draw, and rapid clic
     .locator("[data-idea-id]")
     .getAttribute("data-idea-id");
   await expect(
-    page.getByRole("button", { name: "Another idea", exact: true }),
+    page
+      .locator(".generator-actions")
+      .getByRole("button", { name: "Another one", exact: true }),
   ).toBeEnabled();
   await page
-    .getByRole("button", { name: "Another idea", exact: true })
+    .locator(".generator-actions")
+    .getByRole("button", { name: "Another one", exact: true })
     .evaluate((b: HTMLButtonElement) => {
       b.click();
       b.click();
@@ -39,7 +42,7 @@ test("GEN-04/05/12/13 generation persists, history does not draw, and rapid clic
   expect(requests.filter((u) => u.includes("/api/"))).toEqual([]);
   await page.reload();
   await expect(
-    page.getByRole("button", { name: "Give me an idea", exact: true }),
+    page.getByRole("button", { name: "Give me a highdea", exact: true }),
   ).toBeEnabled();
   await page.getByText("Recent ideas", { exact: true }).click();
   await expect(page.locator(".recent-ideas button")).toHaveCount(2);

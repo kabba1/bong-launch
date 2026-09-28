@@ -1,0 +1,221 @@
+{
+  "schemaVersion": 1,
+  "scope": "public-v1-brand-ui",
+  "recordedAt": "2026-09-27T23:38:56.339Z",
+  "sourceGitBaseline": "6f9a439c10226a7f28b7f2dd865d2c703ef91503",
+  "workingTreeChanges": true,
+  "candidateSHA256": "2dd87dff6c848831cefd3ba031a143e8bdf2bb66f0fe8327487e72a6b0c86a94",
+  "buildId": "4g9BScwBqDMUPL3f2Xz48",
+  "releaseReady": false,
+  "environment": {
+    "node": "v24.19.0",
+    "server": "Local production next start on 127.0.0.1:3210",
+    "communityEnabled": false,
+    "browsers": "Playwright Chromium"
+  },
+  "checks": [
+    {
+      "name": "lint",
+      "command": "npm run lint",
+      "status": "PASS",
+      "exitCode": 0,
+      "log": {
+        "path": "../../bong_codex_handoff/.build-evidence/brand-ui/lint.log",
+        "sha256": "ee518536dd3b4817ee3705130adc1049eb5eef284c4fd407f8900f39ff1d6510"
+      }
+    },
+    {
+      "name": "typecheck",
+      "command": "npm run typecheck",
+      "status": "PASS",
+      "exitCode": 0,
+      "log": {
+        "path": "../../bong_codex_handoff/.build-evidence/brand-ui/typecheck.log",
+        "sha256": "79863d4808b04c9a695bf66a95a0403b4fc62c514a3f7aa9cf18131a85f3bfe0"
+      }
+    },
+    {
+      "name": "content",
+      "command": "npm run content:validate",
+      "status": "PASS",
+      "exitCode": 0,
+      "log": {
+        "path": "../../bong_codex_handoff/.build-evidence/brand-ui/content.log",
+        "sha256": "9325ba93d62f31e30f248627bed75af199187082f1377ea1513fa15de8acb884"
+      }
+    },
+    {
+      "name": "unit",
+      "command": "npx vitest run tests/unit/content.test.ts tests/unit/deck.test.ts tests/unit/timeline.test.ts tests/unit/community-page.test.ts tests/unit/timeline-presentation.test.ts",
+      "status": "PASS",
+      "exitCode": 0,
+      "passedTests": 32,
+      "log": {
+        "path": "../../bong_codex_handoff/.build-evidence/brand-ui/unit.log",
+        "sha256": "0c8f8d4977d88bac7d592a33240ce874d40fc28009965d66abd6ae2d106b78c7"
+      }
+    },
+    {
+      "name": "build",
+      "command": "npm run build",
+      "status": "PASS",
+      "exitCode": 0,
+      "log": {
+        "path": "../../bong_codex_handoff/.build-evidence/brand-ui/build.log",
+        "sha256": "c8088244bcdd21b22eb59c874d25474947a909f83d104c9fd7c34700f54aaca5"
+      }
+    },
+    {
+      "name": "browser",
+      "command": "npm run test:e2e",
+      "status": "PASS",
+      "exitCode": 0,
+      "passedTests": 25,
+      "log": {
+        "path": "../../bong_codex_handoff/.build-evidence/brand-ui/e2e.log",
+        "sha256": "7b20dd3873ab740c79836c4a03e29b775f648910716ecfa6d29f08c805655c64"
+      }
+    },
+    {
+      "name": "accessibility",
+      "command": "npm run test:a11y",
+      "status": "PASS",
+      "exitCode": 0,
+      "passedTests": 11,
+      "log": {
+        "path": "../../bong_codex_handoff/.build-evidence/brand-ui/a11y.log",
+        "sha256": "e192527b72fd14e4158f983467315cba161848bbc74e302b4c574b9cf2d4bec6"
+      }
+    },
+    {
+      "name": "release",
+      "command": "npm run release:check",
+      "status": "BLOCKED",
+      "exitCode": 1,
+      "log": {
+        "path": "../../bong_codex_handoff/.build-evidence/brand-ui/release-check.log",
+        "sha256": "d2b0e0aaf83c0fee49b78b260c711c370dc00bffe2d27ee8414e63ed782a65b9"
+      }
+    }
+  ],
+  "sourceCSV": {
+    "path": "../content/source/bong_highdeas_1000_revised.csv",
+    "sha256": "d47f279eb2cce77a5730e9dbb7ab156bd5675787e18e926cd5434b20ebe8baf9"
+  },
+  "corpusHash": "f97d063e6cc814db55ca6c551ebf372b5ce38ccf8ab56878c7d961bc81526111",
+  "screenshots": [
+    {
+      "path": "../../bong_codex_handoff/.build-evidence/brand-ui/screenshots/about-1024.png",
+      "sha256": "20e55c27fc20076a948e48ffab61d1b1dcf56b83939544523b27950e96f86cbd"
+    },
+    {
+      "path": "../../bong_codex_handoff/.build-evidence/brand-ui/screenshots/about-1440.png",
+      "sha256": "aa3a1236ea970c6babc7c01fe617ee3702bb8c4a6842ca3d65cfe2064fee803c"
+    },
+    {
+      "path": "../../bong_codex_handoff/.build-evidence/brand-ui/screenshots/about-390.png",
+      "sha256": "e48766169b3e2739009949111a3d64a9a47a11c627376c381f378716657615d4"
+    },
+    {
+      "path": "../../bong_codex_handoff/.build-evidence/brand-ui/screenshots/about-768.png",
+      "sha256": "8eee07bee47d3dbb1ad874f411c680c8f3e8926161d417ee407a393ca022db8c"
+    },
+    {
+      "path": "../../bong_codex_handoff/.build-evidence/brand-ui/screenshots/community-1024.png",
+      "sha256": "f1d784c4e904e295727da42ca85e6089db63ee40a10988f567647e1b11d1f265"
+    },
+    {
+      "path": "../../bong_codex_handoff/.build-evidence/brand-ui/screenshots/community-1440.png",
+      "sha256": "e46d6b5b3108af91f49161b5925e163d2ede2590855aac04f73c58a1329a2231"
+    },
+    {
+      "path": "../../bong_codex_handoff/.build-evidence/brand-ui/screenshots/community-390.png",
+      "sha256": "d9baa704e00b680c93f8016d436673de709c8615b4be7f43438da4060bdd9a2c"
+    },
+    {
+      "path": "../../bong_codex_handoff/.build-evidence/brand-ui/screenshots/community-768.png",
+      "sha256": "adeb0bbe65d32a1a21c1713cd2b97ea6765ba8b42a73b9b1105d60b459f5b8d1"
+    },
+    {
+      "path": "../../bong_codex_handoff/.build-evidence/brand-ui/screenshots/home-pre-result-1024.png",
+      "sha256": "8fa2e66971160a6eb0c6d50a12f7150fa9c6d1b39699878dce2b1da02d8d6b00"
+    },
+    {
+      "path": "../../bong_codex_handoff/.build-evidence/brand-ui/screenshots/home-pre-result-1440.png",
+      "sha256": "1fd4b706eea3890449fbd0ce60fe7c26f9dd2b393fd0d6c0604bf757edfc6110"
+    },
+    {
+      "path": "../../bong_codex_handoff/.build-evidence/brand-ui/screenshots/home-pre-result-390.png",
+      "sha256": "5d84a9829eeddf61a70e51191d7e6341dfab1dc958a6fbc8e54ad897307019d6"
+    },
+    {
+      "path": "../../bong_codex_handoff/.build-evidence/brand-ui/screenshots/home-pre-result-768.png",
+      "sha256": "a55cab03b6cea9f3137a244e4bc7256b5aaa9fb2771eb58063fdc4cba1ec2721"
+    },
+    {
+      "path": "../../bong_codex_handoff/.build-evidence/brand-ui/screenshots/home-result-1024.png",
+      "sha256": "f70819316c88d8998d412b011a429c85b0ac1edd7f4b8302f54a2db9bfe25856"
+    },
+    {
+      "path": "../../bong_codex_handoff/.build-evidence/brand-ui/screenshots/home-result-1440.png",
+      "sha256": "ab6ad512ba90ee3be2d943fb25cb9478896db23e74a9d6c43c961dd7969668f1"
+    },
+    {
+      "path": "../../bong_codex_handoff/.build-evidence/brand-ui/screenshots/home-result-390.png",
+      "sha256": "c7e8b6b89db1300d7ca8b6f23b99468cce3023c345d39117a04994b5f84bacc0"
+    },
+    {
+      "path": "../../bong_codex_handoff/.build-evidence/brand-ui/screenshots/home-result-768.png",
+      "sha256": "c0a0b39b5dfb2a052946484b498f3e9fb1d9c3b907ed8892994c9a374720216f"
+    },
+    {
+      "path": "../../bong_codex_handoff/.build-evidence/brand-ui/screenshots/through-time-1024.png",
+      "sha256": "5dd622cc507848464fe452fb982f8a9a873cd02235f5e5632ad594e3366555a1"
+    },
+    {
+      "path": "../../bong_codex_handoff/.build-evidence/brand-ui/screenshots/through-time-1440.png",
+      "sha256": "76a72de77b80c65da8860e8a5fcd6dd6af22a2608c9d52119f002fbf9ad4d0b3"
+    },
+    {
+      "path": "../../bong_codex_handoff/.build-evidence/brand-ui/screenshots/through-time-390.png",
+      "sha256": "b759454b17973c70fbfee2d6cfbd7b37d5f07bf72c4493450b0e82d467f7eaea"
+    },
+    {
+      "path": "../../bong_codex_handoff/.build-evidence/brand-ui/screenshots/through-time-768.png",
+      "sha256": "490f73bf4628f11e3fb89cd1a8de128adb9d64f9e408e0a22099ef45e407cf90"
+    }
+  ],
+  "performance": {
+    "path": "../../bong_codex_handoff/.build-evidence/performance.json",
+    "sha256": "2b75839aff3e5744423baeebf25776f1c881dec793f9a5d20bf0d2743fa3d800"
+  },
+  "priorPerformancePreserved": [
+    {
+      "path": "../../bong_codex_handoff/.build-evidence/brand-ui/performance-before-refinement.json",
+      "sha256": "6a24770c7a0d1eeda8357e323f757e066df6bacd3b9819fdb36826ee8489aa96"
+    },
+    {
+      "path": "../../bong_codex_handoff/.build-evidence/brand-ui/performance-before-refinement.md",
+      "sha256": "951f1751e9a1175a8986826107a104d444bc6f67554c0d06cad3e7ddfd13c780"
+    }
+  ],
+  "review": {
+    "screenshotsInspected": true,
+    "focusedCorrectionPasses": 1,
+    "independentAgentReview": "No actionable issue found; this is not independent human security or accessibility approval."
+  },
+  "releaseFindings": {
+    "total": 23,
+    "preExistingContentOwnerHostingAssessmentGates": 20,
+    "previousCandidateEvidenceBindings": 3
+  },
+  "limitations": [
+    "Scoped public UI verification only; dormant community suites were not rerun.",
+    "Old full-release/acceptance/ASVS evidence remains bound to the prior candidate.",
+    "No real timeline articles exist; populated rendering uses isolated test fixtures only.",
+    "Axe and local Chromium screenshots do not establish full accessibility or physical-device compliance.",
+    "Performance measurements are local homepage lab data, not hosted load or field metrics.",
+    "Raw evidence is local in the sibling handoff folder, not included in the application.",
+    "No commit, push, production deployment, DNS change or provisioning in this pass."
+  ]
+}

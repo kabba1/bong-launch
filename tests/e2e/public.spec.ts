@@ -7,7 +7,7 @@ test("@community BOARD-14 GEN-14 failure is truthful and generator remains usabl
   await expect(page.getByText("Somebody has to go first.")).toHaveCount(0);
   await page.goto("/");
   await page
-    .getByRole("button", { name: "Give me an idea", exact: true })
+    .getByRole("button", { name: "Give me a highdea", exact: true })
     .click();
   await expect(page.locator("[data-idea-id]")).toBeVisible();
 });
@@ -23,7 +23,7 @@ test("GEN-06 storage denial keeps local generation usable", async ({
   });
   await page.goto("/");
   await page
-    .getByRole("button", { name: "Give me an idea", exact: true })
+    .getByRole("button", { name: "Give me a highdea", exact: true })
     .click();
   await expect(page.locator("[data-idea-id]")).toBeVisible();
   await expect(
@@ -36,11 +36,25 @@ test("GEN-09 reduced motion draws without a decorative delay", async ({
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await page
-    .getByRole("button", { name: "Give me an idea", exact: true })
+    .getByRole("button", { name: "Give me a highdea", exact: true })
     .click();
   await expect(
-    page.getByRole("button", { name: "Another idea", exact: true }),
+    page
+      .locator(".generator-actions")
+      .getByRole("button", { name: "Another one", exact: true }),
   ).toBeEnabled();
+  const activeAnimations = await page.evaluate(
+    () =>
+      document.getAnimations().filter((animation) => {
+        const target = (animation.effect as KeyframeEffect | null)?.target;
+        return (
+          target instanceof Element &&
+          !!target.closest(".hero") &&
+          animation.playState === "running"
+        );
+      }).length,
+  );
+  expect(activeAnimations).toBe(0);
 });
 test("GEN-10 clipboard denial offers selectable exact text", async ({
   page,
@@ -52,7 +66,7 @@ test("GEN-10 clipboard denial offers selectable exact text", async ({
   });
   await page.goto("/");
   await page
-    .getByRole("button", { name: "Give me an idea", exact: true })
+    .getByRole("button", { name: "Give me a highdea", exact: true })
     .click();
   await page.getByRole("button", { name: "Copy idea", exact: true }).click();
   await expect(page.getByRole("textbox", { name: "Text to copy" })).toHaveValue(
@@ -67,7 +81,7 @@ test("GEN-11 cancellation is not reported as an error", async ({ page }) => {
   });
   await page.goto("/");
   await page
-    .getByRole("button", { name: "Give me an idea", exact: true })
+    .getByRole("button", { name: "Give me a highdea", exact: true })
     .click();
   await page.getByRole("button", { name: "Share", exact: true }).click();
   await expect(page.getByRole("textbox", { name: "Text to copy" })).toHaveCount(
@@ -100,8 +114,17 @@ test("TIME-08/09 no invented history is published", async ({
 }) => {
   await page.goto("/through-time");
   await expect(
-    page.getByRole("heading", { name: "History deserves a second look." }),
+    page.getByRole("heading", { name: "Bong Through Time.", exact: true }),
   ).toBeVisible();
+  await expect(
+    page.getByRole("heading", {
+      name: "The first stories are on their way.",
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("textbox", { name: "Search history" }),
+  ).toHaveCount(0);
   expect((await request.get("/through-time/a-made-up-article")).status()).toBe(
     404,
   );

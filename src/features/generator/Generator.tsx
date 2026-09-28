@@ -133,37 +133,26 @@ export function Generator({
           className={`art-button ${busy ? "revealing" : ""}`}
           onClick={generate}
           disabled={!loaded || busy}
-          aria-label="Click the bong for an idea"
+          aria-label="Give me a highdea from the bong"
         >
           <img
             src="/images/bong-800.webp"
             srcSet="/images/bong-480.webp 480w, /images/bong-800.webp 800w, /images/bong-1254.webp 1254w"
-            sizes={mobile ? "180px" : "(max-width: 760px) 180px, 42vw"}
+            sizes={mobile ? "240px" : "(max-width: 760px) 240px, 42vw"}
             width="1254"
             height="1254"
             alt="The BONG glass bong illustration on its original orange background"
             fetchPriority={mobile ? "auto" : "high"}
           />
+          <span className="bong-bubbles" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </span>
         </button>
       </div>
-      <div className="art-stamp">
-        100%
-        <br />
-        HALF-BAKED
-        <br />
-        <Icon name="spark" size={15} />
-      </div>
       {!mobile && (
-        <>
-          <figcaption className="art-caption">
-            <span>The original thought experiment</span>
-            <span>↖ Go on. Give it a click.</span>
-          </figcaption>
-          <p className="art-note">
-            <Icon name="spark" size={17} />
-            <span>No prompt. No account. Just a little curiosity.</span>
-          </p>
-        </>
+        <figcaption className="art-caption">Go on. Give it a click.</figcaption>
       )}
     </figure>
   );
@@ -173,10 +162,7 @@ export function Generator({
   return (
     <section className="container hero" aria-label="The idea generator">
       <div className="hero-topline">
-        <p className="eyebrow">
-          <Icon name="spark" size={15} /> A home for half-baked ideas
-        </p>
-        <span className="tiny">A little ridiculous. A little possibility.</span>
+        <p className="eyebrow">A home for half-baked ideas</p>
       </div>
       <div className="hero-grid">
         <div className="hero-copy">
@@ -192,11 +178,7 @@ export function Generator({
               good at the time.
             </span>
           </h1>
-          <p className="hero-intro">
-            One bong. A thousand unexpected thoughts.
-            <br />
-            See what comes out of this one.
-          </p>
+          <p className="hero-intro">Click the bong for a highdea.</p>
           {art(true)}
           <div className="generator-actions">
             {failure ? (
@@ -215,50 +197,57 @@ export function Generator({
                 onClick={generate}
                 disabled={!loaded || busy}
               >
-                <Icon name="spark" size={20} />
                 {!loaded
                   ? "Loading the ideas…"
                   : idea
-                    ? "Another idea"
-                    : "Give me an idea"}
+                    ? "Another one"
+                    : "Give me a highdea"}
                 <Icon name="arrow" size={20} />
               </button>
             )}
-            <span className="tiny">No overthinking required.</span>
           </div>
-          <div className="generator-card">
+          <div className="generator-card" data-has-idea={!!idea}>
             <div aria-live="polite" aria-atomic="true">
               {idea ? (
                 <div data-idea-id={idea.id}>
                   <div className="result-meta">
-                    <span>{category}</span>
-                    <span>{idea.id}</span>
+                    <span>Your highdea</span>
                   </div>
-                  <p className="idea-text">{idea.text}</p>
+                  <p className="idea-text" key={idea.id}>
+                    {idea.text}
+                  </p>
+                  <div className="thought-catalogue">
+                    <span>{category}</span>
+                    <Link href={`/idea/${idea.id}`} prefetch={false}>
+                      {idea.id}
+                    </Link>
+                  </div>
                 </div>
               ) : (
                 <>
                   <div className="result-meta">
-                    <span>Your next thought</span>
-                    <Icon name="spark" size={14} />
+                    <span>Your next highdea</span>
                   </div>
                   <p className="idea-text empty-thought">
                     {failure
                       ? "The ideas couldn’t load. Give it another try."
-                      : "Something brilliant? Something ridiculous? Only one way to find out."}
+                      : "BONG hasn’t said anything yet."}
                   </p>
                 </>
               )}
             </div>
             {idea ? (
-              <IdeaActions idea={idea} communityEnabled={communityEnabled} />
-            ) : (
+              <IdeaActions
+                idea={idea}
+                communityEnabled={communityEnabled}
+                onAnother={generate}
+                generating={busy}
+              />
+            ) : failure ? (
               <p className="status-message">
-                {failure
-                  ? "The rest of the site is still here."
-                  : "A curated collection. No live AI. No promises of genius."}
+                The rest of the site is still here.
               </p>
-            )}
+            ) : null}
           </div>
           {!storageOk && (
             <p className="storage-note">

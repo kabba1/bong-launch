@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     template: "%s · BONG",
   },
   description:
-    "Some ideas change the world. Some just sound good at the time. Find an unexpected thought, explore history, and follow the BONG story.",
+    "Click the bong for a highdea. Explore Bong Through Time and find the BONG community.",
   robots: isProduction()
     ? { index: true, follow: true }
     : { index: false, follow: false },

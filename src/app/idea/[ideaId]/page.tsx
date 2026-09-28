@@ -58,8 +58,7 @@ export default async function IdeaPage({
             <IdeaActions idea={idea} communityEnabled={community} />
           </div>
           <p className="tiny">
-            One of 1,000 curated, AI-origin ideas. Entertainment, not
-            instructions or professional advice.
+            Entertainment, not instructions or professional advice.
           </p>
           <div className="form-actions">
             <Link href="/" className="button primary">

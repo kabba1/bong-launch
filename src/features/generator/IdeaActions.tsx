@@ -6,9 +6,13 @@ import { Icon } from "@/components/Icon";
 export function IdeaActions({
   idea,
   communityEnabled = false,
+  onAnother,
+  generating = false,
 }: {
   idea: Idea;
   communityEnabled?: boolean;
+  onAnother?: () => void;
+  generating?: boolean;
 }) {
   const [notice, setNotice] = useState("");
   const [fallback, setFallback] = useState("");
@@ -53,18 +57,24 @@ export function IdeaActions({
           <Icon name="share" size={15} />
           Share
         </button>
-        <Link
-          prefetch={false}
-          className="tool-button discuss"
-          href={
-            communityEnabled
-              ? `/board/new?sourceIdeaId=${idea.id}`
-              : "/community"
-          }
-        >
-          {communityEnabled ? "Discuss this" : "Community"}{" "}
-          <Icon name="arrow" size={16} />
-        </Link>
+        {onAnother && (
+          <button
+            className="tool-button another-thought"
+            onClick={onAnother}
+            disabled={generating}
+          >
+            Another one <Icon name="arrow" size={16} />
+          </button>
+        )}
+        {communityEnabled && (
+          <Link
+            prefetch={false}
+            className="tool-button discuss"
+            href={`/board/new?sourceIdeaId=${idea.id}`}
+          >
+            Discuss this <Icon name="arrow" size={16} />
+          </Link>
+        )}
       </div>
       {notice && (
         <p role="status" className="status-message">

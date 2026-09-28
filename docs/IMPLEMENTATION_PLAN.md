@@ -20,7 +20,25 @@ Implementation and verification only. No commit, push, deployment, provider prov
 
 **Scope revision completed and locally verified:** all five steps above are implemented. Final results: unit 42, SQL integration 30, security 60, public browser 22, axe 10 and preserved community browser 7 passed; lint, typecheck, exact content, production build, audit and secret scan passed. The default v1 release check remains blocked by 20 actual content/owner/public-host/evidence findings; the separate community check retains 44 full-scope findings. Historical failed checks and corrections are recorded in RELEASE_REPORT.md and release-evidence.json. No owner, independent reviewer or hosted-provider result was fabricated.
 
+## Focused public brand/UI refinement (2026-09-27)
+
+Owner-directed follow-up to the verified public v1 scope. Preserve the existing application, source corpus, artwork, dependencies and disabled community boundary. This is a presentation/copy pass; it does not reopen the earlier architecture or v2 implementation plan.
+
+1. Refine the existing generator presentation, image/button interaction cues, result hierarchy and small reduced-motion-aware reveal; preserve deck/storage/copy/share behavior (GEN-01–15, UX-01–05).
+2. Replace lower-home feature-card presentation with two editorial destinations; refine header/footer and concise public voice, retaining fixed-corpus transparency on About (UX-01/07, V1-01/04/05).
+3. Hide timeline search below 12 published entries, ignore queries below that threshold, and present the zero state and future real entries as an explicitly labeled fiction/history archive (TIME-01–09, V1-05).
+4. Refine the intentional Community teaser and five-section About/$BONG page without enabling private features or inventing links, facts or token information (V1-01–05).
+5. Run relevant public unit/browser/accessibility checks and production build. Capture home before/after generation plus timeline, Community and About at 1440/1024/768/390 px. Inspect screenshots and make one focused correction pass (UX-01–09, OPS-05). Record results in BRAND_UI_REFINEMENT.md. Existing release approvals remain open; no deployment, provisioning, DNS, community enablement, commit or push is included.
+
+**Completed:** all five steps, screenshot inspection and one focused correction pass. Lint, typecheck, exact content, production build, 32 relevant unit tests, 25 public browser tests and 11 axe checks passed. The unchanged release check remains blocked by 20 existing gates and three previous-candidate evidence bindings. See [BRAND_UI_REFINEMENT.md](BRAND_UI_REFINEMENT.md) for current scoped evidence and limits; previous full-scope records remain historical.
+
 ## Global constraints
+
+### Focused public copy edit (2026-09-27)
+
+Apply the owner's exact replacements/deletions to public v1 presentation only, preserving the prior refinement and all behavior. Steps: (1) simplify homepage, destinations, footer, timeline, Community and About copy; (2) remove marketing quantity claims from metadata, idea wrappers and code-rendered share images while preserving exact content; (3) update legitimate text expectations and run lint, types, content integrity, relevant public unit/browser/axe checks and a production build; (4) inspect desktop/mobile pages once for gaps or heading problems. Mapping: GEN-01–15, DATA-01–09, TIME-01–09, UX-01–09, V1-01–05. No design-system, dependency, private-backend or release-policy changes; no deployment or push. Results will be recorded in COPY_EDIT.md.
+
+**Copy work and verification complete:** lint, types, content, build, 33 unit tests, 25 functional/copy browser checks and 11 axe checks passed. The full browser run also had one performance-test failure (77.7 ms mobile draw versus 50 ms); one isolated repeat passed at 34.4 ms worst. No limit or implementation was changed to obtain that repeat. Both observations and the unresolved timing variability are retained in [COPY_EDIT.md](COPY_EDIT.md). Desktop/mobile inspection found no deletion-related problem; no copy change was blocked.
 
 - All 1,000 source strings and IDs; 22 categories; content hash derived from emitted bytes.
 - Zero invented history/staff/reviews/accounts/activity/contact/contract details. No live AI or wallet dependency.

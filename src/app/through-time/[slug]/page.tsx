@@ -50,7 +50,7 @@ export default async function Story({
       <h1>{entry.title}</h1>
       <p className="lead">{entry.summary}</p>
       <div className="fiction">
-        <strong>BONG’s version — fiction</strong>
+        <strong>BONG’s version · Fiction</strong>
         <p>{entry.fictionText}</p>
       </div>
       {entry.image && (
@@ -61,7 +61,7 @@ export default async function Story({
           </figcaption>
         </figure>
       )}
-      <h2>What actually happened</h2>
+      <h2>The history</h2>
       {entry.facts.map((fact, index) => (
         <Paragraph key={index} paragraph={fact} />
       ))}
@@ -72,7 +72,7 @@ export default async function Story({
       {entry.uncertaintyNote && (
         <aside className="notice">{entry.uncertaintyNote}</aside>
       )}
-      <h2>Sources</h2>
+      <h2 id="sources">Sources</h2>
       <ol className="source-list">
         {entry.sources.map((source) => (
           <li key={source.id} id={`source-${source.id}`}>

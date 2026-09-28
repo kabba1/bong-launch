@@ -36,9 +36,6 @@ export async function GET(
       <div style={{ display: "flex", fontSize: 49, lineHeight: 1.25 }}>
         {idea.text}
       </div>
-      <div style={{ display: "flex", fontSize: 24 }}>
-        A home for half-baked ideas.
-      </div>
     </div>,
     {
       width: 1200,

@@ -8,12 +8,9 @@ export function Footer({
   return (
     <footer className="site-footer">
       <div className="footer-top">
-        <div>
-          <Link href="/" className="wordmark">
-            BONG
-          </Link>
-          <p>A home for half-baked ideas.</p>
-        </div>
+        <Link href="/" className="wordmark">
+          BONG
+        </Link>
         <div className="footer-links">
           <Link href="/through-time">Through Time</Link>
           <Link href={communityEnabled ? "/board" : "/community"}>
@@ -37,7 +34,6 @@ export function Footer({
         </div>
       </div>
       <div className="footer-bottom">
-        <p>Curated, AI-origin ideas. Human curiosity. For entertainment.</p>
         <div>
           <Link href="/privacy">Privacy</Link>
           <Link href="/terms">Terms</Link>

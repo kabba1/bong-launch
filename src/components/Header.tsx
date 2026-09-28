@@ -38,7 +38,7 @@ export function Header({
     <header className="site-header">
       <div className="header-inner">
         <Link href="/" className="wordmark" aria-label="BONG home">
-          BONG<span className="wordmark-dot">✳</span>
+          BONG
         </Link>
         <nav aria-label="Main navigation" className="desktop-nav">
           {links.map(([href, label]) => (

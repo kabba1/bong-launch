@@ -6,7 +6,7 @@ test("GEN-07/08 stale state resets and two tabs serialize their draws", async ({
 }) => {
   await page.goto("/");
   await expect(
-    page.getByRole("button", { name: "Give me an idea", exact: true }),
+    page.getByRole("button", { name: "Give me a highdea", exact: true }),
   ).toBeEnabled();
   await page.evaluate(() =>
     localStorage.setItem(
@@ -16,16 +16,20 @@ test("GEN-07/08 stale state resets and two tabs serialize their draws", async ({
   );
   await page.reload();
   await expect(
-    page.getByRole("button", { name: "Give me an idea", exact: true }),
+    page.getByRole("button", { name: "Give me a highdea", exact: true }),
   ).toBeEnabled();
   const other = await context.newPage();
   await other.goto("/");
   await expect(
-    other.getByRole("button", { name: "Give me an idea", exact: true }),
+    other.getByRole("button", { name: "Give me a highdea", exact: true }),
   ).toBeEnabled();
   await Promise.all([
-    page.getByRole("button", { name: "Give me an idea", exact: true }).click(),
-    other.getByRole("button", { name: "Give me an idea", exact: true }).click(),
+    page
+      .getByRole("button", { name: "Give me a highdea", exact: true })
+      .click(),
+    other
+      .getByRole("button", { name: "Give me a highdea", exact: true })
+      .click(),
   ]);
   await expect(page.locator("[data-idea-id]")).toBeVisible();
   await expect(other.locator("[data-idea-id]")).toBeVisible();
@@ -56,7 +60,7 @@ test("GEN-10 copy writes the exact supplied text and nothing else", async ({
   });
   await page.goto("/");
   await page
-    .getByRole("button", { name: "Give me an idea", exact: true })
+    .getByRole("button", { name: "Give me a highdea", exact: true })
     .click();
   await page.getByRole("button", { name: "Copy idea", exact: true }).click();
   expect(await page.evaluate(() => sessionStorage.getItem("test:copied"))).toBe(
@@ -92,7 +96,7 @@ test("SEC-07/08 injected inline script is blocked and corpus cache policies diff
   });
   await page.goto("/");
   await expect(
-    page.getByRole("button", { name: "Give me an idea", exact: true }),
+    page.getByRole("button", { name: "Give me a highdea", exact: true }),
   ).toBeEnabled();
   expect(await page.locator("html").getAttribute("data-attack")).toBeNull();
   const manifest = await request.get("/data/manifest.json");

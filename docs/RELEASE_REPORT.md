@@ -1,5 +1,7 @@
 # Public v1 release readiness report
 
+**Later presentation update:** [BRAND_UI_REFINEMENT.md](BRAND_UI_REFINEMENT.md) records the subsequent public UI/copy pass and its current build, screenshots and scoped checks. The candidate and full-suite results below describe the earlier scope-change candidate; they have not been relabeled as a full verification of the newer UI candidate. Launch gates remain open.
+
 **Current scope:** public generator, idea links, reviewed timeline, About/lore, $BONG information and Community Coming Soon. Community/account/database/provider/upload functionality is preserved for v2 and disabled by default. V1 needs no private-service provisioning or credentials.
 
 **Public launch remains subject to owner/content and review gates.** At least eight genuine reviewed timeline entries, approved public legal/contact/rights information, public security/accessibility/visual/performance/hosting review and explicit production authority are still required. Provider mail/CAPTCHA/SQL/staff/private-bucket/restore requirements are deferred to future community v2, not v1 infrastructure blockers.

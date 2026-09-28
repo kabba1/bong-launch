@@ -23,10 +23,10 @@ describe("V1-04 configured community social links", () => {
 
   it("does not invent social accounts or signup when no links are configured", () => {
     const html = render();
-    expect(html).toContain("Coming Soon");
-    expect(html).toContain("official social links will appear here");
-    expect(html).not.toContain("BONG on X");
-    expect(html).not.toContain("BONG on Telegram");
+    expect(html).toContain("Coming soon.");
+    expect(html).toContain("Official links will appear here");
+    expect(html).not.toContain("Follow on X");
+    expect(html).not.toContain("Join Telegram");
     expect(html).not.toMatch(/href="\/(sign-in|account|board)/);
   });
 
@@ -35,15 +35,18 @@ describe("V1-04 configured community social links", () => {
     const html = render();
     expect(html).toContain(`href="${x}"`);
     expect(html).toContain(`href="${telegram}"`);
+    expect(html).toContain("Find BONG here in the meantime.");
+    expect(html).toContain("Follow on X");
+    expect(html).toContain("Join Telegram");
     expect(html.match(/rel="noopener noreferrer"/g)).toHaveLength(2);
-    expect(html).not.toContain("official social links will appear here");
+    expect(html).not.toContain("Official links will appear here");
   });
 
   it("renders either configured channel independently", () => {
     configured.socials = { telegram };
     const html = render();
-    expect(html).toContain("BONG on Telegram");
-    expect(html).not.toContain("BONG on X");
+    expect(html).toContain("Join Telegram");
+    expect(html).not.toContain("Follow on X");
   });
 
   it("omits unsafe or credential-bearing links even when rendering isolated configuration", () => {
@@ -52,8 +55,8 @@ describe("V1-04 configured community social links", () => {
       telegram: "https://user:password@social.invalid/",
     };
     const html = render();
-    expect(html).not.toContain("BONG on X");
-    expect(html).not.toContain("BONG on Telegram");
+    expect(html).not.toContain("Follow on X");
+    expect(html).not.toContain("Join Telegram");
     expect(html).not.toContain("javascript:");
     expect(html).not.toContain("user:password");
   });

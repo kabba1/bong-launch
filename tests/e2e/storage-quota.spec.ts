@@ -5,7 +5,7 @@ test("GEN-06 quota failure with a coarse clock never rewinds the in-memory deck"
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await page
-    .getByRole("button", { name: "Give me an idea", exact: true })
+    .getByRole("button", { name: "Give me a highdea", exact: true })
     .click();
   await expect(page.locator("[data-idea-id]")).toBeVisible();
   await page.evaluate(() => {
@@ -15,8 +15,8 @@ test("GEN-06 quota failure with a coarse clock never rewinds the in-memory deck"
       throw new DOMException("Full", "QuotaExceededError");
     };
   });
-  const another = page.getByRole("button", {
-    name: "Another idea",
+  const another = page.locator(".generator-actions").getByRole("button", {
+    name: "Another one",
     exact: true,
   });
   await another.click();
