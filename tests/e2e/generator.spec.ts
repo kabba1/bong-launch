@@ -1,10 +1,10 @@
 import { test, expect } from "@playwright/test";
-test("GEN-04/05/12/13 generation persists, history does not draw, and rapid clicks use one entry", async ({
+test("GEN-04/05/13 generation persists without a history UI and rapid clicks use one entry", async ({
   page,
 }) => {
   await page.goto("/");
   const button = page.getByRole("button", {
-    name: "Give me a highdea",
+    name: "Give me an idea",
     exact: true,
   });
   await expect(button).toBeEnabled();
@@ -18,11 +18,11 @@ test("GEN-04/05/12/13 generation persists, history does not draw, and rapid clic
   await expect(
     page
       .locator(".generator-actions")
-      .getByRole("button", { name: "Another one", exact: true }),
+      .getByRole("button", { name: "Another idea", exact: true }),
   ).toBeEnabled();
   await page
     .locator(".generator-actions")
-    .getByRole("button", { name: "Another one", exact: true })
+    .getByRole("button", { name: "Another idea", exact: true })
     .evaluate((b: HTMLButtonElement) => {
       b.click();
       b.click();
@@ -32,20 +32,40 @@ test("GEN-04/05/12/13 generation persists, history does not draw, and rapid clic
     "data-idea-id",
     first!,
   );
-  await page.getByText("Recent ideas", { exact: true }).click();
-  await expect(page.locator(".recent-ideas button")).toHaveCount(2);
-  await page.locator(".recent-ideas button").last().click();
-  await expect(page.locator("[data-idea-id]")).toHaveAttribute(
-    "data-idea-id",
-    first!,
+  const second = await page
+    .locator("[data-idea-id]")
+    .getAttribute("data-idea-id");
+  const saved = await page.evaluate(() =>
+    JSON.parse(localStorage.getItem("bong:deck:v1")!),
   );
+  expect(saved.cursor).toBe(2);
+  expect(saved.history).toEqual([first, second]);
+  await expect(page.getByText("Recent ideas", { exact: true })).toHaveCount(0);
   expect(requests.filter((u) => u.includes("/api/"))).toEqual([]);
   await page.reload();
   await expect(
-    page.getByRole("button", { name: "Give me a highdea", exact: true }),
+    page.getByRole("button", { name: "Give me an idea", exact: true }),
   ).toBeEnabled();
-  await page.getByText("Recent ideas", { exact: true }).click();
-  await expect(page.locator(".recent-ideas button")).toHaveCount(2);
+  await expect(page.locator(".generator-card")).toHaveCount(0);
+  await expect(page.getByText("Recent ideas", { exact: true })).toHaveCount(0);
+  const restored = await page.evaluate(() =>
+    JSON.parse(localStorage.getItem("bong:deck:v1")!),
+  );
+  expect(restored.cursor).toBe(2);
+  expect(restored.history).toEqual([first, second]);
+  await page
+    .getByRole("button", { name: "Give me an idea", exact: true })
+    .click();
+  await expect(page.locator("[data-idea-id]")).toBeVisible();
+  const third = await page
+    .locator("[data-idea-id]")
+    .getAttribute("data-idea-id");
+  expect([first, second]).not.toContain(third);
+  expect(
+    await page.evaluate(
+      () => JSON.parse(localStorage.getItem("bong:deck:v1")!).cursor,
+    ),
+  ).toBe(3);
 });
 test("GEN-15 DATA-08 canonical ideas have server text and unknown IDs 404", async ({
   request,

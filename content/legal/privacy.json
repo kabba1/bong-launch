@@ -1,0 +1,38 @@
+{
+  "title": "Privacy",
+  "version": "1.0",
+  "approvedAt": "2026-09-28",
+  "approvedBy": "Site owner",
+  "sections": [
+    {
+      "heading": "Public v1",
+      "paragraphs": [
+        "BONG’s public v1 does not require an account. The community, account, upload, and moderation features are disabled, so the public site does not accept community submissions."
+      ]
+    },
+    {
+      "heading": "Browser storage",
+      "paragraphs": [
+        "The idea generator uses browser local storage to remember its shuffled deck and recent draws on your device. This keeps the generator moving through the collection without requiring a database or account. You can remove this data at any time by clearing BONG’s site data in your browser."
+      ]
+    },
+    {
+      "heading": "Hosting and logs",
+      "paragraphs": [
+        "The hosting provider may create routine server logs when you visit, such as your IP address, browser or user agent, requested page, and request time. BONG does not currently use advertising trackers or analytics cookies on the public v1 site."
+      ]
+    },
+    {
+      "heading": "Other sites",
+      "paragraphs": [
+        "Links to X and Telegram take you to services operated by those companies. Their privacy terms apply after you leave BONG."
+      ]
+    },
+    {
+      "heading": "Changes",
+      "paragraphs": [
+        "This notice may change when the site adds features or chooses a public host. The published date above identifies the current version."
+      ]
+    }
+  ]
+}

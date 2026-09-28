@@ -23,12 +23,9 @@ export default async function Timeline({
   );
   return (
     <section className="page time-archive">
-      <p className="eyebrow">A very unofficial history of inspiration</p>
+      <p className="eyebrow">The unofficial record</p>
       <h1>Bong Through Time.</h1>
-      <p className="lead">
-        The history of inventions and discoveries, with BONG’s fictional version
-        on the side.
-      </p>
+      <p className="lead">Some ideas made history.</p>
       {searchable && (
         <form className="search-form page-toolbar" action="/through-time">
           <label className="sr-only" htmlFor="history-query">
@@ -56,7 +53,7 @@ export default async function Timeline({
         <div className="time-empty">
           <h2>The first stories are on their way.</h2>
           <Link className="text-link" href="/">
-            Get a highdea <span aria-hidden="true">→</span>
+            Get an idea <span aria-hidden="true">→</span>
           </Link>
         </div>
       ) : !found.length ? (

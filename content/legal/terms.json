@@ -1,0 +1,39 @@
+{
+  "title": "Terms",
+  "version": "1.0",
+  "approvedAt": "2026-09-28",
+  "approvedBy": "Site owner",
+  "sections": [
+    {
+      "heading": "Using BONG",
+      "paragraphs": [
+        "BONG is provided for entertainment and inspiration. You may browse the public pages and use the idea generator for lawful purposes. Do not interfere with the site, attempt to bypass its security, or misuse its content or services."
+      ]
+    },
+    {
+      "heading": "Ideas and history",
+      "paragraphs": [
+        "Generator prompts are suggestions, with no promise that they are original, accurate, suitable, or available for your intended use. Timeline pages distinguish fiction from history and link sources where historical claims appear. Check important facts and third-party rights yourself before relying on or publishing anything."
+      ]
+    },
+    {
+      "heading": "$BONG",
+      "paragraphs": [
+        "No official contract address has been published on this site. The public v1 site does not connect wallets or offer purchases or trades. Be cautious with accounts or tokens using the same name, and rely only on official links published on this site.",
+        "BONG content is not financial or investment advice."
+      ]
+    },
+    {
+      "heading": "Links and availability",
+      "paragraphs": [
+        "Third-party sites have their own terms and are outside BONG’s control. The site and its content are provided as available, and features may change, pause, or be removed."
+      ]
+    },
+    {
+      "heading": "Responsibility",
+      "paragraphs": [
+        "You are responsible for how you use an idea or any linked service. To the extent allowed by applicable law, BONG is not responsible for losses caused by relying on generated prompts, historical summaries, third-party sites, or impersonator accounts."
+      ]
+    }
+  ]
+}

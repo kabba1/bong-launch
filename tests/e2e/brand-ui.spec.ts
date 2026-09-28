@@ -12,7 +12,7 @@ for (const width of [1440, 390])
     });
     await page.goto("/");
     const artwork = page.getByRole("button", {
-      name: "Give me a highdea from the bong",
+      name: "Give me an idea from the bong",
       exact: true,
     });
     await expect(artwork).toHaveCount(1);
@@ -22,7 +22,7 @@ for (const width of [1440, 390])
     await expect(result).toBeVisible();
     const first = await result.getAttribute("data-idea-id");
     const primary = page.locator(".generator-actions").getByRole("button", {
-      name: "Another one",
+      name: "Another idea",
       exact: true,
     });
     await expect(primary).toBeEnabled();
@@ -37,12 +37,8 @@ for (const width of [1440, 390])
     await page.keyboard.press("Space");
     await expect(result).not.toHaveAttribute("data-idea-id", second!);
     const third = await result.getAttribute("data-idea-id");
-    const another = page.locator(".result-tools").getByRole("button", {
-      name: "Another one",
-      exact: true,
-    });
-    await expect(another).toBeEnabled();
-    await another.click();
+    await expect(primary).toBeEnabled();
+    await primary.click();
     await expect(result).not.toHaveAttribute("data-idea-id", third!);
     expect(
       new Set([first, second, third, await result.getAttribute("data-idea-id")])
@@ -54,8 +50,15 @@ for (const width of [1440, 390])
     expect(saved.cursor).toBe(4);
     expect(saved.history).toHaveLength(4);
     await expect(
-      page.locator('.generator-card [aria-live="polite"]'),
-    ).toHaveAttribute("aria-atomic", "true");
+      page.locator(".generator-card").getByRole("button"),
+    ).toHaveText(["Copy idea", "Share"]);
+    await expect(page.getByText("Recent ideas", { exact: true })).toHaveCount(
+      0,
+    );
+    await expect(page.locator('.hero [aria-live="polite"]')).toHaveAttribute(
+      "aria-atomic",
+      "true",
+    );
     expect(privateRequests).toEqual([]);
   });
 
@@ -64,26 +67,35 @@ test("@public-v1 exact homepage copy keeps the generator and destinations clear"
 }) => {
   await page.goto("/");
   await expect(
-    page.getByRole("button", { name: "Give me a highdea", exact: true }),
+    page.locator(".generator-actions .button.primary"),
   ).toBeEnabled();
-  await expect(page.locator(".hero-intro")).toHaveText(
-    "Click the bong for a highdea.",
+  await expect
+    .soft(page.getByRole("button", { name: "Give me an idea", exact: true }))
+    .toBeEnabled({ timeout: 1000 });
+  await expect
+    .soft(page.locator(".hero-intro"))
+    .toHaveCount(0, { timeout: 1000 });
+  await expect
+    .soft(page.locator(".art-caption"))
+    .toHaveCount(0, { timeout: 1000 });
+  await expect
+    .soft(page.locator(".generator-card"))
+    .toHaveCount(0, { timeout: 1000 });
+  await expect(page.locator(".hero")).not.toContainText(
+    "A home for half-baked ideas",
   );
-  await expect(page.locator(".generator-card")).toContainText(
-    "Your next highdea",
-  );
-  await expect(page.locator(".generator-card")).toContainText(
-    /BONG hasn['’]t said anything yet\./,
-  );
+  await expect(page).not.toHaveTitle(/A home for half-baked ideas/i);
   await expect(page.locator(".hero")).not.toContainText(
     /AI-origin|AI-powered|innovation platform|ecosystem|unlock your potential/i,
   );
-  await expect(page.locator(".ticker-strip")).toHaveText(
-    "Curiosity welcome. Genius optional.",
-  );
-  await expect(
-    page.getByText("Curiosity welcome. Genius optional.", { exact: true }),
-  ).toHaveCount(1);
+  await expect
+    .soft(page.locator(".ticker-strip"))
+    .toHaveCount(0, { timeout: 1000 });
+  await expect
+    .soft(
+      page.getByText("Curiosity welcome. Genius optional.", { exact: true }),
+    )
+    .toHaveCount(0, { timeout: 1000 });
   const destinations = page.locator(".thought-destination");
   await expect(destinations).toHaveCount(2);
   await expect(destinations.nth(0).getByRole("heading")).toHaveText(
@@ -117,13 +129,39 @@ test("@public-v1 exact homepage copy keeps the generator and destinations clear"
   ).toHaveAttribute("href", "/community");
 });
 
+test("@public-v1 home result contains only the idea and copy/share actions", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const primary = page.locator(".generator-actions .button.primary");
+  await expect(primary).toBeEnabled();
+  await primary.click();
+  const card = page.locator(".generator-card");
+  const idea = card.locator(".idea-text");
+  await expect(idea).toBeVisible();
+  const ideaText = (await idea.textContent())!;
+  expect
+    .soft((await card.textContent())!.replace(/\s+/g, ""))
+    .toBe(`${ideaText}Copy ideaShare`.replace(/\s+/g, ""));
+  await expect
+    .soft(card.getByRole("button"))
+    .toHaveText(["Copy idea", "Share"], { timeout: 1000 });
+  await expect.soft(card.getByRole("link")).toHaveCount(0, { timeout: 1000 });
+  await expect
+    .soft(page.getByRole("button", { name: "Another idea", exact: true }))
+    .toBeEnabled({ timeout: 1000 });
+  await expect
+    .soft(page.getByText("Recent ideas", { exact: true }))
+    .toHaveCount(0, { timeout: 1000 });
+});
+
 test("@public-v1 public copy and metadata omit quantity claims and repeated slogans", async ({
   page,
 }) => {
   const pages = [
     [
       "/",
-      "Click the bong for a highdea. Explore Bong Through Time and find the BONG community.",
+      "Click the bong for an idea. Explore Bong Through Time and find the BONG community.",
     ],
     [
       "/through-time",
@@ -154,7 +192,17 @@ test("@public-v1 public copy and metadata omit quantity claims and repeated slog
     );
     await expect(
       page.getByText("Curiosity welcome. Genius optional.", { exact: true }),
-    ).toHaveCount(route === "/" ? 1 : 0);
+    ).toHaveCount(0);
+    await expect(page.locator("body")).not.toContainText(/highdea/i);
+    await expect(page.locator('meta[name="description"]')).not.toHaveAttribute(
+      "content",
+      /highdea/i,
+    );
+    await expect(
+      page.locator(
+        '[aria-label*="highdea" i], [alt*="highdea" i], [title*="highdea" i]',
+      ),
+    ).toHaveCount(0);
     await expect(page.locator(".site-header")).not.toContainText(
       /AI|sign in|account/i,
     );

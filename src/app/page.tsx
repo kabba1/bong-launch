@@ -8,9 +8,6 @@ export default function Home() {
   return (
     <>
       <Generator communityEnabled={community} />
-      <div className="ticker-strip">
-        <span>Curiosity welcome. Genius optional.</span>
-      </div>
       <section className="container explore-section">
         <div className="thought-destinations">
           <article className="thought-destination">

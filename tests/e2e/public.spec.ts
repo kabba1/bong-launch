@@ -7,9 +7,12 @@ test("@community BOARD-14 GEN-14 failure is truthful and generator remains usabl
   await expect(page.getByText("Somebody has to go first.")).toHaveCount(0);
   await page.goto("/");
   await page
-    .getByRole("button", { name: "Give me a highdea", exact: true })
+    .getByRole("button", { name: "Give me an idea", exact: true })
     .click();
   await expect(page.locator("[data-idea-id]")).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Discuss this", exact: true }),
+  ).toHaveAttribute("href", /^\/board\/new\?sourceIdeaId=BONG-\d{4}$/);
 });
 test("GEN-06 storage denial keeps local generation usable", async ({
   page,
@@ -23,7 +26,7 @@ test("GEN-06 storage denial keeps local generation usable", async ({
   });
   await page.goto("/");
   await page
-    .getByRole("button", { name: "Give me a highdea", exact: true })
+    .getByRole("button", { name: "Give me an idea", exact: true })
     .click();
   await expect(page.locator("[data-idea-id]")).toBeVisible();
   await expect(
@@ -36,12 +39,12 @@ test("GEN-09 reduced motion draws without a decorative delay", async ({
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await page
-    .getByRole("button", { name: "Give me a highdea", exact: true })
+    .getByRole("button", { name: "Give me an idea", exact: true })
     .click();
   await expect(
     page
       .locator(".generator-actions")
-      .getByRole("button", { name: "Another one", exact: true }),
+      .getByRole("button", { name: "Another idea", exact: true }),
   ).toBeEnabled();
   const activeAnimations = await page.evaluate(
     () =>
@@ -66,7 +69,7 @@ test("GEN-10 clipboard denial offers selectable exact text", async ({
   });
   await page.goto("/");
   await page
-    .getByRole("button", { name: "Give me a highdea", exact: true })
+    .getByRole("button", { name: "Give me an idea", exact: true })
     .click();
   await page.getByRole("button", { name: "Copy idea", exact: true }).click();
   await expect(page.getByRole("textbox", { name: "Text to copy" })).toHaveValue(
@@ -81,7 +84,7 @@ test("GEN-11 cancellation is not reported as an error", async ({ page }) => {
   });
   await page.goto("/");
   await page
-    .getByRole("button", { name: "Give me a highdea", exact: true })
+    .getByRole("button", { name: "Give me an idea", exact: true })
     .click();
   await page.getByRole("button", { name: "Share", exact: true }).click();
   await expect(page.getByRole("textbox", { name: "Text to copy" })).toHaveCount(

@@ -1,6 +1,6 @@
 # Public v1 release readiness report
 
-**Later presentation update:** [BRAND_UI_REFINEMENT.md](BRAND_UI_REFINEMENT.md) records the subsequent public UI/copy pass and its current build, screenshots and scoped checks. The candidate and full-suite results below describe the earlier scope-change candidate; they have not been relabeled as a full verification of the newer UI candidate. Launch gates remain open.
+**Later presentation updates:** [BRAND_UI_REFINEMENT.md](BRAND_UI_REFINEMENT.md) records the first public UI/copy pass. [V1_COPY_AND_POLICY_REFINEMENT.md](V1_COPY_AND_POLICY_REFINEMENT.md) records the current owner-directed simplification, public policies, build, screenshots and checks. The candidate and full-suite results below describe the earlier scope-change candidate; they have not been relabeled as verification of the newer UI candidates. Launch gates remain open.
 
 **Current scope:** public generator, idea links, reviewed timeline, About/lore, $BONG information and Community Coming Soon. Community/account/database/provider/upload functionality is preserved for v2 and disabled by default. V1 needs no private-service provisioning or credentials.
 
@@ -37,7 +37,7 @@ Release checks themselves remain **BLOCKED**, with nonzero exit status: public v
 ## Public v1 release requirements
 
 1. Supply at least eight real historical articles with genuine claim-level source/review and asset-rights records. Keep unsupported fiction separate from history.
-2. Provide real monitored support/security contacts and approved terms/privacy/accessibility copy matching the public site's actual storage and hosting logs. Confirm artwork/idea rights, visual design and actual social/token configuration.
+2. Provide real monitored support/security contacts. Owner-approved terms/privacy/accessibility copy now matches the public v1 behavior, and the supplied X/Telegram URLs are configured; independent legal review/evidence, artwork/idea rights, visual approval and any future live-token configuration remain open.
 3. Verify public hosting plans/region/budget, protected preview, canonical non-loopback HTTPS origin, CSP/cache/headers, publishing access, alerts and incident owner.
 4. Prove public pages and generation do not call private services and all direct dormant API/private-page/privileged CLI paths remain closed, even with credentials present.
 5. Complete independent public-scope security assessment, manual accessibility/real-device/owner visual review and measured public performance/load checks.

@@ -179,14 +179,14 @@ async function measure(
         true,
       );
       document.addEventListener("DOMContentLoaded", () => {
-        const result = document.querySelector(".generator-card");
-        if (!result) {
-          metrics.observerErrors.push("Generator card missing");
+        const generator = document.querySelector(".hero");
+        if (!generator) {
+          metrics.observerErrors.push("Generator root missing");
           return;
         }
         let previousId: string | null = null;
         new MutationObserver(() => {
-          const id = result
+          const id = generator
             .querySelector("[data-idea-id]")
             ?.getAttribute("data-idea-id");
           if (!id || id === previousId || start === null) return;
@@ -202,7 +202,7 @@ async function measure(
           requestAnimationFrame(() => {
             draw.nextFrameMs = performance.now() - clickedAt;
           });
-        }).observe(result, {
+        }).observe(generator, {
           childList: true,
           subtree: true,
           attributes: true,

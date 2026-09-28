@@ -27,7 +27,11 @@ export function PolicyPage({
       {document && document.approvedAt && document.approvedBy ? (
         <>
           <p className="tiny">
-            Version {document.version} · Approved {document.approvedAt}
+            Version {document.version} · Published{" "}
+            {new Intl.DateTimeFormat("en-US", {
+              dateStyle: "long",
+              timeZone: "UTC",
+            }).format(new Date(document.approvedAt))}
           </p>
           {document.sections.map((s, i) => (
             <section key={i}>
@@ -37,6 +41,13 @@ export function PolicyPage({
               ))}
             </section>
           ))}
+          <p>
+            Contact details, when configured, appear on the{" "}
+            <Link href="/contact" className="text-link">
+              Contact page
+            </Link>
+            .
+          </p>
         </>
       ) : (
         <div className="notice">

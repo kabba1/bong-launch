@@ -34,6 +34,23 @@ Owner-directed follow-up to the verified public v1 scope. Preserve the existing 
 
 ## Global constraints
 
+### Supplied artwork replacement (2026-09-28)
+
+Replace the placeholder illustration with the owner's exact `bong.png`, preserve transparency, regenerate the existing optimized variants, update homepage/Community URLs to avoid stale immutable caches, and correct alt text. Preserve layout, copy, generator behavior and community boundaries. Verify source equality, optimized images, lint/types/production build, targeted public browser/accessibility checks and desktop/mobile appearance (UX-01/02/04/07, GEN-01/02, V1-01/04). No corpus, backend, dependency or release-policy change; no deployment or push.
+
+**Completed:** original bytes/alpha preserved; all three variants replaced; versioned URLs and alt text updated. Lint, types, content validation, production build, nine targeted public browser tests and eleven axe checks passed. Desktop/mobile image loading, served-byte identity, artwork clicks and screenshots checked. See [ASSETS.md](ASSETS.md).
+
+### Owner-directed v1 simplification and public policies (2026-09-28)
+
+Apply the owner's page-by-page copy and presentation decisions without changing the public-v1 feature boundary or redesigning unrelated surfaces:
+
+1. Reduce Home to the headline, supplied bong control, one generator button and a result containing only the idea plus copy/share actions. Preserve deck persistence, exact idea data, errors, keyboard access and hidden verification identifiers; remove the visible history and repeated prompts (GEN-01–15, UX-01–05).
+2. Tighten Through Time, Community and About language. Configure only the two owner-supplied official social URLs, keep historical fact/fiction labels and sources, and preserve the verified-live-token branch (TIME-01–09, V1-01/04/05).
+3. Publish concise owner-approved Privacy, Terms and Accessibility pages that match the public v1 storage, logging, account, third-party-link and accessibility behavior. Keep monitored contacts and independent legal/manual review as separate release gates (OPS-11/13, V1-05).
+4. Update acceptance assertions first, run focused red/green checks, then verify lint, types, source-content equality, production build, public browser/accessibility behavior and retained security boundaries. Record genuine failures without weakening release checks (DATA-01–09, SEC-01/05–08/14/17, OPS-05/13).
+
+**Completed and locally verified:** the requested page copy/layout, configured X/Telegram links and owner-approved public policies are implemented. Lint, typecheck, exact 1,000-row content validation, production build, unit (58), integration (30), security (60), public browser (28), axe (11) and one future-community regression all pass. The dependency audit reports zero vulnerabilities and the secret scan passes. One throttled-mobile performance run recorded a 114.3 ms draw against the unchanged 50 ms lab target; identical later runs passed with 38.4 ms and 49.6 ms worst draws. The failure remains documented as timing variability. The v1 release check remains nonzero with 20 real content, contact, review, hosting, production and evidence blockers; the three public policy-content blockers are now resolved. No database, Auth, email, CAPTCHA, upload, wallet or community feature was enabled by this pass. See [V1_COPY_AND_POLICY_REFINEMENT.md](V1_COPY_AND_POLICY_REFINEMENT.md).
+
 ### Focused public copy edit (2026-09-27)
 
 Apply the owner's exact replacements/deletions to public v1 presentation only, preserving the prior refinement and all behavior. Steps: (1) simplify homepage, destinations, footer, timeline, Community and About copy; (2) remove marketing quantity claims from metadata, idea wrappers and code-rendered share images while preserving exact content; (3) update legitimate text expectations and run lint, types, content integrity, relevant public unit/browser/axe checks and a production build; (4) inspect desktop/mobile pages once for gaps or heading problems. Mapping: GEN-01–15, DATA-01–09, TIME-01–09, UX-01–09, V1-01–05. No design-system, dependency, private-backend or release-policy changes; no deployment or push. Results will be recorded in COPY_EDIT.md.

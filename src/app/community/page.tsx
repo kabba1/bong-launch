@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Icon } from "@/components/Icon";
 import { publicSettings, safeHttps } from "@/lib/site";
 import "@/styles/story-pages.css";
@@ -25,12 +24,10 @@ export default function Community() {
       <div className="community-teaser-layout">
         <div className="community-teaser-copy">
           <p className="story-lead">
-            A place to post an idea, show something you made, or talk about
-            someone else’s.
+            A place to share ideas, projects, and the things you make.
           </p>
-          {x || telegram ? (
+          {(x || telegram) && (
             <div className="community-socials">
-              <p>Find BONG here in the meantime.</p>
               <div className="form-actions">
                 {x && (
                   <a
@@ -54,29 +51,8 @@ export default function Community() {
                 )}
               </div>
             </div>
-          ) : (
-            <p className="community-socials muted">
-              Official links will appear here when they’re ready.
-            </p>
           )}
-          <Link className="text-link" href="/">
-            Get a highdea <Icon name="arrow" size={18} />
-          </Link>
         </div>
-        <figure className="community-artifact">
-          <img
-            src="/images/bong-480.webp"
-            width="480"
-            height="480"
-            alt="An ordinary glass bong on an orange background"
-          />
-          <figcaption>The usual suspect.</figcaption>
-        </figure>
-      </div>
-      <div className="community-teaser-footer">
-        <Link className="text-link" href="/through-time">
-          Visit Through Time <Icon name="arrow" size={18} />
-        </Link>
       </div>
     </section>
   );

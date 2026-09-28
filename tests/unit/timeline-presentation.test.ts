@@ -66,10 +66,9 @@ describe("TIME-UI editorial archive and search threshold", () => {
   it("shows an intentional empty archive without search or invented articles", async () => {
     const html = await render("anything");
     expect(html).toContain("The first stories are on their way.");
-    expect(html).toContain("Get a highdea");
-    expect(html).toContain(
-      "The history of inventions and discoveries, with BONG’s fictional version on the side.",
-    );
+    expect(html).toContain('class="eyebrow">The unofficial record</p>');
+    expect(html).toContain('class="lead">Some ideas made history.</p>');
+    expect(html).toContain("Get an idea");
     expect(html).not.toMatch(
       /History is still being rewritten|checking the sources|The archive \/|Questionable inspiration|The sources remember/,
     );

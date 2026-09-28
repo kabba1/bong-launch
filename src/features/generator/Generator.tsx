@@ -20,7 +20,6 @@ export function Generator({
   const [failure, setFailure] = useState(false);
   const [busy, setBusy] = useState(false);
   const [idea, setIdea] = useState<Idea | null>(null);
-  const [history, setHistory] = useState<string[]>([]);
   const [storageOk, setStorageOk] = useState(true);
   const [attempt, setAttempt] = useState(0);
   const state = useRef<DeckState | null>(null);
@@ -45,7 +44,6 @@ export function Generator({
           setStorageOk(false);
         }
         state.current = saved ?? createDeck(ids, data.manifest.hash);
-        setHistory(state.current.history);
         setLoaded(data);
         setFailure(false);
       })
@@ -75,7 +73,6 @@ export function Generator({
         (!state.current || fresh.updatedAt >= state.current.updatedAt)
       ) {
         state.current = fresh;
-        setHistory(fresh.history);
       }
     };
     window.addEventListener("storage", reconcile);
@@ -109,7 +106,6 @@ export function Generator({
         }
         return {
           next: loaded.corpus.ideas.find((i) => i.id === next.id),
-          history: next.state.history,
         };
       };
       const result = navigator.locks
@@ -117,7 +113,6 @@ export function Generator({
         : draw();
       if (result.next) {
         setIdea(result.next);
-        setHistory(result.history);
       }
       if (!matchMedia("(prefers-reduced-motion: reduce)").matches)
         await new Promise((r) => setTimeout(r, 350));
@@ -133,15 +128,15 @@ export function Generator({
           className={`art-button ${busy ? "revealing" : ""}`}
           onClick={generate}
           disabled={!loaded || busy}
-          aria-label="Give me a highdea from the bong"
+          aria-label="Give me an idea from the bong"
         >
           <img
-            src="/images/bong-800.webp"
-            srcSet="/images/bong-480.webp 480w, /images/bong-800.webp 800w, /images/bong-1254.webp 1254w"
+            src="/images/bong-800.webp?v=6258878bd703"
+            srcSet="/images/bong-480.webp?v=6258878bd703 480w, /images/bong-800.webp?v=6258878bd703 800w, /images/bong-1254.webp?v=6258878bd703 1254w"
             sizes={mobile ? "240px" : "(max-width: 760px) 240px, 42vw"}
             width="1254"
             height="1254"
-            alt="The BONG glass bong illustration on its original orange background"
+            alt="The BONG glass bong illustration"
             fetchPriority={mobile ? "auto" : "high"}
           />
           <span className="bong-bubbles" aria-hidden="true">
@@ -151,19 +146,10 @@ export function Generator({
           </span>
         </button>
       </div>
-      {!mobile && (
-        <figcaption className="art-caption">Go on. Give it a click.</figcaption>
-      )}
     </figure>
   );
-  const category = loaded?.corpus.categories.find(
-    (c) => c.id === idea?.categoryId,
-  )?.label;
   return (
     <section className="container hero" aria-label="The idea generator">
-      <div className="hero-topline">
-        <p className="eyebrow">A home for half-baked ideas</p>
-      </div>
       <div className="hero-grid">
         <div className="hero-copy">
           <h1>
@@ -178,7 +164,6 @@ export function Generator({
               good at the time.
             </span>
           </h1>
-          <p className="hero-intro">Click the bong for a highdea.</p>
           {art(true)}
           <div className="generator-actions">
             {failure ? (
@@ -200,78 +185,39 @@ export function Generator({
                 {!loaded
                   ? "Loading the ideas…"
                   : idea
-                    ? "Another one"
-                    : "Give me a highdea"}
+                    ? "Another idea"
+                    : "Give me an idea"}
                 <Icon name="arrow" size={20} />
               </button>
             )}
           </div>
-          <div className="generator-card" data-has-idea={!!idea}>
-            <div aria-live="polite" aria-atomic="true">
-              {idea ? (
-                <div data-idea-id={idea.id}>
-                  <div className="result-meta">
-                    <span>Your highdea</span>
-                  </div>
-                  <p className="idea-text" key={idea.id}>
-                    {idea.text}
-                  </p>
-                  <div className="thought-catalogue">
-                    <span>{category}</span>
-                    <Link href={`/idea/${idea.id}`} prefetch={false}>
-                      {idea.id}
-                    </Link>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  <div className="result-meta">
-                    <span>Your next highdea</span>
-                  </div>
-                  <p className="idea-text empty-thought">
-                    {failure
-                      ? "The ideas couldn’t load. Give it another try."
-                      : "BONG hasn’t said anything yet."}
-                  </p>
-                </>
-              )}
-            </div>
-            {idea ? (
+          <p className="sr-only" aria-live="polite" aria-atomic="true">
+            {idea?.text ?? ""}
+          </p>
+          {idea && (
+            <div className="generator-card" data-has-idea="true">
+              <div data-idea-id={idea.id}>
+                <p className="idea-text" key={idea.id}>
+                  {idea.text}
+                </p>
+              </div>
               <IdeaActions
                 idea={idea}
                 communityEnabled={communityEnabled}
-                onAnother={generate}
-                generating={busy}
               />
-            ) : failure ? (
-              <p className="status-message">
-                The rest of the site is still here.
-              </p>
-            ) : null}
-          </div>
+            </div>
+          )}
+          {failure && (
+            <p className="status-message" role="alert">
+              The ideas couldn’t load. Give it another try. The rest of the site
+              is still here.
+            </p>
+          )}
           {!storageOk && (
             <p className="storage-note">
               Your browser isn’t saving progress. You can keep generating in
               this tab.
             </p>
-          )}
-          {history.length > 0 && loaded && (
-            <details className="recent-ideas">
-              <summary>Recent ideas</summary>
-              <ol>
-                {[...history].reverse().map((id, index) => {
-                  const item = loaded.corpus.ideas.find((i) => i.id === id);
-                  return item ? (
-                    <li key={`${id}-${index}`}>
-                      <button onClick={() => setIdea(item)}>
-                        <span>{id}</span>
-                        {item.text}
-                      </button>
-                    </li>
-                  ) : null;
-                })}
-              </ol>
-            </details>
           )}
           <noscript>
             <p>

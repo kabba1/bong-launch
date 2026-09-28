@@ -1,0 +1,32 @@
+{
+  "title": "Accessibility",
+  "version": "1.0",
+  "approvedAt": "2026-09-28",
+  "approvedBy": "Site owner",
+  "sections": [
+    {
+      "heading": "Our approach",
+      "paragraphs": [
+        "BONG aims to make its public pages usable with a keyboard, clear headings, visible focus, meaningful labels, and useful image descriptions."
+      ]
+    },
+    {
+      "heading": "Motion and display",
+      "paragraphs": [
+        "The site respects reduced motion preferences and is designed to remain readable when text is enlarged or the page is viewed on a small screen."
+      ]
+    },
+    {
+      "heading": "Known limits",
+      "paragraphs": [
+        "Automated testing cannot find every barrier. Third-party destinations such as X and Telegram are outside BONG’s control and may have their own accessibility limits."
+      ]
+    },
+    {
+      "heading": "Feedback",
+      "paragraphs": [
+        "If something prevents you from using the site, note the page, the problem, and the assistive technology or browser involved. An official contact method will appear on the Contact page when one is configured."
+      ]
+    }
+  ]
+}

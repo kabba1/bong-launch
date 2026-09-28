@@ -6,13 +6,9 @@ import { Icon } from "@/components/Icon";
 export function IdeaActions({
   idea,
   communityEnabled = false,
-  onAnother,
-  generating = false,
 }: {
   idea: Idea;
   communityEnabled?: boolean;
-  onAnother?: () => void;
-  generating?: boolean;
 }) {
   const [notice, setNotice] = useState("");
   const [fallback, setFallback] = useState("");
@@ -57,15 +53,6 @@ export function IdeaActions({
           <Icon name="share" size={15} />
           Share
         </button>
-        {onAnother && (
-          <button
-            className="tool-button another-thought"
-            onClick={onAnother}
-            disabled={generating}
-          >
-            Another one <Icon name="arrow" size={16} />
-          </button>
-        )}
         {communityEnabled && (
           <Link
             prefetch={false}

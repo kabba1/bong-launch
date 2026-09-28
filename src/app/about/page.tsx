@@ -21,26 +21,13 @@ export default function About() {
         <p className="story-index">01 / The story</p>
         <div className="story-body">
           <h1 id="about-bong-title">So… what is BONG?</h1>
-          <div className="story-lore">
-            <p className="eyebrow">BONG’s version · Fiction</p>
-            <dl>
-              <div>
-                <dt>The pyramids?</dt>
-                <dd>BONG.</dd>
-              </div>
-              <div>
-                <dt>Relativity?</dt>
-                <dd>BONG.</dd>
-              </div>
-              <div>
-                <dt>The moon landing?</dt>
-                <dd>BONG.</dd>
-              </div>
-            </dl>
-          </div>
           <p>
-            BONG is built around that moment when you have an idea and can’t
-            tell whether you’re onto something.
+            Every good idea, bad idea, and completely unhinged idea has a
+            beginning. BONG likes to think it was somewhere nearby.
+          </p>
+          <p>
+            This project is about the spark that sends your imagination
+            somewhere unexpected—and what happens when you follow it.
           </p>
         </div>
       </section>
@@ -48,13 +35,12 @@ export default function About() {
         <p className="story-index">02 / The Bong</p>
         <div className="story-body">
           <h2 id="about-generator">The generator</h2>
-          <p>Click the bong and see what comes out.</p>
           <p>
-            The generator picks from a fixed collection of AI-generated ideas
-            that were edited before being added.
+            Press the button and BONG will give you an idea. Use it, ignore it,
+            or see where it goes.
           </p>
           <Link href="/" className="text-link">
-            Get a highdea <span aria-hidden="true">↗</span>
+            Get an idea <span aria-hidden="true">↗</span>
           </Link>
         </div>
       </section>
@@ -63,8 +49,8 @@ export default function About() {
         <div className="story-body">
           <h2 id="about-history">Bong Through Time</h2>
           <p>
-            Read the real stories behind inventions and discoveries, alongside
-            BONG’s fictional version of events.
+            A timeline of ideas and inventions, and the stories of how they came
+            to be.
           </p>
           <Link href="/through-time" className="text-link">
             Visit Through Time <span aria-hidden="true">↗</span>
@@ -110,14 +96,15 @@ export default function About() {
         <p className="story-index">05 / $BONG</p>
         <div className="story-body">
           <h2 id="about-token">$BONG</h2>
-          <p>
-            $BONG is the memecoin associated with this project. You don’t need
-            to buy or hold it to use the site or take part in the community.
-          </p>
           {publicSettings.tokenStatus === "live" &&
           token &&
           safeHttps(token.url) ? (
             <div className="form-card flow">
+              <p>
+                $BONG is the memecoin associated with this project. You don’t
+                need to buy or hold it to use the site or take part in the
+                community.
+              </p>
               <p>
                 <strong>Network:</strong> {token.network}
               </p>
@@ -140,22 +127,26 @@ export default function About() {
               >
                 Official token page ↗
               </a>
-            </div>
-          ) : (
-            <div className="notice">
-              <strong>No official contract is published on this site.</strong>
+              <p>Memecoins are speculative and can lose all their value.</p>
               <p>
-                We’ll only display token details after the full identifiers and
-                official links have been verified. Be careful with accounts or
-                tokens using the same name.
+                This site does not connect to your wallet or process token
+                purchases.
               </p>
             </div>
+          ) : (
+            <>
+              <p>$BONG is coming soon.</p>
+              <div className="notice">
+                <strong>
+                  No official contract address has been published on this site.
+                </strong>
+                <p>
+                  Be careful with accounts or tokens using the same name.
+                  Official links will appear on this site.
+                </p>
+              </div>
+            </>
           )}
-          <p>Memecoins are speculative and can lose all their value.</p>
-          <p>
-            This site does not connect to your wallet or process token
-            purchases.
-          </p>
         </div>
       </section>
     </article>

@@ -36,7 +36,7 @@ test("@public-v1 V1-01 public pages operate without account links or provider re
     await expect(page.locator(privateLink)).toHaveCount(0);
     if (route === "/") {
       await page
-        .getByRole("button", { name: "Give me a highdea", exact: true })
+        .getByRole("button", { name: "Give me an idea", exact: true })
         .click();
       await expect(page.locator("[data-idea-id]")).toBeVisible();
       await expect(page.locator(".result-tools a[href^='/board']")).toHaveCount(
@@ -44,9 +44,13 @@ test("@public-v1 V1-01 public pages operate without account links or provider re
       );
       await expect(
         page
-          .locator(".result-tools")
-          .getByRole("button", { name: "Another one", exact: true }),
+          .locator(".generator-actions")
+          .getByRole("button", { name: "Another idea", exact: true }),
       ).toBeVisible();
+      await expect(page.locator(".result-tools").getByRole("button")).toHaveText([
+        "Copy idea",
+        "Share",
+      ]);
     }
   }
   expect(disallowed).toEqual([]);
@@ -119,34 +123,38 @@ test("@public-v1 V1-04 Coming Soon exposes only configured official social links
   page,
 }) => {
   await page.goto("/community");
+  const main = page.locator("main");
   const socials = settings.socials as { x?: string; telegram?: string };
   for (const [key, label] of [
     ["x", "Follow on X"],
     ["telegram", "Join Telegram"],
   ] as const) {
-    const link = page.getByRole("link", { name: label, exact: false });
+    const link = main.getByRole("link", { name: label, exact: false });
     if (socials[key]) {
       await expect(link).toHaveAttribute("href", new URL(socials[key]).href);
       await expect(link).toHaveAttribute("rel", "noopener noreferrer");
     } else await expect(link).toHaveCount(0);
   }
   await expect(
-    page.getByRole("link", { name: "Get a highdea", exact: true }),
-  ).toHaveAttribute("href", "/");
+    main.getByRole("heading", { name: "Community. Coming soon.", exact: true }),
+  ).toBeVisible();
   await expect(
-    page.getByText(
-      "A place to post an idea, show something you made, or talk about someone else’s.",
+    main.getByText(
+      "A place to share ideas, projects, and the things you make.",
       { exact: true },
     ),
   ).toBeVisible();
+  await expect(main.locator("p")).toHaveCount(1);
+  await expect(main.locator("img, figure, figcaption")).toHaveCount(0);
   await expect(
-    page.getByText(
-      socials.x || socials.telegram
-        ? "Find BONG here in the meantime."
-        : "Official links will appear here when they’re ready.",
-      { exact: true },
-    ),
-  ).toBeVisible();
+    main.locator('a[href="/"], a[href="/through-time"]'),
+  ).toHaveCount(0);
+  await expect(main.getByRole("link")).toHaveCount(
+    Number(!!socials.x) + Number(!!socials.telegram),
+  );
+  await expect(main).not.toContainText(
+    /highdea|Get an idea|The usual suspect/i,
+  );
   await expect(page.locator(privateLink)).toHaveCount(0);
 });
 
@@ -166,15 +174,12 @@ test("@public-v1 V1-05 a small timeline omits search and token information remai
   });
   await expect(empty).toBeVisible();
   await expect(
-    page.getByText(
-      "The history of inventions and discoveries, with BONG’s fictional version on the side.",
-      { exact: true },
-    ),
+    page.getByText("Some ideas made history.", { exact: true }),
   ).toBeVisible();
   await expect(
     page
       .locator(".time-empty")
-      .getByRole("link", { name: "Get a highdea", exact: true }),
+      .getByRole("link", { name: "Get an idea", exact: true }),
   ).toHaveAttribute("href", "/");
   await expect(page.locator(".time-empty p")).toHaveCount(0);
   await page.goto("/through-time?q=curiosity");
@@ -185,29 +190,64 @@ test("@public-v1 V1-05 a small timeline omits search and token information remai
   await expect(
     page.getByRole("link", { name: "Reset", exact: true }),
   ).toHaveCount(0);
+});
+
+test("@public-v1 About uses the approved story and state-dependent token copy", async ({
+  page,
+}) => {
   await page.goto("/about#bong-token");
   await expect(
     page.getByRole("heading", { name: "$BONG", exact: true }),
   ).toBeVisible();
-  await expect(
-    page.getByText(
-      "The generator picks from a fixed collection of AI-generated ideas that were edited before being added.",
-      { exact: true },
-    ),
-  ).toBeVisible();
-  await expect(
-    page.getByText("Memecoins are speculative and can lose all their value.", {
-      exact: true,
-    }),
-  ).toBeVisible();
-  await expect(
-    page.getByText(
-      "This site does not connect to your wallet or process token purchases.",
-      { exact: true },
-    ),
-  ).toBeVisible();
-  await expect(
-    page.getByText("BONG’s version · Fiction", { exact: true }),
-  ).toBeVisible();
+  for (const paragraph of [
+    "Every good idea, bad idea, and completely unhinged idea has a beginning. BONG likes to think it was somewhere nearby.",
+    "This project is about the spark that sends your imagination somewhere unexpected—and what happens when you follow it.",
+    "Press the button and BONG will give you an idea. Use it, ignore it, or see where it goes.",
+    "A timeline of ideas and inventions, and the stories of how they came to be.",
+  ])
+    await expect(page.getByText(paragraph, { exact: true })).toBeVisible();
+  await expect(page.locator("body")).not.toContainText(/\bhighdeas?\b/i);
+  await expect(page.locator(".story-lore")).toHaveCount(0);
+  await expect(page.locator("body")).not.toContainText(
+    /BONG’s version · Fiction|The pyramids\?|Relativity\?|The moon landing\?/,
+  );
+  const token = settings.token as null | {
+    network: string;
+    address: string;
+    disclosure: string;
+    url: string;
+  };
+  const section = page.locator("#bong-token");
+  if (settings.tokenStatus === "live" && token) {
+    await expect(section).toContainText(token.network);
+    await expect(section).toContainText(token.address);
+    await expect(section).toContainText(token.disclosure);
+    await expect(
+      section.getByRole("button", { name: "Copy full address" }),
+    ).toBeVisible();
+    await expect(
+      section.getByRole("link", { name: /Official token page/ }),
+    ).toHaveAttribute("href", token.url);
+    await expect(
+      section.getByRole("link", { name: /Official token page/ }),
+    ).toHaveAttribute("rel", "noopener noreferrer");
+    await expect(section).not.toContainText("$BONG is coming soon.");
+  } else {
+    await expect(
+      section.getByText("$BONG is coming soon.", { exact: true }),
+    ).toBeVisible();
+    await expect(section).toContainText(
+      /no official contract(?: address)? (?:has been|is) published/i,
+    );
+    await expect(section).toContainText(
+      /(?:be careful|beware)[^.]*(?:accounts|tokens)[^.]*same name/i,
+    );
+    await expect(section).toContainText(
+      /official links[^.]*(?:will appear|will be (?:published|posted|shared))[^.]*(?:here|this site)/i,
+    );
+    await expect(section).not.toContainText(
+      /token (?:does not|doesn’t) exist|speculative|lose all their value|connect to your wallet|process token purchases/i,
+    );
+  }
   await expect(page.locator(privateLink)).toHaveCount(0);
 });

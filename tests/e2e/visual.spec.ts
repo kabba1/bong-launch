@@ -42,7 +42,7 @@ test("UX-01/07 capture public brand screens and reflow at phone, tablet, laptop 
       ).toBe(true);
       if (route === "/") {
         const firstDraw = page.getByRole("button", {
-          name: "Give me a highdea",
+          name: "Give me an idea",
           exact: true,
         });
         await expect(firstDraw).toBeEnabled();
@@ -55,7 +55,7 @@ test("UX-01/07 capture public brand screens and reflow at phone, tablet, laptop 
         await expect(
           page
             .locator(".generator-actions")
-            .getByRole("button", { name: "Another one", exact: true }),
+            .getByRole("button", { name: "Another idea", exact: true }),
         ).toBeEnabled();
         expect(
           await page.evaluate(

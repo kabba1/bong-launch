@@ -37,13 +37,13 @@ for (const route of routes)
     ).toEqual([]);
   });
 
-test("UX-04 generated highdea and result actions have no axe violations on mobile", async ({
+test("UX-04 generated idea and result actions have no axe violations on mobile", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
   await page
-    .getByRole("button", { name: "Give me a highdea", exact: true })
+    .getByRole("button", { name: "Give me an idea", exact: true })
     .click();
   await expect(page.locator("[data-idea-id]")).toBeVisible();
   const result = await new AxeBuilder({ page })

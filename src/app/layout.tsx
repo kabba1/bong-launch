@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import "@fontsource/space-grotesk/latin-500.css";
 import "@fontsource/space-grotesk/latin-600.css";
 import "@fontsource/space-grotesk/latin-700.css";
 import "@fontsource/dm-sans/latin-400.css";
@@ -14,11 +13,11 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   metadataBase: new URL(origin()),
   title: {
-    default: "BONG — A home for half-baked ideas",
+    default: "BONG",
     template: "%s · BONG",
   },
   description:
-    "Click the bong for a highdea. Explore Bong Through Time and find the BONG community.",
+    "Click the bong for an idea. Explore Bong Through Time and find the BONG community.",
   robots: isProduction()
     ? { index: true, follow: true }
     : { index: false, follow: false },

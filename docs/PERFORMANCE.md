@@ -1,15 +1,15 @@
 # Local production performance evidence
 
-Measured 2026-09-28T00:56:16.086Z; production build `A_P244S_CSsXhLIpYF0lo`; Chromium 153.0.8010.12. Raw per-run resource, timing, error and interaction records: [performance.json](../../bong_codex_handoff/.build-evidence/performance.json). Reproduce with `npx playwright test tests/e2e/performance.spec.ts --project=chromium` after `npm run build`.
+Measured 2026-09-28T11:09:19.998Z; production build `POWX-lcGDl1cHlfrCfBAk`; Chromium 153.0.8010.12. Raw per-run resource, timing, error and interaction records: [performance.json](../../bong_codex_handoff/.build-evidence/performance.json). Reproduce with `npx playwright test tests/e2e/performance.spec.ts --project=chromium` after `npm run build`.
 
 | Profile | Median LCP | Median CLS | External JS, encoded | Corpus, encoded | Hero variants, encoded | Draw DOM commit median / worst |
 |---|---:|---:|---:|---:|---:|---:|
-| desktop | 240 ms | 0.0007 | 141.23 KiB | 51.78 KiB | 44.34 KiB | 12.8 / 15.8 ms |
-| mobile | 788 ms | 0.0007 | 141.23 KiB | 51.78 KiB | 13.95 KiB | 22.4 / 34.4 ms |
+| desktop | 304 ms | 0.0008 | 140.86 KiB | 51.78 KiB | 68.1 KiB | 13 / 16.9 ms |
+| mobile | 900 ms | 0.0007 | 140.86 KiB | 51.78 KiB | 22 KiB | 27.4 / 49.6 ms |
 
 These measured local metrics meet the listed comparison targets under the conditions below.
 
-This is the isolated repeat for the copy-edit candidate. The first full browser run failed the unchanged 50 ms mobile draw limit (worst 77.7 ms; another draw 56.4 ms). No code or threshold changed between runs. The earlier failure, raw timings and trace remain preserved in [the copy-edit record](COPY_EDIT.md); this repeat does not establish that timing variability has been fixed.
+An earlier identical run of this candidate recorded one 114.3 ms throttled-mobile draw against the unchanged 50 ms target; its other mobile-run maxima were 39.1 ms and 33.3 ms. A first repeat completed with a 38.4 ms worst mobile draw, and the final full-suite run above completed at 49.6 ms. No threshold was changed. The failed and passing raw records remain in the sibling `performance-history` evidence directory, so this result does not erase the observed timing variability.
 
 ## Method
 

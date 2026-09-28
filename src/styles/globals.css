@@ -203,12 +203,6 @@ svg {
   padding-bottom: 60px;
   position: relative;
 }
-.hero-topline {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 27px;
-}
 .eyebrow {
   font: 500 12px/1.4 var(--body);
   letter-spacing: 0.14em;
@@ -241,12 +235,6 @@ svg {
   text-decoration-thickness: 0.13em;
   text-underline-offset: 0.015em;
   text-decoration-skip-ink: none;
-}
-.hero-intro {
-  margin-top: 23px;
-  color: var(--muted);
-  max-width: 450px;
-  font-size: 19px;
 }
 .generator-actions {
   margin-top: 27px;
@@ -326,7 +314,6 @@ svg {
   border-top-width: 4px;
   border-radius: 0;
   background: var(--surface);
-  min-height: 220px;
   position: relative;
   box-shadow: 4px 4px 0 #eadfce;
 }
@@ -344,35 +331,16 @@ svg {
   font-family: var(--display);
   font-size: clamp(25px, 2.25vw, 31px);
   line-height: 1.32;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: -0.025em;
   margin-top: 18px;
   overflow-wrap: anywhere;
 }
-.empty-thought {
-  font-size: 27px;
-  max-width: 320px;
+.generator-card .idea-text {
+  margin-top: 0;
 }
 .generator-card[data-has-idea="true"] .idea-text {
   animation: thought-arrives 0.3s ease-out;
-}
-.thought-catalogue {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 21px;
-  font-size: 12px;
-  color: var(--muted);
-}
-.thought-catalogue a {
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.05em;
-  text-decoration-color: var(--line);
-  text-underline-offset: 3px;
-}
-.thought-catalogue a:hover {
-  text-decoration-color: currentColor;
 }
 .result-tools {
   display: flex;
@@ -399,9 +367,6 @@ svg {
   font-size: 11px;
   letter-spacing: 0.045em;
 }
-.another-thought {
-  margin-left: auto;
-}
 .tool-button:hover {
   text-decoration: underline;
 }
@@ -418,37 +383,6 @@ svg {
   font-size: 12px;
   color: var(--muted);
   margin-top: 10px;
-}
-.recent-ideas {
-  margin-top: 15px;
-  font-size: 13px;
-}
-.recent-ideas summary {
-  cursor: pointer;
-  padding: 8px 0;
-  min-height: 44px;
-  display: list-item;
-}
-.recent-ideas ol {
-  padding: 0;
-  list-style: none;
-  max-height: 260px;
-  overflow: auto;
-  border-top: 1px solid var(--line);
-}
-.recent-ideas button {
-  text-align: left;
-  border: 0;
-  border-bottom: 1px solid var(--line);
-  background: transparent;
-  width: 100%;
-  padding: 12px 0;
-  font-size: 14px;
-}
-.recent-ideas button span {
-  display: block;
-  font-size: 11px;
-  color: var(--muted);
 }
 .art-figure {
   margin: 0;
@@ -518,19 +452,6 @@ svg {
 .revealing .bong-bubbles span {
   animation: thought-bubble 0.35s ease-out;
 }
-.art-caption {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  align-items: center;
-  margin: 19px 0 0;
-  font-size: 12px;
-}
-.art-caption span:first-child {
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
 .art-note {
   margin-top: 26px;
   padding: 14px 0;
@@ -539,21 +460,6 @@ svg {
   gap: 12px;
   font-size: 13px;
   color: var(--muted);
-}
-.ticker-strip {
-  border-top: 1.5px solid var(--ink);
-  border-bottom: 1.5px solid var(--ink);
-  background: var(--orange);
-  padding: 19px 32px;
-  display: flex;
-  justify-content: center;
-  gap: 42px;
-  align-items: center;
-  font: 600 14px var(--display);
-  letter-spacing: 0.035em;
-}
-.ticker-strip svg {
-  width: 16px;
 }
 .explore-section {
   padding-top: 70px;
@@ -1280,11 +1186,6 @@ dialog h2 {
   .hero-copy h1 {
     font-size: clamp(36px, 4.75vw, 53px);
   }
-  .art-caption {
-    align-items: start;
-    flex-direction: column;
-    gap: 6px;
-  }
   .explore-section {
     padding-top: 56px;
     padding-bottom: 56px;
@@ -1336,12 +1237,6 @@ dialog h2 {
     padding-top: 27px;
     padding-bottom: 32px;
   }
-  .hero-topline {
-    margin-bottom: 21px;
-  }
-  .hero-topline .tiny {
-    display: none;
-  }
   .eyebrow {
     font-size: 11px;
   }
@@ -1357,11 +1252,6 @@ dialog h2 {
     font-size: clamp(32px, 10.25vw, 46px);
     max-width: 490px;
     line-height: 1.03;
-  }
-  .hero-intro {
-    font-size: 16px;
-    margin-top: 18px;
-    max-width: 390px;
   }
   .desktop-art {
     display: none;
@@ -1390,7 +1280,6 @@ dialog h2 {
   }
   .generator-card {
     margin-top: 23px;
-    min-height: 216px;
     padding: 20px;
   }
   .idea-text {
@@ -1398,11 +1287,6 @@ dialog h2 {
   }
   .result-meta {
     font-size: 10px;
-  }
-  .ticker-strip {
-    padding: 17px 20px;
-    gap: 17px;
-    font-size: 11px;
   }
   .explore-section {
     padding-top: 42px;
@@ -1518,9 +1402,6 @@ dialog h2 {
   .account-nav {
     gap: 14px;
   }
-  .art-caption {
-    font-size: 10px;
-  }
   .result-tools .discuss {
     margin-left: 0;
   }
@@ -1530,10 +1411,6 @@ dialog h2 {
   .page {
     padding-left: 18px;
     padding-right: 18px;
-  }
-  .ticker-strip {
-    font-size: 10px;
-    gap: 11px;
   }
   .generator-card {
     padding: 17px;
