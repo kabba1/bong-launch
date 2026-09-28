@@ -1,0 +1,21 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "24.19.0"
+  APP_ORIGIN = "https://bongrippin.com"
+  COMMUNITY_ENABLED = "false"
+  REGISTRATIONS_ENABLED = "false"
+  POSTING_ENABLED = "false"
+  UPLOADS_ENABLED = "false"
+
+[context.production.environment]
+  # Keep the hosted work-in-progress out of search indexes until release gates pass.
+  APP_ENV = "staging"
+
+[context.deploy-preview.environment]
+  APP_ENV = "preview"
+
+[context.branch-deploy.environment]
+  APP_ENV = "preview"
