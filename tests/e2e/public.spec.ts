@@ -121,7 +121,7 @@ test("TIME-08/09 no invented history is published", async ({
   ).toBeVisible();
   await expect(
     page.getByRole("heading", {
-      name: "The first stories are on their way.",
+      name: "No stories published yet.",
       exact: true,
     }),
   ).toBeVisible();

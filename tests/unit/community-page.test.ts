@@ -3,6 +3,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import Community from "../../src/app/community/page";
 import About from "../../src/app/about/page";
+import Contact from "../../src/app/contact/page";
 
 type TokenFixture = {
   address: string;
@@ -15,6 +16,7 @@ const configured = vi.hoisted(() => ({
   socials: {} as { x?: string; telegram?: string },
   tokenStatus: "not_launched" as "not_launched" | "live",
   token: null as TokenFixture | null,
+  contacts: {} as { support?: string; security?: string },
 }));
 vi.mock("@/lib/site", async (importOriginal) => ({
   ...(await importOriginal<typeof import("../../src/lib/site")>()),
@@ -27,19 +29,19 @@ const x = "https://social.invalid/x-fixture";
 const telegram = "https://social.invalid/telegram-fixture";
 const render = () => renderToStaticMarkup(createElement(Community));
 const renderAbout = () => renderToStaticMarkup(createElement(About));
-const communityCopy =
-  "A place to share ideas, projects, and the things you make.";
+const communityCopy = "Share an idea. Show what you made.";
 
 beforeEach(() => {
   configured.socials = {};
   configured.tokenStatus = "not_launched";
   configured.token = null;
+  configured.contacts = {};
 });
 
 describe("V1-04 configured community social links", () => {
   it("does not invent social accounts or signup when no links are configured", () => {
     const html = render();
-    expect(html).toContain("Coming soon.");
+    expect(html).toContain("Coming soon");
     expect(html).toContain(communityCopy);
     expect(html.match(/<p[ >]/g)).toHaveLength(1);
     expect(html).not.toContain("Follow on X");
@@ -92,13 +94,12 @@ describe("About BONG lore and state-dependent token details", () => {
   it("uses the requested story, generator and sourced timeline paragraphs", () => {
     const html = renderAbout();
     for (const paragraph of [
-      "BONG has always been around, quietly nudging humanity toward ideas. Good ones, bad ones, and a few that probably should have stayed in the group chat. It shamelessly takes credit for the good ones.",
+      "BONG has always been around, quietly nudging humanity toward ideas, good and bad. It shamelessly takes credit for the good ones.",
       "The pyramids? BONG. The wheel? BONG. Relativity? BONG. Tinder? BONG, but that one might have been a mistake.",
       "This is a bit, not a claim. Nothing on this site claims that any real person or invention was inspired by drug use.",
-      "Press the button and BONG will give you an idea. Use it, ignore it, or see where it goes.",
-      "The timeline is real, sourced history. BONG is just the narrator, with its fictional version clearly marked alongside the facts.",
-      "Community — coming soon",
-      "The forum is coming later. You’ll be able to share your own ideas and things you’ve made.",
+      "Press the button for an idea from a fixed list.",
+      "Real, sourced history. BONG’s fictional version is clearly marked alongside the facts.",
+      "The forum is coming later. Share an idea or show what you’ve made.",
     ])
       expect(html).toContain(paragraph);
     expect(html).not.toMatch(/\bhighdeas?\b/i);
@@ -175,5 +176,27 @@ describe("About BONG lore and state-dependent token details", () => {
     expect(html).not.toContain("user:password");
     expect(html).not.toContain("Copy full address");
     expect(html).not.toContain("Official token page");
+  });
+});
+
+describe("Contact uses configured official channels without inventing an email", () => {
+  it("gives a real next action when the operator has not supplied an email", () => {
+    configured.socials = { x, telegram };
+    const html = renderToStaticMarkup(createElement(Contact));
+    expect(html).toContain(`href="${x}"`);
+    expect(html).toContain(`href="${telegram}"`);
+    expect(html).not.toContain("mailto:");
+    expect(html).not.toMatch(/<form[ >]|<input[ >]|href="\/(?:sign-in|board)/);
+  });
+
+  it("does not turn unsafe configured channels into contact destinations", () => {
+    configured.socials = {
+      x: "javascript:alert(1)",
+      telegram: "https://user:password@social.invalid/",
+    };
+    const html = renderToStaticMarkup(createElement(Contact));
+    expect(html).not.toContain("javascript:");
+    expect(html).not.toContain("user:password");
+    expect(html).not.toContain("mailto:");
   });
 });

@@ -31,6 +31,11 @@ test("UX-02 mobile navigation supports keyboard focus and Escape", async ({
   await page.keyboard.press("Enter");
   const nav = page.getByRole("navigation", { name: "Mobile navigation" });
   await expect(nav).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(nav).toHaveCount(0);
+  await expect(trigger).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(nav).toBeVisible();
   await nav.getByRole("link", { name: "Through Time", exact: true }).focus();
   await page.keyboard.press("Escape");
   await expect(nav).toHaveCount(0);

@@ -139,4 +139,14 @@ After each task run lint, typecheck, content:validate, test:unit, test:integrati
 
 Hosted verification found a Netlify-specific header gap after the four task commits were pushed: early edge responses bypass configured headers, and direct CDN assets bypass Next's headers. A focused Task 2 follow-up (SEC-07/08/16, OPS-05, V1-02/03) shares the baseline with private proxy responses and generates static CDN header rules from Next config during build. Four new regressions were verified failing then passing. Keep this follow-up in a separate commit rather than rewrite published history, rerun the full script contract, and verify the corrected live deployment before delivery.
 
+## Owner-authorized copy and design polish (2026-09-30)
+
+Apply the owner's approval of the current-page audit: preserve the artwork, palette, headline, exact running gag, fictional/history boundary, token behavior and all public/private release controls. This is a bounded refinement of existing pages, with GitHub/Netlify publication authorized in the same session.
+
+- [x] Remove the provider's AI-builder widget globally using the existing project badge setting; verify a fresh visit rather than a browser-only dismissal (UX-01/02/08, OPS-05). No plan upgrade, CSS concealment or CSP relaxation.
+- [x] Tighten About lore, make the gag prominent and collect generator/timeline/community explanations into compact sections. Explain the generator's fixed list without quantity marketing or live-AI claims (GEN-01, DATA-01–09, TIME-04, UX-08/09).
+- [x] Use plain Community copy and a restrained coming-soon status; derive Home/About timeline readiness from actual published entries, retaining the real empty archive and publication gate (TIME-01/02/08/09, V1-04/05).
+- [x] Give Contact an actionable set of existing official channels without inventing email addresses or monitored support (V1-04, OPS-11/13).
+- [x] Verify production CSS, keyboard/touch flows, copy/share/persistence, 320/390/768/1024/1440 layouts and all required local scripts. Fix short-page footer placement and Escape dismissal from the mobile toggle, each with a failing-then-passing browser regression (UX-01/02/04). Keep approvals, legal JSON, source corpus, dependency pins, APP_ENV and dormant v2 untouched. Record real failures and approval/evidence limits; visual/copy changes require re-approval before launch. Matching hosted delivery is a final publication step, verified in the delivery message rather than asserted before deployment.
+
 

@@ -15,17 +15,12 @@ export default function Community() {
   return (
     <section className="page story-community">
       <header className="community-teaser-heading">
-        <h1>
-          Community.
-          <br />
-          <span>Coming soon.</span>
-        </h1>
+        <h1>Community.</h1>
+        <span className="coming-note">Coming soon</span>
       </header>
       <div className="community-teaser-layout">
         <div className="community-teaser-copy">
-          <p className="story-lead">
-            A place to share ideas, projects, and the things you make.
-          </p>
+          <p className="story-lead">Share an idea. Show what you made.</p>
           {(x || telegram) && (
             <div className="community-socials">
               <div className="form-actions">

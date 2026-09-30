@@ -15,7 +15,7 @@ export default function Timeline() {
     <section className="page time-archive">
       <p className="eyebrow">The unofficial record</p>
       <h1>Bong Through Time.</h1>
-      <p className="lead">Some ideas made history.</p>
+      <p className="lead">Real history. BONG takes the credit.</p>
       {entries.length >= 12 ? (
         <>
           <noscript>

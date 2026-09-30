@@ -35,7 +35,15 @@ export function Header({
   }, [pathname, communityEnabled]);
   const toggle = useRef<HTMLButtonElement>(null);
   return (
-    <header className="site-header">
+    <header
+      className="site-header"
+      onKeyDown={(e) => {
+        if (open && e.key === "Escape") {
+          setOpen(false);
+          toggle.current?.focus();
+        }
+      }}
+    >
       <div className="header-inner">
         <Link href="/" className="wordmark" aria-label="BONG home">
           BONG
@@ -80,12 +88,6 @@ export function Header({
           id="mobile-nav"
           aria-label="Mobile navigation"
           className="mobile-nav"
-          onKeyDown={(e) => {
-            if (e.key === "Escape") {
-              setOpen(false);
-              toggle.current?.focus();
-            }
-          }}
         >
           {links
             .filter(([h]) => h !== "/")

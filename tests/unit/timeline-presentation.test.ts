@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { TimelineEntry } from "../../src/features/timeline/types";
 import Timeline, { metadata } from "../../src/app/through-time/page";
 import { TimelineArchive } from "../../src/features/timeline/TimelineArchive";
+import Home from "../../src/app/page";
 import Story, {
   generateMetadata,
 } from "../../src/app/through-time/[slug]/page";
@@ -68,9 +69,11 @@ describe("TIME-UI editorial archive and search threshold", () => {
 
   it("shows an intentional empty archive without search or invented articles", async () => {
     const html = await render();
-    expect(html).toContain("The first stories are on their way.");
+    expect(html).toContain("No stories published yet.");
     expect(html).toContain('class="eyebrow">The unofficial record</p>');
-    expect(html).toContain('class="lead">Some ideas made history.</p>');
+    expect(html).toContain(
+      'class="lead">Real history. BONG takes the credit.</p>',
+    );
     expect(html).toContain("Get an idea");
     expect(html).not.toMatch(
       /History is still being rewritten|checking the sources|The archive \/|Questionable inspiration|The sources remember/,
@@ -87,10 +90,31 @@ describe("TIME-UI editorial archive and search threshold", () => {
     const html = await render("a query that does not match");
     expect(html).not.toContain('name="q"');
     expect(html.match(/<article/g)).toHaveLength(11);
-    expect(html).not.toContain("The first stories are on their way.");
+    expect(html).not.toContain("No stories published yet.");
     expect(html.indexOf("Fixture era 0")).toBeLessThan(
       html.indexOf("Fixture era 10"),
     );
+  });
+
+  it("marks the homepage timeline destination as coming soon while the published archive is empty", () => {
+    const html = renderToStaticMarkup(Home());
+    const destination = html.match(
+      /<article class="thought-destination">(.*?)<\/article>/,
+    )?.[1];
+    expect(destination).toContain("Bong Through Time");
+    expect(destination).toContain("Coming soon");
+    expect(destination).toContain('href="/through-time"');
+  });
+
+  it("removes the homepage coming-soon status when a real published entry is available", () => {
+    content.entries = [entry(1)];
+    const html = renderToStaticMarkup(Home());
+    const destination = html.match(
+      /<article class="thought-destination">(.*?)<\/article>/,
+    )?.[1];
+    expect(destination).toContain("Bong Through Time");
+    expect(destination).not.toContain("Coming soon");
+    expect(destination).toContain('href="/through-time"');
   });
 
   it("enables search at 12 entries and searches title and factual summary", async () => {

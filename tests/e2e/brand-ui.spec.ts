@@ -1,5 +1,26 @@
 import { test, expect } from "@playwright/test";
 
+test("@public-v1 UX-02 short pages keep the footer at the bottom without horizontal overflow", async ({
+  page,
+}) => {
+  for (const width of [320, 1440]) {
+    const height = width === 320 ? 844 : 1000;
+    await page.setViewportSize({ width, height });
+    for (const route of ["/community", "/contact", "/through-time"]) {
+      await page.goto(route);
+      const footer = await page.getByRole("contentinfo").boundingBox();
+      expect(footer, route).not.toBeNull();
+      expect(footer!.y + footer!.height, route).toBeGreaterThanOrEqual(
+        height - 1,
+      );
+      expect(
+        await page.evaluate(() => document.documentElement.scrollWidth),
+        route,
+      ).toBeLessThanOrEqual(width);
+    }
+  }
+});
+
 for (const width of [1440, 390])
   test(`@public-v1 GEN-01/02 UX-02 bong artwork and keyboard controls share the same deck at ${width}px`, async ({
     page,
@@ -102,13 +123,16 @@ test("@public-v1 exact homepage copy keeps the generator and destinations clear"
     "Bong Through Time",
   );
   await expect(destinations.nth(0).locator("p")).toHaveText(
-    "The stories behind inventions and discoveries, with BONG taking the credit.",
+    "Real history. BONG takes the credit.",
   );
   await expect(
     destinations
       .nth(0)
       .getByRole("link", { name: "Visit Through Time", exact: true }),
   ).toHaveAttribute("href", "/through-time");
+  await expect(
+    destinations.nth(0).getByText("Coming soon", { exact: true }),
+  ).toBeVisible();
   await expect(destinations.nth(1).getByRole("heading")).toHaveText(
     "Community",
   );
@@ -116,11 +140,9 @@ test("@public-v1 exact homepage copy keeps the generator and destinations clear"
     destinations.nth(1).getByText("Coming soon", { exact: true }),
   ).toBeVisible();
   await expect(
-    destinations
-      .nth(1)
-      .getByText("A place to share ideas and things you’ve made.", {
-        exact: true,
-      }),
+    destinations.nth(1).getByText("Share an idea. Show what you made.", {
+      exact: true,
+    }),
   ).toBeVisible();
   await expect(
     destinations

@@ -181,7 +181,7 @@ describe("unreviewed timeline drafts (TIME-01/02/08/09, DATA-10, OPS-13)", () =>
       expect(content.listPublishedTimeline()).toEqual([]);
       expect(detail.generateStaticParams()).toEqual([]);
       expect(detail.dynamicParams).toBe(false);
-      expect(html).toContain("The first stories are on their way.");
+      expect(html).toContain("No stories published yet.");
       expect(html).not.toContain('class="time-entry"');
       expect(sitemap.some((item) => item.url.endsWith("/through-time"))).toBe(
         true,

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { CopyAddress } from "@/components/CopyAddress";
 import { publicSettings, safeHttps } from "@/lib/site";
 import { communityEnabled } from "@/lib/launch-scope";
+import { listPublishedTimeline } from "@/server/content";
 import "@/styles/story-pages.css";
 export const metadata = {
   title: "About / $BONG",
@@ -12,96 +13,109 @@ export const metadata = {
 export default function About() {
   const token = publicSettings.token;
   const community = communityEnabled();
+  const timelineReady = listPublishedTimeline().length > 0;
   return (
     <article className="page story-about">
       <section
         className="story-section story-opening"
         aria-labelledby="about-bong-title"
       >
-        <p className="story-index">01 / The story</p>
+        <p className="story-index">The story</p>
         <div className="story-body">
           <h1 id="about-bong-title">So… what is BONG?</h1>
-          <p>
+          <p className="story-fiction-label">
             <strong>BONG’s version · Fiction</strong>
           </p>
           <p>
-            BONG has always been around, quietly nudging humanity toward ideas.
-            Good ones, bad ones, and a few that probably should have stayed in
-            the group chat. It shamelessly takes credit for the good ones.
+            BONG has always been around, quietly nudging humanity toward ideas,
+            good and bad. It shamelessly takes credit for the good ones.
           </p>
-          <p>
+          <p className="story-gag">
             The pyramids? BONG. The wheel? BONG. Relativity? BONG. Tinder? BONG,
             but that one might have been a mistake.
           </p>
-          <p>
+          <p className="story-disclaimer">
             This is a bit, not a claim. Nothing on this site claims that any
             real person or invention was inspired by drug use.
           </p>
         </div>
       </section>
-      <section className="story-section" aria-labelledby="about-generator">
-        <p className="story-index">02 / The Bong</p>
-        <div className="story-body">
+      <div className="story-guide">
+        <section
+          className="story-guide-section"
+          aria-labelledby="about-generator"
+        >
           <h2 id="about-generator">The generator</h2>
-          <p>
-            Press the button and BONG will give you an idea. Use it, ignore it,
-            or see where it goes.
-          </p>
-          <Link href="/" className="text-link">
-            Get an idea <span aria-hidden="true">↗</span>
-          </Link>
-        </div>
-      </section>
-      <section className="story-section" aria-labelledby="about-history">
-        <p className="story-index">03 / Through Time</p>
-        <div className="story-body">
-          <h2 id="about-history">Bong Through Time</h2>
-          <p>
-            The timeline is real, sourced history. BONG is just the narrator,
-            with its fictional version clearly marked alongside the facts.
-          </p>
-          <Link href="/through-time" className="text-link">
-            Visit Through Time <span aria-hidden="true">↗</span>
-          </Link>
-        </div>
-      </section>
-      <section className="story-section" aria-labelledby="about-community">
-        <p className="story-index">04 / Good company</p>
-        <div className="story-body">
+          <div className="story-guide-copy">
+            <p>Press the button for an idea from a fixed list.</p>
+            <Link href="/" className="text-link">
+              Get an idea <span aria-hidden="true">↗</span>
+            </Link>
+          </div>
+        </section>
+        <section
+          className="story-guide-section"
+          aria-labelledby="about-history"
+        >
+          <div className="story-guide-heading">
+            <h2 id="about-history">Bong Through Time</h2>
+            {!timelineReady && <span className="coming-note">Coming soon</span>}
+          </div>
+          <div className="story-guide-copy">
+            <p>
+              Real, sourced history. BONG’s fictional version is clearly marked
+              alongside the facts.
+            </p>
+            <Link href="/through-time" className="text-link">
+              Visit Through Time <span aria-hidden="true">↗</span>
+            </Link>
+          </div>
+        </section>
+        <section
+          className="story-guide-section"
+          aria-labelledby="about-community"
+        >
           {community ? (
             <>
               <h2 id="about-community">Hear me out. Made this.</h2>
-              <p>
-                The board has room for both. Share a thought you’re considering,
-                or something you’ve actually worked on. Tell people what you
-                contributed and what stage it’s reached. A sketch, a render, and
-                a finished build each have their place when they’re described
-                honestly.
-              </p>
-              <Link href="/board" className="button primary">
-                Explore the board
-              </Link>
+              <div className="story-guide-copy">
+                <p>
+                  The board has room for both. Share a thought you’re
+                  considering, or something you’ve actually worked on. Tell
+                  people what you contributed and what stage it’s reached. A
+                  sketch, a render, and a finished build each have their place
+                  when they’re described honestly.
+                </p>
+                <Link href="/board" className="button primary">
+                  Explore the board
+                </Link>
+              </div>
             </>
           ) : (
             <>
-              <h2 id="about-community">Community — coming soon</h2>
-              <p>
-                The forum is coming later. You’ll be able to share your own
-                ideas and things you’ve made.
-              </p>
-              <Link href="/community" className="text-link">
-                Visit the community page <span aria-hidden="true">↗</span>
-              </Link>
+              <div className="story-guide-heading">
+                <h2 id="about-community">Community</h2>
+                <span className="coming-note">Coming soon</span>
+              </div>
+              <div className="story-guide-copy">
+                <p>
+                  The forum is coming later. Share an idea or show what you’ve
+                  made.
+                </p>
+                <Link href="/community" className="text-link">
+                  Find the community <span aria-hidden="true">↗</span>
+                </Link>
+              </div>
             </>
           )}
-        </div>
-      </section>
+        </section>
+      </div>
       <section
         id="bong-token"
-        className="story-section"
+        className="story-section story-token"
         aria-labelledby="about-token"
       >
-        <p className="story-index">05 / $BONG</p>
+        <p className="story-index">Official information</p>
         <div className="story-body">
           <h2 id="about-token">$BONG</h2>
           {publicSettings.tokenStatus === "live" &&

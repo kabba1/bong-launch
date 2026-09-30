@@ -45,7 +45,7 @@ export function TimelineArchive({
       )}
       {!entries.length ? (
         <div className="time-empty">
-          <h2>The first stories are on their way.</h2>
+          <h2>No stories published yet.</h2>
           <Link className="text-link" href="/">
             Get an idea <span aria-hidden="true">→</span>
           </Link>

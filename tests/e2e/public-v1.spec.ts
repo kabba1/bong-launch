@@ -96,7 +96,7 @@ test("@public-v1 V1-02 private direct links lead to Coming Soon without carrying
   await page.goto("/board/new?sourceIdeaId=BONG-0001");
   await expect(page).toHaveURL("http://127.0.0.1:3210/community");
   await expect(
-    page.getByRole("heading", { name: "Community. Coming soon.", exact: true }),
+    page.getByRole("heading", { name: "Community.", exact: true }),
   ).toBeVisible();
   await expect(page.locator("input, textarea")).toHaveCount(0);
 });
@@ -150,14 +150,12 @@ test("@public-v1 V1-04 Coming Soon exposes only configured official social links
     } else await expect(link).toHaveCount(0);
   }
   await expect(
-    main.getByRole("heading", { name: "Community. Coming soon.", exact: true }),
+    main.getByRole("heading", { name: "Community.", exact: true }),
   ).toBeVisible();
   await expect(
-    main.getByText(
-      "A place to share ideas, projects, and the things you make.",
-      { exact: true },
-    ),
+    main.getByText("Share an idea. Show what you made.", { exact: true }),
   ).toBeVisible();
+  await expect(main.getByText("Coming soon", { exact: true })).toBeVisible();
   await expect(main.locator("p")).toHaveCount(1);
   await expect(main.locator("img, figure, figcaption")).toHaveCount(0);
   await expect(
@@ -183,12 +181,12 @@ test("@public-v1 V1-05 a small timeline omits search and token information remai
     page.getByRole("button", { name: "Search", exact: true }),
   ).toHaveCount(0);
   const empty = page.getByRole("heading", {
-    name: "The first stories are on their way.",
+    name: "No stories published yet.",
     exact: true,
   });
   await expect(empty).toBeVisible();
   await expect(
-    page.getByText("Some ideas made history.", { exact: true }),
+    page.getByText("Real history. BONG takes the credit.", { exact: true }),
   ).toBeVisible();
   await expect(
     page
@@ -215,17 +213,17 @@ test("@public-v1 About labels the BONG bit and retains state-dependent token cop
   ).toBeVisible();
   for (const paragraph of [
     "BONG’s version · Fiction",
-    "BONG has always been around, quietly nudging humanity toward ideas. Good ones, bad ones, and a few that probably should have stayed in the group chat. It shamelessly takes credit for the good ones.",
+    "BONG has always been around, quietly nudging humanity toward ideas, good and bad. It shamelessly takes credit for the good ones.",
     "The pyramids? BONG. The wheel? BONG. Relativity? BONG. Tinder? BONG, but that one might have been a mistake.",
     "This is a bit, not a claim. Nothing on this site claims that any real person or invention was inspired by drug use.",
-    "Press the button and BONG will give you an idea. Use it, ignore it, or see where it goes.",
-    "The timeline is real, sourced history. BONG is just the narrator, with its fictional version clearly marked alongside the facts.",
-    "The forum is coming later. You’ll be able to share your own ideas and things you’ve made.",
+    "Press the button for an idea from a fixed list.",
+    "Real, sourced history. BONG’s fictional version is clearly marked alongside the facts.",
+    "The forum is coming later. Share an idea or show what you’ve made.",
   ])
     await expect(page.getByText(paragraph, { exact: true })).toBeVisible();
   await expect(page.locator("body")).not.toContainText(/\bhighdeas?\b/i);
   await expect(
-    page.getByRole("heading", { name: "Community — coming soon", exact: true }),
+    page.getByRole("heading", { name: "Community", exact: true }),
   ).toBeVisible();
   await expect(page.locator(".story-opening")).not.toContainText("$BONG");
   const token = settings.token as null | {
