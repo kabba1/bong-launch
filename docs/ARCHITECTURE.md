@@ -10,7 +10,19 @@ Public release checking defaults to `scope=v1`; the full original gate is availa
 
 ## Shared public delivery
 
-Public corpus/timeline content is generated locally and read without any database or Auth call. All HTML is dynamically rendered with a fresh nonce, private no-store, and restrictive script CSP. The CSP proxy does not authenticate visitors. Hashed corpus and checked artwork/fonts remain cacheable. Public client components load same-origin content without community API calls. The preserved community clients use same-origin application APIs and HttpOnly session cookies; no browser Supabase or storage client exists.
+Public corpus/timeline content is generated locally and read without any database or Auth call. Public v1 HTML, all active canonical ideas and their OG images are prerendered; timeline detail params include only published entries and unknown params return 404. Static security headers are supplied by `next.config.ts`, without public HTML Cache-Control overrides. Netlify and Next retain control of HTML caching; `_next/static` remains immutable. Timeline search is a client enhancement above its existing 12-entry threshold, with the complete archive in static HTML and a readable no-JavaScript fallback.
+
+The proxy runs only for retained private route families and APIs. Those remain dynamic and private no-store, with request-specific nonces; disabled private pages redirect to Coming Soon and APIs deny before any backend work. Known withdrawals are rewritten to a generated static 410 removal route, so they no longer need public proxy interception. Redeploy and purge hosting caches on a withdrawal; previously downloaded content cannot be recalled.
+
+Public client components load same-origin content without community API calls. The preserved community clients use same-origin application APIs and HttpOnly session cookies; no browser Supabase or storage client exists.
+
+### Public CSP decision — owner-requested 2026-09-30 deviation
+
+The owner's caching task supersedes the handoff's dynamic/nonced public HTML choice (spec sections 3.2, 14.4 and 17.3). Exact dependencies and the Turbopack build remain unchanged. Next's SRI option is still experimental and does not provide a supported policy for this build's inline hydration scripts; no experimental application feature or custom HTML/hash postprocessor was introduced. References: the installed Next 16.3.6 CSP guide and [official Next CSP documentation](https://nextjs.org/docs/app/guides/content-security-policy).
+
+Public `script-src 'self' 'unsafe-inline'` permits Next's first-party inline hydration; `script-src-attr 'none'` separately blocks inline event handlers. This loses nonce protection against injected inline script elements; it is an explicit v1 tradeoff, not an equivalent strict script policy. Public v1 has no user-generated HTML or third-party scripts. Preserve text escaping, Git-reviewed inputs and the dormant boundary. Eval, third-party script origins, wildcard sources, objects and frames remain blocked. `default-src 'self'`, `frame-ancestors 'none'`, `object-src 'none'`, `base-uri 'self'`, `form-action 'self'`, same-origin connections/fonts and existing bounded image schemes remain. Production stylesheets stay `style-src 'self'`; only the existing style-attribute exception permits inline styles. Development alone enables eval, inline style elements and WebSocket connections.
+
+HSTS and upgrade-insecure-requests are enabled only when APP_ENV is exactly production; other environments retain X-Robots-Tag noindex/nofollow. The existing Netlify production context remains APP_ENV=staging. Private community HTML keeps its nonce/strict-dynamic policy and exact required challenge/storage origins. SEC-07/08 now test the public caching policy and retained private nonce policy separately; historical evidence is not re-approved or rebound by this change. Independent security and hosted release reviews remain gates.
 
 ## Preserved private boundary — community v2 only
 
@@ -28,7 +40,7 @@ TypeScript 7.0.2 failed the current typescript-eslint compatibility check. **Typ
 
 PGlite 0.5.8 executes PostgreSQL/WASM for repeatable local policy tests without Docker. Future community production still requires TLS-verified PostgreSQL with serverless-safe unprepared statements. Local engine tests do not replace hosted tests or a real connection-pool isolation drill. No approved architecture substitution is being claimed.
 
-Custom components use semantic HTML and native dialog behavior. `style-src-attr 'unsafe-inline'` is the documented narrow style exception; scripts do not get production unsafe-inline/unsafe-eval. The desktop/mobile theme uses the supplied orange illustration and two self-hosted licensed font families.
+Custom components use semantic HTML and native dialog behavior. `style-src-attr 'unsafe-inline'` is the documented narrow style exception. Public v1 hydration has the script allowance documented above; private scripts remain nonced, and production eval remains blocked. The desktop/mobile theme uses the supplied orange illustration and two self-hosted licensed font families.
 
 ## Configuration naming
 

@@ -1,4 +1,5 @@
 import { publicSettings, origin } from "@/lib/site";
+export const dynamic = "force-static";
 export function GET() {
   if (!publicSettings.contacts.security)
     return new Response(

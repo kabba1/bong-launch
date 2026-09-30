@@ -77,12 +77,3 @@ test("GEN-15 DATA-08 canonical ideas have server text and unknown IDs 404", asyn
   );
   expect((await request.get("/idea/BONG-9999")).status()).toBe(404);
 });
-test("SEC-07/08 fresh nonces and no shared HTML cache", async ({ request }) => {
-  const a = await request.get("/");
-  const b = await request.get("/");
-  const csp = a.headers()["content-security-policy"];
-  expect(csp).toContain("nonce-");
-  expect(csp).not.toContain("unsafe-eval");
-  expect(csp).not.toEqual(b.headers()["content-security-policy"]);
-  expect(a.headers()["cache-control"]).toContain("no-store");
-});

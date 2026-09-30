@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import overrides from "../content/idea-overrides.json";
 import {
   communityEnabled,
   communityPagePath,
@@ -7,6 +6,9 @@ import {
   communityDisabledResponse,
 } from "./lib/launch-scope";
 export function proxy(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
+  if (!communityPagePath(pathname) && !communityApiPath(pathname))
+    return NextResponse.next();
   const community = communityEnabled();
   const nonce = Buffer.from(
     crypto.getRandomValues(new Uint8Array(18)),
@@ -38,38 +40,25 @@ export function proxy(request: NextRequest) {
   const headers = new Headers(request.headers);
   headers.set("x-nonce", nonce);
   headers.set("Content-Security-Policy", csp);
-  const ideaMatch = request.nextUrl.pathname.match(/^\/idea\/(BONG-\d{4})$/);
   const response =
-    !community && communityApiPath(request.nextUrl.pathname)
+    !community && communityApiPath(pathname)
       ? communityDisabledResponse()
-      : !community && communityPagePath(request.nextUrl.pathname)
+      : !community && communityPagePath(pathname)
         ? NextResponse.redirect(new URL("/community", request.url))
-        : ideaMatch && overrides.excludedIds.includes(ideaMatch[1] as never)
-          ? new NextResponse(
-              '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Idea withdrawn · BONG</title></head><body><main><h1>This idea has been withdrawn.</h1><p>It is no longer part of the public collection.</p><a href="/">Back to the Bong</a></main></body></html>',
-              {
-                status: 410,
-                headers: { "Content-Type": "text/html; charset=utf-8" },
-              },
-            )
-          : NextResponse.next({ request: { headers } });
+        : NextResponse.next({ request: { headers } });
   response.headers.set("Content-Security-Policy", csp);
   response.headers.set("Cache-Control", "private, no-store, max-age=0");
-  response.headers.set("X-Content-Type-Options", "nosniff");
-  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
-  response.headers.set("X-Frame-Options", "DENY");
-  response.headers.set(
-    "Permissions-Policy",
-    "camera=(), microphone=(), geolocation=(), payment=()",
-  );
-  if (process.env.APP_ENV === "production")
-    response.headers.set("Strict-Transport-Security", "max-age=31536000");
-  if (process.env.APP_ENV !== "production")
-    response.headers.set("X-Robots-Tag", "noindex, nofollow");
   return response;
 }
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|images/|data/|fonts/|favicon.ico|icon.svg).*)",
+    "/board/:path*",
+    "/sign-in/:path*",
+    "/onboarding/:path*",
+    "/account/:path*",
+    "/moderation/:path*",
+    "/admin/:path*",
+    "/members/:path*",
+    "/api/:path*",
   ],
 };

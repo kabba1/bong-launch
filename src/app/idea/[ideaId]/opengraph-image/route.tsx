@@ -1,5 +1,10 @@
 import { ImageResponse } from "next/og";
-import { getIdea, getCorpusManifest } from "@/server/content";
+import { getIdea, getCorpusManifest, getAllIdeas } from "@/server/content";
+export const dynamic = "force-static";
+export const dynamicParams = false;
+export function generateStaticParams() {
+  return getAllIdeas().map(({ id }) => ({ ideaId: id }));
+}
 export async function GET(
   _request: Request,
   { params }: { params: Promise<{ ideaId: string }> },

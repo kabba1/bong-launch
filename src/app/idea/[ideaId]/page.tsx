@@ -6,10 +6,15 @@ import {
   getIdeaStatus,
   getCorpusManifest,
   getCategoryLabel,
+  getAllIdeas,
 } from "@/server/content";
 import { IdeaActions } from "@/features/generator/IdeaActions";
 import { ReportForm } from "@/features/board/ReportForm";
 import { communityEnabled } from "@/lib/launch-scope";
+export const dynamicParams = false;
+export function generateStaticParams() {
+  return getAllIdeas().map(({ id }) => ({ ideaId: id }));
+}
 export async function generateMetadata({
   params,
 }: {

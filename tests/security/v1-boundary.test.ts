@@ -118,14 +118,11 @@ describe("V1-01/02/03 default-off community boundary", () => {
         "https://bong.test/community",
       );
       expect(response.headers.get("cache-control")).toContain("no-store");
-      expect(response.headers.get("strict-transport-security")).toContain(
-        "max-age=",
-      );
     }
   });
 
-  it("keeps the public nonce CSP and removes unused community service origins", () => {
-    const response = proxy(new NextRequest("https://bong.test/"));
+  it("keeps private nonce protection without unused community service origins", () => {
+    const response = proxy(new NextRequest("https://bong.test/account"));
     const csp = response.headers.get("content-security-policy")!;
     expect(csp).toContain("'nonce-");
     expect(csp).toContain("'strict-dynamic'");

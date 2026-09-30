@@ -78,15 +78,23 @@ test("GEN-15 canonical text works with JavaScript disabled", async ({
   await context.close();
 });
 
-test("SEC-07/08 injected inline script is blocked and corpus cache policies differ", async ({
+test("SEC-07/08 eval is blocked, no third-party scripts execute and corpus cache policies differ", async ({
   page,
   request,
 }) => {
+  let thirdPartyRequested = false;
+  await page.route("https://untrusted.invalid/attack.js", (route) => {
+    thirdPartyRequested = true;
+    return route.fulfill({
+      contentType: "application/javascript",
+      body: 'document.documentElement.dataset.thirdPartyAttack="executed"',
+    });
+  });
   await page.route("http://127.0.0.1:3210/", async (route) => {
     const response = await route.fetch();
     const body = (await response.text()).replace(
       "<head>",
-      '<head><script>document.documentElement.dataset.attack="executed"</script>',
+      '<head><script>eval("document.documentElement.dataset.attack=\\"executed\\"")</script><script src="https://untrusted.invalid/attack.js"></script>',
     );
     await route.fulfill({ response, body });
   });
@@ -95,6 +103,10 @@ test("SEC-07/08 injected inline script is blocked and corpus cache policies diff
     page.getByRole("button", { name: "Give me an idea", exact: true }),
   ).toBeEnabled();
   expect(await page.locator("html").getAttribute("data-attack")).toBeNull();
+  expect(
+    await page.locator("html").getAttribute("data-third-party-attack"),
+  ).toBeNull();
+  expect(thirdPartyRequested).toBe(false);
   const manifest = await request.get("/data/manifest.json");
   expect(manifest.headers()["cache-control"]).toBe("no-cache");
   const data = await manifest.json();

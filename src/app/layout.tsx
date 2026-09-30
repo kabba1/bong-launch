@@ -9,7 +9,6 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { origin, isProduction } from "@/lib/site";
 import { communityEnabled } from "@/lib/launch-scope";
-export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   metadataBase: new URL(origin()),
   title: {

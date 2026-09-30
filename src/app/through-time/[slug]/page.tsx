@@ -4,6 +4,11 @@ import { getTimelineEntry, listPublishedTimeline } from "@/server/content";
 import type { TimelineParagraph } from "@/features/timeline/types";
 import { ReportForm } from "@/features/board/ReportForm";
 import { communityEnabled } from "@/lib/launch-scope";
+export const dynamic = "force-static";
+export const dynamicParams = false;
+export function generateStaticParams() {
+  return listPublishedTimeline().map(({ slug }) => ({ slug }));
+}
 export async function generateMetadata({
   params,
 }: {

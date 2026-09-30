@@ -2,6 +2,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { TimelineEntry } from "../../src/features/timeline/types";
 import Timeline, { metadata } from "../../src/app/through-time/page";
+import { TimelineArchive } from "../../src/features/timeline/TimelineArchive";
 import Story, {
   generateMetadata,
 } from "../../src/app/through-time/[slug]/page";
@@ -54,7 +55,9 @@ function entry(index: number): TimelineEntry {
 }
 async function render(q?: string | string[]) {
   return renderToStaticMarkup(
-    await Timeline({ searchParams: Promise.resolve({ q }) }),
+    q === undefined
+      ? Timeline()
+      : TimelineArchive({ entries: content.entries, query: q }),
   );
 }
 
@@ -64,7 +67,7 @@ describe("TIME-UI editorial archive and search threshold", () => {
   });
 
   it("shows an intentional empty archive without search or invented articles", async () => {
-    const html = await render("anything");
+    const html = await render();
     expect(html).toContain("The first stories are on their way.");
     expect(html).toContain('class="eyebrow">The unofficial record</p>');
     expect(html).toContain('class="lead">Some ideas made history.</p>');
@@ -132,6 +135,13 @@ describe("TIME-UI editorial archive and search threshold", () => {
     expect(html).toContain('href="/through-time/fixture-1#sources"');
     expect(html).toContain("1 source");
     expect(html).toContain("2 sources");
+  });
+
+  it("keeps all published entries in the static HTML before client search hydrates", async () => {
+    content.entries = Array.from({ length: 12 }, (_, i) => entry(i));
+    const html = await render();
+    expect(html.match(/<article/g)).toHaveLength(12);
+    expect(html).toContain("Search needs JavaScript.");
   });
 
   it("updates generic copy while preserving article-specific metadata, facts and source links", async () => {

@@ -77,6 +77,7 @@ test("@public-v1 V1-02 private direct links lead to Coming Soon without carrying
   for (const route of routes) {
     const response = await request.get(route, { maxRedirects: 0 });
     expect(response.status(), route).toBe(307);
+    expect(response.headers()["cache-control"], route).toContain("no-store");
     expect(
       new URL(response.headers().location, "http://127.0.0.1:3210").pathname,
     ).toBe("/community");
