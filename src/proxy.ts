@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { staticSecurityHeaders } from "./lib/security-headers";
 import {
   communityEnabled,
   communityPagePath,
@@ -47,6 +48,12 @@ export function proxy(request: NextRequest) {
         ? NextResponse.redirect(new URL("/community", request.url))
         : NextResponse.next({ request: { headers } });
   response.headers.set("Content-Security-Policy", csp);
+  // Netlify runs the proxy before configured headers. Early redirects/denials
+  // must carry the baseline themselves; public routes still skip this proxy.
+  for (const [key, value] of Object.entries(
+    staticSecurityHeaders(process.env.APP_ENV === "production"),
+  ))
+    response.headers.set(key, value);
   response.headers.set("Cache-Control", "private, no-store, max-age=0");
   return response;
 }

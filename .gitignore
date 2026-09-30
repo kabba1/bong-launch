@@ -10,3 +10,4 @@ playwright-report/
 coverage/
 .runtime/
 .netlify/
+public/_headers

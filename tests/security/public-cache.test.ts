@@ -72,6 +72,34 @@ describe("static public headers and private proxy boundary (SEC-07/08/16)", () =
     expect(first.headers.get("cache-control")).toContain("no-store");
   });
 
+  it.each(["staging", "production"])(
+    "sets baseline headers on early private edge responses in %s",
+    async (environment) => {
+      vi.stubEnv("APP_ENV", environment);
+      vi.stubEnv("NODE_ENV", "production");
+      vi.stubEnv("COMMUNITY_ENABLED", "false");
+      const rules = await nextConfig.headers!();
+      const baseline = rules.find((rule) => rule.source === "/:path*")!.headers;
+      for (const path of ["/account", "/api/session"]) {
+        const response = proxy(new NextRequest(`https://bong.test${path}`));
+        for (const { key, value } of baseline) {
+          if (key === "Content-Security-Policy") continue;
+          expect(response.headers.get(key), `${path} ${key}`).toBe(value);
+        }
+        expect(response.headers.get("cache-control")).toContain("no-store");
+        expect(response.headers.get("content-security-policy")).toContain(
+          "'nonce-",
+        );
+        expect(response.headers.get("x-robots-tag")).toBe(
+          environment === "production" ? null : "noindex, nofollow",
+        );
+        expect(response.headers.has("strict-transport-security")).toBe(
+          environment === "production",
+        );
+      }
+    },
+  );
+
   it.each(["staging", "preview", "production"])(
     "sets static security headers for %s without overriding public HTML caching",
     async (environment) => {

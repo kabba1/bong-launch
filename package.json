@@ -18,7 +18,7 @@
     "test:security": "vitest run tests/security",
     "test:e2e": "playwright test --project=chromium",
     "test:a11y": "playwright test --project=accessibility",
-    "build": "npm run content:build && next build",
+    "build": "npm run content:build && tsx scripts/netlify-headers.ts && next build",
     "release:check": "tsx scripts/release-check.ts",
     "release:check:community": "tsx scripts/release-check.ts --scope=community",
     "db:migrate": "tsx scripts/db-migrate.ts",

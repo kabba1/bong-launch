@@ -137,4 +137,6 @@ Implement the four supplied tasks in order, with one commit per task. Use the ex
 
 After each task run lint, typecheck, content:validate, test:unit, test:integration, test:security, build, test:e2e and test:a11y. Run production browser suites sequentially because they own the same local port. Record actual failures and corrections in [MAINTENANCE_REPORT.md](MAINTENANCE_REPORT.md); release:check must remain blocked. Review the final four-commit diff, push to GitHub, verify the matching Netlify deployment and smoke-test its headers and dormant-route denial without changing launch flags.
 
+Hosted verification found a Netlify-specific header gap after the four task commits were pushed: early edge responses bypass configured headers, and direct CDN assets bypass Next's headers. A focused Task 2 follow-up (SEC-07/08/16, OPS-05, V1-02/03) shares the baseline with private proxy responses and generates static CDN header rules from Next config during build. Four new regressions were verified failing then passing. Keep this follow-up in a separate commit rather than rewrite published history, rerun the full script contract, and verify the corrected live deployment before delivery.
+
 

@@ -77,6 +77,15 @@ test("@public-v1 V1-02 private direct links lead to Coming Soon without carrying
     const response = await request.get(route, { maxRedirects: 0 });
     expect(response.status(), route).toBe(307);
     expect(response.headers()["cache-control"], route).toContain("no-store");
+    expect(response.headers()["x-robots-tag"], route).toBe("noindex, nofollow");
+    expect(response.headers()["x-frame-options"], route).toBe("DENY");
+    expect(response.headers()["x-content-type-options"], route).toBe("nosniff");
+    expect(response.headers()["referrer-policy"], route).toBe(
+      "strict-origin-when-cross-origin",
+    );
+    expect(response.headers()["permissions-policy"], route).toBe(
+      "camera=(), microphone=(), geolocation=(), payment=()",
+    );
     expect(
       new URL(response.headers().location, "http://127.0.0.1:3210").pathname,
     ).toBe("/community");
@@ -114,6 +123,11 @@ test("@public-v1 V1-03 community API reads and writes are disabled before provid
       expect(response.status(), `${method} ${path}`).toBe(404);
       expect((await response.json()).error.code).toBe("COMMUNITY_DISABLED");
       expect(response.headers()["cache-control"]).toContain("no-store");
+      expect(response.headers()["x-robots-tag"]).toBe("noindex, nofollow");
+      expect(response.headers()["x-frame-options"]).toBe("DENY");
+      expect(response.headers()["referrer-policy"]).toBe(
+        "strict-origin-when-cross-origin",
+      );
       expect(response.headers()["set-cookie"]).toBeUndefined();
     }
   }

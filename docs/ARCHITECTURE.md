@@ -24,6 +24,10 @@ Public `script-src 'self' 'unsafe-inline'` permits Next's first-party inline hyd
 
 HSTS and upgrade-insecure-requests are enabled only when APP_ENV is exactly production; other environments retain X-Robots-Tag noindex/nofollow. The existing Netlify production context remains APP_ENV=staging. Private community HTML keeps its nonce/strict-dynamic policy and exact required challenge/storage origins. SEC-07/08 now test the public caching policy and retained private nonce policy separately; historical evidence is not re-approved or rebound by this change. Independent security and hosted release reviews remain gates.
 
+### Netlify header delivery
+
+Netlify [evaluates configured headers after middleware](https://docs.netlify.com/build/frameworks/framework-setup-guides/nextjs/overview/), so an early private redirect/API denial must include its own baseline. `src/lib/security-headers.ts` supplies the same baseline to Next config and the private proxy; public routes still bypass the proxy. Netlify also serves public files directly from its CDN. `scripts/netlify-headers.ts` mirrors the existing Next header rules into ignored/generated `public/_headers` during the normal build, following [Netlify's static header mechanism](https://docs.netlify.com/manage/routing/headers/). It uses the build's actual APP_ENV; no launch flag is changed. There is no public HTML Cache-Control rule and no framework asset cache override. Hashed data/artwork remain immutable and the data manifest retains revalidation.
+
 ## Preserved private boundary — community v2 only
 
 No private capability described below is active or required for public v1. Before a community release all original security, provider and operational requirements still apply.
