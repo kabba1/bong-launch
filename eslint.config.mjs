@@ -6,6 +6,7 @@ export default defineConfig([
   ...fixupConfigRules([...nextVitals, ...nextTs]),
   globalIgnores([
     ".next/**",
+    ".netlify/**",
     "node_modules/**",
     "content/generated/**",
     "next-env.d.ts",

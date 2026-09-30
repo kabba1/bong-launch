@@ -126,4 +126,15 @@ Phases 1–5 have application code, durable SQL policies/lifecycle, user/staff i
 
 Initial input audit PASS. No articles, approved legal copy, real operator/contact/provider/staff data supplied. Public launch: OWNER INPUT REQUIRED / EDITORIAL BLOCKED / INFRASTRUCTURE BLOCKED / SECURITY REVIEW PENDING. Final locally executed results, source/build identity and unresolved gates are recorded in `docs/release-evidence.json`, `docs/acceptance-evidence.json`, and `docs/RELEASE_REPORT.md`. Unchecked mixed verification steps retain their staging/manual requirements.
 
+## Owner-requested maintenance (2026-09-30)
+
+Implement the four supplied tasks in order, with one commit per task. Use the existing pinned Next 16.3.6 / React 19.3.0 / TypeScript 6.0.3 stack. Keep approvals, token mode, legal JSON, source CSV/idea text, dormant community code and Netlify APP_ENV unchanged. GitHub push and deployment of the existing noindex Netlify site are authorized by the owner; this does not clear release approvals.
+
+- [x] Task 1 (SEC-14, OPS-01): replace local user paths with relative references; add a repository scan to the existing unit suite and prove it catches the current leak. All task checks pass after excluding generated Netlify output from lint; see the maintenance report.
+- [ ] Task 2 (SEC-07/08/16, GEN-15, DATA-07/08, TIME-08, OPS-05, V1 dormant boundary): move static public headers to Next config, remove public dynamic rendering, enumerate idea/OG/timeline params, retain private nonce/no-store denial and verify built HTTP/browser behavior. Document the public CSP tradeoff and inspect the build route table.
+- [ ] Task 3 (TIME-04, UX-08/09, OPS-11): rewrite About lore inside its existing sections, visibly label fiction, explain sourced history, generator and Community Coming Soon; retain token behavior and flag copy for re-approval.
+- [ ] Task 4 (TIME-01/02/08/09, DATA-10, OPS-13): verify draft schema, generated/public exclusion, unresolved references and published-count release gating with isolated fixtures if no supplied draft files exist.
+
+After each task run lint, typecheck, content:validate, test:unit, test:integration, test:security, build, test:e2e and test:a11y. Run production browser suites sequentially because they own the same local port. Record actual failures and corrections in [MAINTENANCE_REPORT.md](MAINTENANCE_REPORT.md); release:check must remain blocked. Review the final four-commit diff, push to GitHub, verify the matching Netlify deployment and smoke-test its headers and dormant-route denial without changing launch flags.
+
 

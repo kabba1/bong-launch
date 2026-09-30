@@ -1,15 +1,13 @@
 # Local production performance evidence
 
-Measured 2026-09-28T11:09:19.998Z; production build `POWX-lcGDl1cHlfrCfBAk`; Chromium 153.0.8010.12. Raw per-run resource, timing, error and interaction records: [performance.json](../../bong_codex_handoff/.build-evidence/performance.json). Reproduce with `npx playwright test tests/e2e/performance.spec.ts --project=chromium` after `npm run build`.
+Measured 2026-09-30T12:39:11.626Z; production build `nooQUPb0YTLTinhRcJ1Uo`; Chromium 153.0.8010.12. Raw per-run resource, timing, error and interaction records: [performance.json](../../bong_codex_handoff/.build-evidence/performance.json). Reproduce with `npx playwright test tests/e2e/performance.spec.ts --project=chromium` after `npm run build`.
 
 | Profile | Median LCP | Median CLS | External JS, encoded | Corpus, encoded | Hero variants, encoded | Draw DOM commit median / worst |
 |---|---:|---:|---:|---:|---:|---:|
-| desktop | 304 ms | 0.0008 | 140.86 KiB | 51.78 KiB | 68.1 KiB | 13 / 16.9 ms |
-| mobile | 900 ms | 0.0007 | 140.86 KiB | 51.78 KiB | 22 KiB | 27.4 / 49.6 ms |
+| desktop | 288 ms | 0.0008 | 140.86 KiB | 51.78 KiB | 68.1 KiB | 14.3 / 15.6 ms |
+| mobile | 900 ms | 0.0007 | 140.86 KiB | 51.78 KiB | 22 KiB | 20.7 / 37.9 ms |
 
 These measured local metrics meet the listed comparison targets under the conditions below.
-
-An earlier identical run of this candidate recorded one 114.3 ms throttled-mobile draw against the unchanged 50 ms target; its other mobile-run maxima were 39.1 ms and 33.3 ms. A first repeat completed with a 38.4 ms worst mobile draw, and the final full-suite run above completed at 49.6 ms. No threshold was changed. The failed and passing raw records remain in the sibling `performance-history` evidence directory, so this result does not erase the observed timing variability.
 
 ## Method
 

@@ -8,7 +8,7 @@
 
 ## Candidate and verification
 
-The application is `C:/Users/Mitch/OneDrive/Desktop/bong-launch`, separate from the original handoff and earlier website folder. It preserves all 1,000 exact idea IDs/texts and 22 categories, supplied artwork, locked dependencies, content schemas and retained private implementation. There is no live AI, wallet, trading or token gate. No infrastructure, DNS, paid service or production deployment was changed.
+The application is this repository (`.`), separate from the original handoff and earlier website folder. It preserves all 1,000 exact idea IDs/texts and 22 categories, supplied artwork, locked dependencies, content schemas and retained private implementation. There is no live AI, wallet, trading or token gate. No infrastructure, DNS, paid service or production deployment was changed.
 
 The source/build identity and observed automated results are recorded in [release-evidence.json](release-evidence.json), explicitly labeled `scope: "v1"`. Production preview build: `hFl3CNZJ89DXOMCMqUjPA`. The source fingerprint includes the original CSV and `.gitattributes`; documentation and generated build caches are excluded. Prior full-community results are preserved in [history/pre-v1-scope-release-evidence.json](history/pre-v1-scope-release-evidence.json), with the original full matrices unchanged.
 
