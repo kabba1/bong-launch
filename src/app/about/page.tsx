@@ -22,12 +22,20 @@ export default function About() {
         <div className="story-body">
           <h1 id="about-bong-title">So… what is BONG?</h1>
           <p>
-            Every good idea, bad idea, and completely unhinged idea has a
-            beginning. BONG likes to think it was somewhere nearby.
+            <strong>BONG’s version · Fiction</strong>
           </p>
           <p>
-            This project is about the spark that sends your imagination
-            somewhere unexpected—and what happens when you follow it.
+            BONG has always been around, quietly nudging humanity toward ideas.
+            Good ones, bad ones, and a few that probably should have stayed in
+            the group chat. It shamelessly takes credit for the good ones.
+          </p>
+          <p>
+            The pyramids? BONG. The wheel? BONG. Relativity? BONG. Tinder? BONG,
+            but that one might have been a mistake.
+          </p>
+          <p>
+            This is a bit, not a claim. Nothing on this site claims that any
+            real person or invention was inspired by drug use.
           </p>
         </div>
       </section>
@@ -49,8 +57,8 @@ export default function About() {
         <div className="story-body">
           <h2 id="about-history">Bong Through Time</h2>
           <p>
-            A timeline of ideas and inventions, and the stories of how they came
-            to be.
+            The timeline is real, sourced history. BONG is just the narrator,
+            with its fictional version clearly marked alongside the facts.
           </p>
           <Link href="/through-time" className="text-link">
             Visit Through Time <span aria-hidden="true">↗</span>

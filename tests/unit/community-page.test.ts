@@ -88,25 +88,33 @@ describe("V1-04 configured community social links", () => {
   });
 });
 
-describe("About approved public copy and state-dependent token details", () => {
-  it("uses the approved story, generator and timeline paragraphs", () => {
+describe("About BONG lore and state-dependent token details", () => {
+  it("uses the requested story, generator and sourced timeline paragraphs", () => {
     const html = renderAbout();
     for (const paragraph of [
-      "Every good idea, bad idea, and completely unhinged idea has a beginning. BONG likes to think it was somewhere nearby.",
-      "This project is about the spark that sends your imagination somewhere unexpected—and what happens when you follow it.",
+      "BONG has always been around, quietly nudging humanity toward ideas. Good ones, bad ones, and a few that probably should have stayed in the group chat. It shamelessly takes credit for the good ones.",
+      "The pyramids? BONG. The wheel? BONG. Relativity? BONG. Tinder? BONG, but that one might have been a mistake.",
+      "This is a bit, not a claim. Nothing on this site claims that any real person or invention was inspired by drug use.",
       "Press the button and BONG will give you an idea. Use it, ignore it, or see where it goes.",
-      "A timeline of ideas and inventions, and the stories of how they came to be.",
+      "The timeline is real, sourced history. BONG is just the narrator, with its fictional version clearly marked alongside the facts.",
+      "Community — coming soon",
+      "The forum is coming later. You’ll be able to share your own ideas and things you’ve made.",
     ])
       expect(html).toContain(paragraph);
     expect(html).not.toMatch(/\bhighdeas?\b/i);
     expect(html).not.toMatch(/href="\/(sign-in|account|board)/);
   });
 
-  it("integrates the origin story without the old historical-credit box", () => {
+  it("labels the credit gag as fiction inside the existing opening section", () => {
     const html = renderAbout();
-    expect(html).not.toMatch(
-      /story-lore|BONG’s version · Fiction|The pyramids\?|Relativity\?|The moon landing\?/,
+    const opening = html.match(
+      /<section class="story-section story-opening"[^>]*>(.*?)<\/section>/,
     );
+    expect(opening?.[1]).toMatch(
+      /<strong>BONG’s version · Fiction<\/strong>.*The pyramids\? BONG\./,
+    );
+    expect(opening?.[1]).not.toContain("$BONG");
+    expect(html).not.toContain("story-lore");
   });
 
   it("shows the approved prelaunch state without claiming the token cannot exist", () => {
@@ -143,7 +151,9 @@ describe("About approved public copy and state-dependent token details", () => {
     expect(html).toContain("Copy full address");
     expect(html).toContain('rel="noopener noreferrer"');
     expect(html).toContain('target="_blank"');
-    expect(html).toContain("Memecoins are speculative and can lose all their value.");
+    expect(html).toContain(
+      "Memecoins are speculative and can lose all their value.",
+    );
     expect(html).toContain(
       "This site does not connect to your wallet or process token purchases.",
     );
