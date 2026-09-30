@@ -31,7 +31,7 @@ describe("static content routes (DATA-07/08, GEN-15)", () => {
     expect(imageParams()).toEqual(expected);
   });
 
-  it("rewrites only withdrawn IDs to static 410 tombstones without disclosing idea text", async () => {
+  it("rewrites only withdrawn IDs to guarded 410 tombstones without disclosing idea text", async () => {
     const root = mkdtempSync(join(tmpdir(), "bong-withdrawal-test-"));
     try {
       mkdirSync(join(root, "content/generated"), { recursive: true });

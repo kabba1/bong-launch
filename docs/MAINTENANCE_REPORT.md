@@ -14,13 +14,13 @@ Final checks: `npm run lint`, `npm run typecheck`, `npm run content:validate`, `
 
 The full scan including ignored files also found paths in 65 `.next` and nine `.netlify` build/trace artifacts. These are framework-generated, ignored local output, so they were not hand-edited. The committed source scan is clean. Initial lint failed with 325 errors and 6,326 warnings because ESLint traversed existing `.netlify` compiled output; `eslint.config.mjs` now ignores that generated directory alongside `.next`. Application lint rules and tests are unchanged.
 
-## Remaining work
+## Supplied timeline inputs
 
-Task 4 and GitHub/Netlify publication are pending. Eight draft timeline files are absent: `content/timeline/` contains only `.gitkeep`. Task 4 will therefore use isolated fixtures, with no editorial content or review records added to the repository.
+Eight draft timeline files are absent: `content/timeline/` contains only `.gitkeep`. Their individual file checks are therefore skipped as explicitly requested. Task 4 uses isolated fixtures, with no editorial content or review records added to the repository.
 
 ## Task 2 — Static public delivery
 
-Changed `next.config.ts` for global static security headers and known-withdrawal rewrites; narrowed `src/proxy.ts` to the seven private page families and `/api`; removed the dynamic root layout; added static params to idea HTML, idea OG and published timeline detail routes. Added a static removal handler for retained 410 withdrawals and explicit dynamic configuration to private layouts. All 1,000 active ideas and OG images are generated, with dynamicParams=false for unknown IDs/slugs. No public HTML Cache-Control override was added, and Netlify configuration is unchanged.
+Changed `next.config.ts` for global static security headers and known-withdrawal rewrites; narrowed `src/proxy.ts` to the seven private page families and `/api`; removed the dynamic root layout; added static params to idea HTML, idea OG and published timeline detail routes. Added a guarded removal handler for retained 410 withdrawals and explicit dynamic configuration to private layouts. All 1,000 active ideas and OG images are generated, with dynamicParams=false for unknown IDs/slugs. No public HTML Cache-Control override was added, and Netlify configuration is unchanged.
 
 `src/app/through-time/page.tsx` no longer reads request searchParams. `src/features/timeline/TimelineArchive.tsx` shares its original archive/search rendering with the client `TimelineSearch.tsx` enhancement. The existing 12-entry search threshold, factual summaries, fiction labels, sources and chronological reading HTML remain. Without JavaScript all published entries remain readable; query filtering needs JavaScript.
 
@@ -34,6 +34,8 @@ Historical performance variability remains: an earlier candidate recorded a 114.
 
 Final checks: `npm run lint`, `npm run typecheck`, `npm run content:validate`, `npm run build` PASS; `npm run test:unit` 63/63, `npm run test:integration` 30/30, `npm run test:security` 66/66, `npm run test:e2e` 31/31 and `npm run test:a11y` 11/11 PASS. `npm run release:check` returns exit 1 with 20 expected blockers, including the missing eight reviewed articles, manual approvals and candidate-bound evidence. It is not a release pass. Logs are in the sibling handoff `.build-evidence/maintenance-2026-09-30/task2/` directory. The production-build table shows static public HTML, 1,000 SSG idea pages, 1,000 SSG OG images, and dynamic private routes/API only (plus the failed security.txt configuration gate).
 
+Task 2's first saved security log has 65 passing tests. The completed Task 2 commit was subsequently checked in an isolated snapshot: `typecheck`, `content:validate` and all 66 security tests pass, with retained `typecheck-committed.log`, `content-validate-committed.log` and `test-security-committed.log`. The earlier log is retained rather than overwritten. The current zero-exclusion build does not prove a static 410: installed Next declines prerendering 410 responses, omits their ISR fallback entry and serves the guarded handler dynamically. It still returns 410 through the canonical rewrite without exposing text; active public HTML remains static. This framework exception was corrected in the architecture/report/test description during final review.
+
 ## Task 3 — About lore
 
 Changed only the opening and timeline paragraphs in `src/app/about/page.tsx`, plus existing expectations in `tests/unit/community-page.test.ts` and `tests/e2e/public-v1.spec.ts`. The requested pyramids/wheel/relativity/Tinder gag follows a visible strong “BONG’s version · Fiction” label. The copy explicitly calls it a bit, denies any claim of real drug-inspired people/inventions, and explains the sourced timeline and fictional narrator. Generator and Community Coming Soon copy/promises, section structure, CSS, links, accessibility and token logic remain intact. No article or historical claim was added.
@@ -43,3 +45,35 @@ The updated browser test failed on the absent fiction label before the page chan
 Ruling: “Do not mention the token unless live” applies to the rewritten lore; preserve the existing state-dependent token section as the owner also explicitly requested. No token mention was added to the lore and the not_launched section remains unchanged. Cost if this interpretation is wrong: hiding the existing prelaunch token section would require a separate behavior change.
 
 Final checks: `npm run lint`, `npm run typecheck`, `npm run content:validate`, `npm run build` PASS; `npm run test:unit` 63/63, `npm run test:integration` 30/30, `npm run test:security` 66/66, `npm run test:e2e` 31/31 and `npm run test:a11y` 11/11 PASS. `npm run release:check` remains exit 1 with 20 expected blockers. Logs are in the sibling handoff `.build-evidence/maintenance-2026-09-30/task3/` directory. `docs/PERFORMANCE.md` was regenerated only by the browser suite. Existing approval records remain untouched; the new About copy needs owner/editorial re-approval before public launch.
+
+## Task 4 — Draft safety regressions
+
+Added four cases to `tests/unit/timeline.test.ts`. Eight in-memory drafts have no reviewer/date fields; one has an unresolved factual source ID. The real schema accepts these drafts, still rejects an invalid draft revision, and requires reviews if publication is attempted. Tests write those isolated fixtures only to verified temporary folders and execute the actual content build/validate commands. Published loading and generated timeline output remain empty. The real release policy receives that zero published count and retains the eight-reviewed-articles blocker.
+
+The actual server content loader, archive renderer, detail metadata/notFound behavior, static params and production sitemap are tested against the generated empty timeline. Every draft title/URL is absent and every detail is 404. The unresolved-source draft never reaches generated output. A publication attempt reuses the pre-existing isolated published validation fixture (no new reviewer identity/date), fails specifically on the missing source relationship, and leaves the generated file empty. Temporary draft inputs are restored and checked for exact equality after each case. Nothing in actual `content/timeline/` was changed or published.
+
+No loader/generator fix was needed: its existing draft branch and published-reference validation already behave correctly. The first focused run failed only because the test's production sitemap lacked an isolated HTTPS origin; adding a test-only origin corrected that setup. The final focused run passes 9/9 timeline tests.
+
+Final checks: `npm run lint`, `npm run typecheck`, `npm run content:validate`, `npm run build` PASS; `npm run test:unit` 67/67, `npm run test:integration` 30/30, `npm run test:security` 66/66, `npm run test:e2e` 31/31 and `npm run test:a11y` 11/11 PASS. `npm run release:check` remains exit 1 with 20 expected blockers. Final `npm run security:scan` passes and `npm audit --audit-level=high` reports zero vulnerabilities. Logs are in the sibling handoff `.build-evidence/maintenance-2026-09-30/task4/` directory; the generated performance report was updated only by the browser suite.
+
+## Preserved constraints and publication
+
+All 1,000 IDs, source CSV bytes, exact idea strings and the active corpus hash remain unchanged. `content/site.json` (including approvals/token mode), every legal JSON, `netlify.toml`/APP_ENV, dependency pins and dormant community services/SQL/lifecycle logic are unchanged. The root/private layout configuration changes only rendering scope; no private write path or feature was introduced. No release/acceptance/ASVS approval or historical candidate binding was fabricated.
+
+The About re-approval, missing real timeline articles, monitored contacts, security.txt expiry, independent security/hosting/accessibility/performance reviews and existing release evidence gaps remain open. Public inline hydration is the documented CSP tradeoff; no-JavaScript readers see all published timeline entries but cannot filter by query. The prelaunch token section is preserved under the ruling above. Unknown static-route 404 diagnostics and historical timing variability remain visible.
+
+GitHub push and updating the existing noindex Netlify site are explicitly authorized. The final review, commit identities, matching hosted deploy and actual HTTP smoke results are reported in the delivery message; deploying does not satisfy the public launch gate.
+
+## Final review
+
+A fresh read-only whole-change review found no Critical or Important code issue. Its two Minor reporting issues were corrected: the 410 prerender claim, and the distinction between Task 2's earlier 65-test log and its verified final 66-test commit. No behavior changed during this reporting correction. There are no deferred code-polish findings.
+
+Final: Ruling: renewed full community certification was outside this maintenance review. Retain dormant v2 unchanged and its 30 integration/66 security regressions, without certifying live providers. Cost if wrong: a future community launch still needs its complete hosted/provider review.
+
+Final: Ruling: local cache/header tests do not establish Netlify delivery. Require actual matching-deploy HTTP smoke checks before reporting publication complete; manual deployment review remains open. Cost if wrong: local success alone could hide an edge-header/cache regression.
+
+Final: Ruling: approval authenticity and historical-source truth cannot be manufactured by code review. Keep those explicit release blockers and require About re-approval. Cost if wrong: launch would lack actual editorial/security/owner evidence.
+
+Final: Ruling: the real eight draft files cannot be audited because they are absent. Use the owner's requested isolated-fixture fallback and skip only the missing-file checks. Cost if wrong: files supplied later still need their own validation.
+
+Final: Ruling: security.txt expiry and historical performance variability remain pre-existing gates. Preserve the failed response/evidence and do not invent expiry, contacts or hosted performance. Cost if wrong: security.txt stays 503 and hosted performance remains unverified until configured/reviewed.
