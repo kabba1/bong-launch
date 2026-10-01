@@ -24,19 +24,14 @@ export default function About() {
         <div className="story-body">
           <h1 id="about-bong-title">So… what is BONG?</h1>
           <p className="story-fiction-label">
-            <strong>BONG’s version · Fiction</strong>
+            <strong>BONG · Fictional narrator</strong>
           </p>
-          <p>
-            BONG has always been around, quietly nudging humanity toward ideas,
-            good and bad. It shamelessly takes credit for the good ones.
-          </p>
-          <p className="story-gag">
-            The pyramids? BONG. The wheel? BONG. Relativity? BONG. Tinder? BONG,
-            but that one might have been a mistake.
+          <p>BONG has a long memory and an eye for the odd detail.</p>
+          <p className="story-voice">
+            Most things look obvious once someone has worked them out.
           </p>
           <p className="story-disclaimer">
-            This is a bit, not a claim. Nothing on this site claims that any
-            real person or invention was inspired by drug use.
+            BONG is a fictional narrator. The history is researched and sourced.
           </p>
         </div>
       </section>
@@ -63,8 +58,8 @@ export default function About() {
           </div>
           <div className="story-guide-copy">
             <p>
-              Real, sourced history. BONG’s fictional version is clearly marked
-              alongside the facts.
+              Explore moments from human history, with sourced facts and a short
+              narration in BONG’s voice.
             </p>
             <Link href="/through-time" className="text-link">
               Visit Through Time <span aria-hidden="true">↗</span>

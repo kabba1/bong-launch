@@ -69,7 +69,7 @@ export function TimelineArchive({
                   </h2>
                   <div className="time-versions">
                     <div className="time-fiction">
-                      <h3>BONG’s version · Fiction</h3>
+                      <h3>BONG’s narration · Fiction</h3>
                       <p>{entry.fictionText}</p>
                     </div>
                     <div className="time-facts">

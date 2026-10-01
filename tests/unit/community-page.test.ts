@@ -94,11 +94,11 @@ describe("About BONG lore and state-dependent token details", () => {
   it("uses the requested story, generator and sourced timeline paragraphs", () => {
     const html = renderAbout();
     for (const paragraph of [
-      "BONG has always been around, quietly nudging humanity toward ideas, good and bad. It shamelessly takes credit for the good ones.",
-      "The pyramids? BONG. The wheel? BONG. Relativity? BONG. Tinder? BONG, but that one might have been a mistake.",
-      "This is a bit, not a claim. Nothing on this site claims that any real person or invention was inspired by drug use.",
+      "BONG has a long memory and an eye for the odd detail.",
+      "Most things look obvious once someone has worked them out.",
+      "BONG is a fictional narrator. The history is researched and sourced.",
       "Press the button for an idea from a fixed list.",
-      "Real, sourced history. BONG’s fictional version is clearly marked alongside the facts.",
+      "Explore moments from human history, with sourced facts and a short narration in BONG’s voice.",
       "The forum is coming later. Share an idea or show what you’ve made.",
     ])
       expect(html).toContain(paragraph);
@@ -106,13 +106,13 @@ describe("About BONG lore and state-dependent token details", () => {
     expect(html).not.toMatch(/href="\/(sign-in|account|board)/);
   });
 
-  it("labels the credit gag as fiction inside the existing opening section", () => {
+  it("labels the narrator as fictional inside the existing opening section", () => {
     const html = renderAbout();
     const opening = html.match(
       /<section class="story-section story-opening"[^>]*>(.*?)<\/section>/,
     );
     expect(opening?.[1]).toMatch(
-      /<strong>BONG’s version · Fiction<\/strong>.*The pyramids\? BONG\./,
+      /<strong>BONG · Fictional narrator<\/strong>.*BONG has a long memory/,
     );
     expect(opening?.[1]).not.toContain("$BONG");
     expect(html).not.toContain("story-lore");

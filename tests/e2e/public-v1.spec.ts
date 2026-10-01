@@ -186,7 +186,7 @@ test("@public-v1 V1-05 a small timeline omits search and token information remai
   });
   await expect(empty).toBeVisible();
   await expect(
-    page.getByText("Real history. BONG takes the credit.", { exact: true }),
+    page.getByText("A closer look at human history.", { exact: true }),
   ).toBeVisible();
   await expect(
     page
@@ -204,7 +204,7 @@ test("@public-v1 V1-05 a small timeline omits search and token information remai
   ).toHaveCount(0);
 });
 
-test("@public-v1 About labels the BONG bit and retains state-dependent token copy", async ({
+test("@public-v1 About labels the fictional narrator and retains state-dependent token copy", async ({
   page,
 }) => {
   await page.goto("/about#bong-token");
@@ -212,12 +212,12 @@ test("@public-v1 About labels the BONG bit and retains state-dependent token cop
     page.getByRole("heading", { name: "$BONG", exact: true }),
   ).toBeVisible();
   for (const paragraph of [
-    "BONG’s version · Fiction",
-    "BONG has always been around, quietly nudging humanity toward ideas, good and bad. It shamelessly takes credit for the good ones.",
-    "The pyramids? BONG. The wheel? BONG. Relativity? BONG. Tinder? BONG, but that one might have been a mistake.",
-    "This is a bit, not a claim. Nothing on this site claims that any real person or invention was inspired by drug use.",
+    "BONG · Fictional narrator",
+    "BONG has a long memory and an eye for the odd detail.",
+    "Most things look obvious once someone has worked them out.",
+    "BONG is a fictional narrator. The history is researched and sourced.",
     "Press the button for an idea from a fixed list.",
-    "Real, sourced history. BONG’s fictional version is clearly marked alongside the facts.",
+    "Explore moments from human history, with sourced facts and a short narration in BONG’s voice.",
     "The forum is coming later. Share an idea or show what you’ve made.",
   ])
     await expect(page.getByText(paragraph, { exact: true })).toBeVisible();

@@ -8,6 +8,18 @@ The supplied art, visual direction and all 1,000 exact idea texts require owner 
 
 At least **eight** public timeline entries need real reviewers, claim-level sources, accurate uncertainty/date treatment and actual rights for included images. This requirement was not waived by the v1 scope change. Follow the timeline schema, use numeric sortYear rather than parsing human BCE labels, and visibly distinguish fictional BONG narration from historical facts. Never add fabricated reviews, fixture articles, executable HTML or MDX.
 
+## Timeline voice — owner clarification, 2026-09-30
+
+The owner clarified the premise after reviewing the public copy: Through Time is an educational, scrollable chronology of highlighted moments across human history. Readers should learn accurate facts. BONG supplies a quiet narrator's voice, with the impression of a witness rather than the cause of events. This supersedes the original premise that BONG supplied historical ideas and the later credit-taking gag; do not reinstate either from historical specifications or reports.
+
+- Research the actual event, explain something worth learning, and credit the real people and work involved. Preserve uncertainty and shared attribution; do not reduce everything to a lone genius or a sudden revelation.
+- Write the short narrative part as BONG telling the story, without repeatedly announcing that BONG was there. Use an observant aside or perspective rather than an alternative account of what happened. The existing `fictionText` field holds this fictional narrator's contribution; the sourced factual fields and references remain authoritative.
+- Never claim or directly imply that BONG, a bong rip, cannabis or drug use caused, inspired, enabled or influenced a historical person, invention, idea or event. Do not use attribution jokes such as “The wheel? BONG,” a credit-taking tagline, invented conversations with real figures or invented actions by them.
+- Keep the public label **BONG’s narration · Fiction** distinct from **The history** in archive cards and detail pages. Fiction applies to the imagined narrator, not an excuse to distort facts. Do not remove the source links or claim-level review gates to make the voice subtler.
+- Keep the chronology normally scrollable and date-ordered with accessible highlighted entries. This voice clarification does not authorize invented articles, sources, dates, reviewer records or publication of unreviewed drafts. Genuine reviewed content is still required before populating the timeline.
+
+Public introduction: **A closer look at human history.** About describes a long memory and an eye for detail, with no claim of historical credit or influence.
+
 Public terms/privacy/accessibility JSON must contain approved title/version/sections and genuine `approvedBy`/`approvedAt`. V1 notices describe browser generator storage, public content, hosting logs and real contacts accurately; they must not imply active accounts, uploads, verified age, live AI or private account services. Community rules and member retention/export/deletion policy become mandatory before v2 opens.
 
 ## Approval records

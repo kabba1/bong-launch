@@ -15,7 +15,7 @@ export default function Home() {
           <article className="thought-destination">
             <h2>Bong Through Time</h2>
             {!timelineReady && <span className="coming-note">Coming soon</span>}
-            <p>Real history. BONG takes the credit.</p>
+            <p>A closer look at human history.</p>
             <Link className="text-link" href="/through-time">
               Visit Through Time <Icon name="arrow" size={18} />
             </Link>

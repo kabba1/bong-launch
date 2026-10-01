@@ -149,4 +149,12 @@ Apply the owner's approval of the current-page audit: preserve the artwork, pale
 - [x] Give Contact an actionable set of existing official channels without inventing email addresses or monitored support (V1-04, OPS-11/13).
 - [x] Verify production CSS, keyboard/touch flows, copy/share/persistence, 320/390/768/1024/1440 layouts and all required local scripts. Fix short-page footer placement and Escape dismissal from the mobile toggle, each with a failing-then-passing browser regression (UX-01/02/04). Keep approvals, legal JSON, source corpus, dependency pins, APP_ENV and dormant v2 untouched. Record real failures and approval/evidence limits; visual/copy changes require re-approval before launch. Matching hosted delivery is a final publication step, verified in the delivery message rather than asserted before deployment.
 
+## Owner clarification — timeline narrator (2026-09-30)
+
+The owner's latest direction replaces the earlier credit-taking premise and exact pyramids/wheel/relativity/Tinder gag: real history is educational; BONG's short narrative voice suggests a witness without claiming or directly implying any influence on historical people or ideas. Apply the [current editorial guidance](CONTENT_AND_RELEASE.md#timeline-voice--owner-clarification-2026-09-30); historical reports remain historical, not instructions to restore superseded copy.
+
+- [x] Update Home, Through Time, About and generic metadata; replace “version” with “narration” in the visibly separated fictional narrator labels (TIME-04, UX-08/09).
+- [x] Preserve the existing date-ordered scrollable archive, factual fields/source links, publication gates, no-JavaScript reading, corpus, token behavior and dormant private boundaries (TIME-01/02/08/09, DATA-01–09, V1-02–05).
+- [x] Update existing copy expectations without weakening functional assertions; run the required local script contract, inspect phone/desktop production rendering and review. Record the initial 53.1ms performance miss and unchanged-suite repeat honestly; manual performance approval remains open. GitHub push and exact matching Netlify smoke checks are the final delivery step, reported after publication. All actual approval/content blockers remain open (OPS-05/11/13).
+
 

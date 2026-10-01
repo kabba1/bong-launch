@@ -70,10 +70,8 @@ describe("TIME-UI editorial archive and search threshold", () => {
   it("shows an intentional empty archive without search or invented articles", async () => {
     const html = await render();
     expect(html).toContain("No stories published yet.");
-    expect(html).toContain('class="eyebrow">The unofficial record</p>');
-    expect(html).toContain(
-      'class="lead">Real history. BONG takes the credit.</p>',
-    );
+    expect(html).toContain('class="eyebrow">Human history</p>');
+    expect(html).toContain('class="lead">A closer look at human history.</p>');
     expect(html).toContain("Get an idea");
     expect(html).not.toMatch(
       /History is still being rewritten|checking the sources|The archive \/|Questionable inspiration|The sources remember/,
@@ -153,7 +151,7 @@ describe("TIME-UI editorial archive and search threshold", () => {
       },
     ];
     const html = await render();
-    expect(html.match(/BONG’s version · Fiction/g)).toHaveLength(2);
+    expect(html.match(/BONG’s narration · Fiction/g)).toHaveLength(2);
     expect(html.match(/<h3>The history<\/h3>/g)).toHaveLength(2);
     expect(html).toContain("Test-only factual summary.");
     expect(html).toContain('href="/through-time/fixture-1#sources"');
@@ -172,7 +170,7 @@ describe("TIME-UI editorial archive and search threshold", () => {
     const fixture = entry(1);
     content.entries = [fixture];
     expect(metadata.description).toBe(
-      "The history of inventions and discoveries, alongside BONG’s fictional version of events.",
+      "Explore a timeline of human history, with sourced facts and short narration in BONG’s voice.",
     );
     expect(metadata.alternates.canonical).toBe("/through-time");
     expect(
@@ -187,7 +185,7 @@ describe("TIME-UI editorial archive and search threshold", () => {
     const html = renderToStaticMarkup(
       await Story({ params: Promise.resolve({ slug: fixture.slug }) }),
     );
-    expect(html).toContain("BONG’s version · Fiction");
+    expect(html).toContain("BONG’s narration · Fiction");
     expect(html).toContain("<h2>The history</h2>");
     expect(html).toContain(fixture.fictionText);
     expect(html).toContain(fixture.facts[0].text);

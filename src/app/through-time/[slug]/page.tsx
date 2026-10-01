@@ -55,7 +55,7 @@ export default async function Story({
       <h1>{entry.title}</h1>
       <p className="lead">{entry.summary}</p>
       <div className="fiction">
-        <strong>BONG’s version · Fiction</strong>
+        <strong>BONG’s narration · Fiction</strong>
         <p>{entry.fictionText}</p>
       </div>
       {entry.image && (

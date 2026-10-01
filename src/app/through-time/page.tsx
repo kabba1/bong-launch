@@ -6,16 +6,16 @@ import "@/styles/timeline.css";
 export const metadata = {
   title: "Bong Through Time",
   description:
-    "The history of inventions and discoveries, alongside BONG’s fictional version of events.",
+    "Explore a timeline of human history, with sourced facts and short narration in BONG’s voice.",
   alternates: { canonical: "/through-time" },
 };
 export default function Timeline() {
   const entries = listPublishedTimeline();
   return (
     <section className="page time-archive">
-      <p className="eyebrow">The unofficial record</p>
+      <p className="eyebrow">Human history</p>
       <h1>Bong Through Time.</h1>
-      <p className="lead">Real history. BONG takes the credit.</p>
+      <p className="lead">A closer look at human history.</p>
       {entries.length >= 12 ? (
         <>
           <noscript>
