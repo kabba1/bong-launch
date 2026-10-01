@@ -1,0 +1,32 @@
+{
+  "title": "Privacy",
+  "version": "1.1-draft",
+  "approvedAt": "",
+  "approvedBy": "",
+  "sections": [
+    {
+      "heading": "Browsing BONG",
+      "paragraphs": [
+        "You can browse BONG and use the idea generator without an account. The forum is coming soon; the site does not currently accept posts or uploads."
+      ]
+    },
+    {
+      "heading": "Saved in your browser",
+      "paragraphs": [
+        "The generator saves its shuffled list and recent draws in your browser’s local storage so you can work through the ideas without repeating them. You can remove this information by clearing BONG’s site data in your browser."
+      ]
+    },
+    {
+      "heading": "Site visits",
+      "paragraphs": [
+        "The hosting provider may keep routine logs of visits, including your IP address, browser, requested page and request time. BONG does not currently use advertising trackers or analytics cookies."
+      ]
+    },
+    {
+      "heading": "Links to other sites",
+      "paragraphs": [
+        "Links to X, Telegram and historical sources open other websites. Those services have their own privacy policies."
+      ]
+    }
+  ]
+}

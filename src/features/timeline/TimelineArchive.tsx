@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { TimelineEntry } from "./types";
+import { TimelinePreview } from "./TimelinePreview";
 
 /** Shared by the static archive and its optional client search enhancement. */
 export function TimelineArchive({
@@ -45,7 +46,7 @@ export function TimelineArchive({
       )}
       {!entries.length ? (
         <div className="time-empty">
-          <h2>No stories published yet.</h2>
+          <h2>Coming soon.</h2>
           <Link className="text-link" href="/">
             Get an idea <span aria-hidden="true">→</span>
           </Link>
@@ -56,47 +57,21 @@ export function TimelineArchive({
           <Link href="/through-time">Reset search</Link>
         </div>
       ) : (
-        <ol className="time-entries" aria-label="Chronological archive">
-          {found.map((entry) => (
-            <li className="time-entry" key={entry.id}>
-              <article>
-                <p className="time-date">{entry.dateLabel}</p>
-                <div className="time-entry-body">
-                  <h2>
-                    <Link href={`/through-time/${entry.slug}`}>
-                      {entry.title}
-                    </Link>
-                  </h2>
-                  <div className="time-versions">
-                    <div className="time-fiction">
-                      <h3>BONG’s narration · Fiction</h3>
-                      <p>{entry.fictionText}</p>
-                    </div>
-                    <div className="time-facts">
-                      <h3>The history</h3>
-                      <p>{entry.summary}</p>
-                    </div>
-                  </div>
-                  <div className="time-entry-links">
-                    <Link
-                      className="text-link"
-                      href={`/through-time/${entry.slug}`}
-                    >
-                      Read the story <span aria-hidden="true">→</span>
-                    </Link>
-                    <Link
-                      className="time-source-count"
-                      href={`/through-time/${entry.slug}#sources`}
-                    >
-                      {entry.sources.length}{" "}
-                      {entry.sources.length === 1 ? "source" : "sources"}
-                    </Link>
-                  </div>
-                </div>
-              </article>
-            </li>
-          ))}
-        </ol>
+        <TimelinePreview
+          key={q}
+          events={found.map((entry) => ({
+            id: entry.id,
+            date: entry.dateLabel,
+            shortDate: entry.dateLabel,
+            era: "Bong Through Time",
+            title: entry.title,
+            text: entry.summary,
+            narration: entry.fictionText,
+            href: `/through-time/${entry.slug}`,
+            source: `${entry.sources.length} ${entry.sources.length === 1 ? "source" : "sources"}`,
+            url: `/through-time/${entry.slug}#sources`,
+          }))}
+        />
       )}
     </>
   );

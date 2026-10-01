@@ -117,14 +117,10 @@ test("TIME-08/09 no invented history is published", async ({
 }) => {
   await page.goto("/through-time");
   await expect(
-    page.getByRole("heading", { name: "Bong Through Time.", exact: true }),
+    page.getByRole("heading", { name: "Bong Through Time", exact: true }),
   ).toBeVisible();
-  await expect(
-    page.getByRole("heading", {
-      name: "No stories published yet.",
-      exact: true,
-    }),
-  ).toBeVisible();
+  await expect(page.locator(".chronology")).toHaveCount(0);
+  await expect(page.locator("main article")).toHaveCount(0);
   await expect(
     page.getByRole("textbox", { name: "Search history" }),
   ).toHaveCount(0);

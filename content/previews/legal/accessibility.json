@@ -1,0 +1,26 @@
+{
+  "title": "Accessibility",
+  "version": "1.1-draft",
+  "approvedAt": "",
+  "approvedBy": "",
+  "sections": [
+    {
+      "heading": "Using the site",
+      "paragraphs": [
+        "BONG aims to make its pages usable with a keyboard, clear headings, visible focus, meaningful labels and useful image descriptions."
+      ]
+    },
+    {
+      "heading": "Motion and text",
+      "paragraphs": [
+        "The site respects your reduced motion preference and is designed to stay readable when you enlarge the text or use a small screen."
+      ]
+    },
+    {
+      "heading": "Known limits",
+      "paragraphs": [
+        "Testing cannot find every accessibility barrier. Linked sites, including X and Telegram, are outside BONG’s control and may have their own accessibility limits."
+      ]
+    }
+  ]
+}

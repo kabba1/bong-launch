@@ -20,7 +20,6 @@ export function Footer({
           {communityEnabled && (
             <Link href="/community-rules">Community rules</Link>
           )}
-          <Link href="/contact">Contact</Link>
           {safeHttps(publicSettings.socials.x) && (
             <a href={publicSettings.socials.x} rel="noopener noreferrer">
               X

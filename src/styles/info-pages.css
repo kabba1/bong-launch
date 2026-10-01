@@ -1,0 +1,52 @@
+.policy-page .policy-heading h1 {
+  margin: 12px 0 18px;
+}
+
+.policy-page .policy-version {
+  margin-bottom: 34px;
+}
+
+.policy-page .policy-section {
+  padding: 26px 0;
+  border-top: 1px solid var(--line);
+}
+
+.policy-page .policy-section h2 {
+  margin: 0 0 14px;
+  font-size: clamp(1.35rem, 2.5vw, 1.65rem);
+  letter-spacing: -0.025em;
+}
+
+.policy-page .policy-section p {
+  max-width: 66ch;
+  line-height: 1.75;
+}
+
+.policy-page .policy-back {
+  margin-top: 20px;
+}
+
+.community-page .community-teaser-copy .community-socials {
+  margin-top: 38px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+
+.community-page .community-socials h2 {
+  margin-bottom: 12px;
+  font-size: 25px;
+}
+
+.community-page .community-socials p {
+  margin-bottom: 20px;
+}
+
+@media (max-width: 760px) {
+  .policy-page .policy-version {
+    margin-bottom: 24px;
+  }
+
+  .policy-page .policy-section {
+    padding: 22px 0;
+  }
+}

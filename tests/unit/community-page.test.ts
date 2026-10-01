@@ -41,9 +41,9 @@ beforeEach(() => {
 describe("V1-04 configured community social links", () => {
   it("does not invent social accounts or signup when no links are configured", () => {
     const html = render();
-    expect(html).toContain("Coming soon");
     expect(html).toContain(communityCopy);
-    expect(html.match(/<p[ >]/g)).toHaveLength(1);
+    expect(html).toContain("Forum coming soon");
+    expect(html).not.toContain("Already here");
     expect(html).not.toContain("Follow on X");
     expect(html).not.toContain("Join Telegram");
     expect(html).not.toMatch(/href="\/(sign-in|account|board)/);
@@ -58,8 +58,9 @@ describe("V1-04 configured community social links", () => {
     expect(html).toContain(communityCopy);
     expect(html).toContain("Follow on X");
     expect(html).toContain("Join Telegram");
+    expect(html).toContain("Already here");
+    expect(html).toContain("Find BONG on X and Telegram.");
     expect(html.match(/rel="noopener noreferrer"/g)).toHaveLength(2);
-    expect(html.match(/<p[ >]/g)).toHaveLength(1);
     expect(html.match(/<a[ >]/g)).toHaveLength(2);
   });
 
@@ -68,6 +69,7 @@ describe("V1-04 configured community social links", () => {
     const html = render();
     expect(html).toContain("Join Telegram");
     expect(html).not.toContain("Follow on X");
+    expect(html).toContain("Find BONG on Telegram.");
   });
 
   it("omits unsafe or credential-bearing links even when rendering isolated configuration", () => {
@@ -94,11 +96,10 @@ describe("About BONG lore and state-dependent token details", () => {
   it("uses the requested story, generator and sourced timeline paragraphs", () => {
     const html = renderAbout();
     for (const paragraph of [
-      "BONG has a long memory and an eye for the odd detail.",
-      "Most things look obvious once someone has worked them out.",
-      "BONG is a fictional narrator. The history is researched and sourced.",
-      "Press the button for an idea from a fixed list.",
-      "Explore moments from human history, with sourced facts and a short narration in BONG’s voice.",
+      "BONG has always been around.",
+      "The pyramids? BONG. The wheel? BONG. Relativity? BONG. Tinder? BONG, but that one might have been a mistake.",
+      "Click the bong and see what comes to mind.",
+      "Some ideas made history. Explore the moments that changed how people lived, the problems they were trying to solve, and what happened next.",
       "The forum is coming later. Share an idea or show what you’ve made.",
     ])
       expect(html).toContain(paragraph);
@@ -106,14 +107,13 @@ describe("About BONG lore and state-dependent token details", () => {
     expect(html).not.toMatch(/href="\/(sign-in|account|board)/);
   });
 
-  it("labels the narrator as fictional inside the existing opening section", () => {
+  it("keeps the requested opening story without the removed fiction label", () => {
     const html = renderAbout();
     const opening = html.match(
       /<section class="story-section story-opening"[^>]*>(.*?)<\/section>/,
     );
-    expect(opening?.[1]).toMatch(
-      /<strong>BONG · Fictional narrator<\/strong>.*BONG has a long memory/,
-    );
+    expect(opening?.[1]).toContain("BONG has always been around.");
+    expect(opening?.[1]).not.toContain("BONG’s version");
     expect(opening?.[1]).not.toContain("$BONG");
     expect(html).not.toContain("story-lore");
   });
@@ -179,24 +179,12 @@ describe("About BONG lore and state-dependent token details", () => {
   });
 });
 
-describe("Contact uses configured official channels without inventing an email", () => {
-  it("gives a real next action when the operator has not supplied an email", () => {
-    configured.socials = { x, telegram };
-    const html = renderToStaticMarkup(createElement(Contact));
-    expect(html).toContain(`href="${x}"`);
-    expect(html).toContain(`href="${telegram}"`);
-    expect(html).not.toContain("mailto:");
-    expect(html).not.toMatch(/<form[ >]|<input[ >]|href="\/(?:sign-in|board)/);
-  });
-
-  it("does not turn unsafe configured channels into contact destinations", () => {
-    configured.socials = {
-      x: "javascript:alert(1)",
-      telegram: "https://user:password@social.invalid/",
-    };
-    const html = renderToStaticMarkup(createElement(Contact));
-    expect(html).not.toContain("javascript:");
-    expect(html).not.toContain("user:password");
-    expect(html).not.toContain("mailto:");
+describe("Retired Contact route", () => {
+  it("permanently redirects old links to Community without rendering a contact section", () => {
+    expect(() => Contact()).toThrowError(
+      expect.objectContaining({
+        digest: "NEXT_REDIRECT;replace;/community;308;",
+      }),
+    );
   });
 });

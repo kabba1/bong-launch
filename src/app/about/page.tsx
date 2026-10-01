@@ -23,15 +23,10 @@ export default function About() {
         <p className="story-index">The story</p>
         <div className="story-body">
           <h1 id="about-bong-title">So… what is BONG?</h1>
-          <p className="story-fiction-label">
-            <strong>BONG · Fictional narrator</strong>
-          </p>
-          <p>BONG has a long memory and an eye for the odd detail.</p>
+          <p>BONG has always been around.</p>
           <p className="story-voice">
-            Most things look obvious once someone has worked them out.
-          </p>
-          <p className="story-disclaimer">
-            BONG is a fictional narrator. The history is researched and sourced.
+            The pyramids? BONG. The wheel? BONG. Relativity? BONG. Tinder? BONG,
+            but that one might have been a mistake.
           </p>
         </div>
       </section>
@@ -42,7 +37,7 @@ export default function About() {
         >
           <h2 id="about-generator">The generator</h2>
           <div className="story-guide-copy">
-            <p>Press the button for an idea from a fixed list.</p>
+            <p>Click the bong and see what comes to mind.</p>
             <Link href="/" className="text-link">
               Get an idea <span aria-hidden="true">↗</span>
             </Link>
@@ -58,8 +53,9 @@ export default function About() {
           </div>
           <div className="story-guide-copy">
             <p>
-              Explore moments from human history, with sourced facts and a short
-              narration in BONG’s voice.
+              Some ideas made history. Explore the moments that changed how
+              people lived, the problems they were trying to solve, and what
+              happened next.
             </p>
             <Link href="/through-time" className="text-link">
               Visit Through Time <span aria-hidden="true">↗</span>

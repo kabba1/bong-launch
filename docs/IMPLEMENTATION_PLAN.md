@@ -149,12 +149,61 @@ Apply the owner's approval of the current-page audit: preserve the artwork, pale
 - [x] Give Contact an actionable set of existing official channels without inventing email addresses or monitored support (V1-04, OPS-11/13).
 - [x] Verify production CSS, keyboard/touch flows, copy/share/persistence, 320/390/768/1024/1440 layouts and all required local scripts. Fix short-page footer placement and Escape dismissal from the mobile toggle, each with a failing-then-passing browser regression (UX-01/02/04). Keep approvals, legal JSON, source corpus, dependency pins, APP_ENV and dormant v2 untouched. Record real failures and approval/evidence limits; visual/copy changes require re-approval before launch. Matching hosted delivery is a final publication step, verified in the delivery message rather than asserted before deployment.
 
-## Owner clarification — timeline narrator (2026-09-30)
+## Owner clarification — timeline narrator (2026-09-30; superseded below)
 
-The owner's latest direction replaces the earlier credit-taking premise and exact pyramids/wheel/relativity/Tinder gag: real history is educational; BONG's short narrative voice suggests a witness without claiming or directly implying any influence on historical people or ideas. Apply the [current editorial guidance](CONTENT_AND_RELEASE.md#timeline-voice--owner-clarification-2026-09-30); historical reports remain historical, not instructions to restore superseded copy.
+This earlier interpretation replaced the pyramids/wheel/relativity/Tinder gag and reframed BONG as a narrator. The owner subsequently rejected that characterization; the local copy review below supersedes this interpretation. Apply the [current editorial guidance](CONTENT_AND_RELEASE.md#timeline-voice--owner-clarification-2026-09-30).
 
 - [x] Update Home, Through Time, About and generic metadata; replace “version” with “narration” in the visibly separated fictional narrator labels (TIME-04, UX-08/09).
 - [x] Preserve the existing date-ordered scrollable archive, factual fields/source links, publication gates, no-JavaScript reading, corpus, token behavior and dormant private boundaries (TIME-01/02/08/09, DATA-01–09, V1-02–05).
 - [x] Update existing copy expectations without weakening functional assertions; run the required local script contract, inspect phone/desktop production rendering and review. Record the initial 53.1ms performance miss and unchanged-suite repeat honestly; manual performance approval remains open. GitHub push and exact matching Netlify smoke checks are the final delivery step, reported after publication. All actual approval/content blockers remain open (OPS-05/11/13).
 
 
+
+## Local copy review (2026-09-30)
+
+The owner approved local edits and previews, with no GitHub push or Netlify deployment until satisfied. This supersedes earlier publication instructions for ongoing copy iteration.
+
+- [x] Restore the approved Story and its fiction label without changing BONG's personality; use the approved generator and expanded Through Time descriptions. Align Home/archive introductions and archive metadata (GEN-01, TIME-04, UX-08/09).
+- [x] Maintain existing copy assertions: 21 focused unit tests pass. Confirm the updated About text renders in the local browser. Full production/release checks are deferred until a publication candidate is approved; existing release blockers remain open.
+- [x] Leave the local development preview running for owner review. No commit, push or deployment.
+
+## Local interactive timeline (2026-09-30)
+
+Owner requested an interactive test timeline, removal of existing Through Time introductory text, Home copy "Ideas that made history.", and removal of the About fiction label. Local preview authorization continues; no commit, push or deployment.
+
+- [x] Apply the two exact copy edits and retain a screen-reader page heading on Through Time (UX-08/09).
+- [x] Add a horizontal chronological rail with selected-event details, real source links, native touch scrolling, previous/next buttons and arrow-key navigation plus Home and End; support narrow screens and reduced motion (TIME-05/07, UX-01/02/04).
+- [x] Supply seven source-backed mock entries only through the development branch of the server page. No article approval identities or publication flags; production corpus, sitemap and counts remain untouched (TIME-01/02/08/09).
+- [x] Boundary tests observed failing before implementation, then passing. Production build, lint, typecheck and 22 focused unit checks pass. Production output search contains none of the distinctive test-entry text. Browser checks cover selection, first/last disabled controls, keyboard endpoints and contained horizontal scrolling at 390px. Fix the observed phone page jump by scrolling only the rail; selecting Next then preserves scrollY (215 before/after).
+
+This is a local prototype, not a release candidate. The production route remains empty until genuine published content exists; porting the interactive presentation to reviewed articles is future work after design approval. The full integration/security/e2e/a11y/release script contract has not been rerun for this iteration, and existing release blockers remain open. No dependencies or supplied content were changed.
+
+Verification follow-up: all 74 unit tests now pass. The first full run exposed a synchronous render expectation after the page became async, and a false-positive path scan caused by slash-separated keyboard key names in this plan. Corrected the awaited test rendering and the prose without weakening assertions. Final typecheck and focused ESLint also pass; production HTML excludes the mock timeline and generated timeline content remains empty.
+
+## Owner-authorized completion and polish (2026-10-01)
+
+The owner requested a full local polish pass following the audit and explicitly removed the Contact section/email requirement from the public UI. Preserve the approved headline/art/Story, source corpus, private boundaries, and no-publish instruction. Existing uncommitted copy work remains part of this candidate.
+
+- [x] Compact timeline layout, improve date navigation and readable source controls; reuse the interaction for real reviewed entries with search and no-JavaScript fallback. Keep mock entries development-only and show an honest production empty state (TIME-01/02/04/05/07/08/09, UX-01/02/04).
+- [x] Refine sourced mock narration without historical causal claims. Keep draft status and exact idea corpus (TIME-03/04, DATA-01–09).
+- [x] Remove Contact navigation/sitemap and redirect legacy URL to Community. Clarify Community's available social links. Prepare local-only policy revisions without manufacturing legal approval (UX-08/09, V1-04/05, OPS-11/13).
+- [x] Check generator result visibility, keyboard, mobile reflow and source links. Run the script contract and inspect the local pages. Preserve failed checks and remaining editorial/manual review requirements honestly; no commit/push/deployment (GEN-01/02/14, UX-01/02/04, OPS-05/13).
+
+Implementation and local verification are complete. The initial no-JavaScript fallback failure and obsolete Community paragraph-count assertion were corrected and their affected suites passed. Build, lint, types, exact content validation, unit/integration/security, production browser scenarios, accessibility and the added preview suite pass; details and counts are in [MAINTENANCE_REPORT.md](MAINTENANCE_REPORT.md). Release validation still reports 20 genuine blockers. The development preview is left running for owner review; no commit, push, deployment, approval or release-evidence rebinding was performed.
+
+## Local timeline dock iteration (2026-10-01)
+
+Owner requested a macOS Dock-like timeline and selected event tiles with dates. Preserve selected story until click/tap, magnify nearby symbols on mouse movement, and keep existing source text, keyboard navigation, no-JavaScript reading and public/draft boundaries. Scope is local only; no commit, push or deployment.
+
+- [x] Replace the sparse markers with compact symbolic event tiles and a dock surface; add a smooth proximity wave measured from fixed slots, without layout jumps (TIME-07, UX-01/02/04/05).
+- [x] Retain swipe/drag, stable selection, reduced motion, source links and ordinary server-rendered articles; verify mobile/desktop behavior and preview screenshots (TIME-04/08, UX-01/02/04/05/07).
+- [x] Run the relevant regression and build checks, record actual failures and results, and leave the local preview available. Existing release gates remain open (OPS-05/13).
+
+All eight preview tests, 77 unit tests, lint, typecheck, exact content validation and the final production build pass. Review found and verified a fix for clicks on the enlarged upper tile area. The hover-state screenshot was inspected; mobile reflow and touch behavior passed browser automation. Reopening the owner's in-app tab was rejected by the browser URL policy (unsupported protocol), so the server was left running for manual refresh rather than bypassing that restriction. Details are in the maintenance report.
+
+## Owner-authorized GitHub and Netlify update (2026-10-01)
+
+The owner explicitly requested publication of the current work to GitHub and Netlify. This supersedes the local-only pause for this candidate. Preserve the existing noindex Netlify site, APP_ENV, feature flags, approved-content boundary and all real release blockers. The question of exposing local test/draft content on the hosted site remains unanswered; deploy the current production behavior, with an empty timeline and previously approved policies, rather than enable a new hosted-preview mode.
+
+- [x] Review the complete accumulated copy/design/dock diff and verify the current production candidate. Lint, types, exact content validation, build, 77 unit, 30 integration, 68 security, 33 production browser and 11 accessibility scenarios pass; secret scan passes. Release validation remains blocked with 20 outstanding gates.
+- [ ] Commit and push the reviewed candidate to the existing main branch, deploy the same revision to the existing Netlify site, and verify its identity, copy, headers, content hash and dormant-route behavior. Publication results are recorded in the delivery message after the remote operations succeed.

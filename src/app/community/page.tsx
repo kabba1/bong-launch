@@ -1,6 +1,7 @@
 import { Icon } from "@/components/Icon";
 import { publicSettings, safeHttps } from "@/lib/site";
 import "@/styles/story-pages.css";
+import "@/styles/info-pages.css";
 
 export const metadata = {
   title: "Community — Coming Soon",
@@ -13,16 +14,21 @@ export default function Community() {
   const x = safeHttps(publicSettings.socials.x);
   const telegram = safeHttps(publicSettings.socials.telegram);
   return (
-    <section className="page story-community">
+    <section className="page story-community community-page">
       <header className="community-teaser-heading">
         <h1>Community.</h1>
-        <span className="coming-note">Coming soon</span>
       </header>
       <div className="community-teaser-layout">
         <div className="community-teaser-copy">
+          <p className="eyebrow">Forum coming soon</p>
           <p className="story-lead">Share an idea. Show what you made.</p>
           {(x || telegram) && (
             <div className="community-socials">
+              <h2>Already here</h2>
+              <p>
+                Find BONG on{" "}
+                {x && telegram ? "X and Telegram" : x ? "X" : "Telegram"}.
+              </p>
               <div className="form-actions">
                 {x && (
                   <a

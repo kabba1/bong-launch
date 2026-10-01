@@ -177,11 +177,12 @@ describe("unreviewed timeline drafts (TIME-01/02/08/09, DATA-10, OPS-13)", () =>
       const archive = await import("../../src/app/through-time/page");
       const detail = await import("../../src/app/through-time/[slug]/page");
       const sitemap = (await import("../../src/app/sitemap")).default();
-      const html = renderToStaticMarkup(archive.default());
+      const html = renderToStaticMarkup(await archive.default());
       expect(content.listPublishedTimeline()).toEqual([]);
       expect(detail.generateStaticParams()).toEqual([]);
       expect(detail.dynamicParams).toBe(false);
-      expect(html).toContain("No stories published yet.");
+      expect(html).not.toContain("No stories published yet.");
+      expect(html).not.toContain('id="timeline-tab-handaxes"');
       expect(html).not.toContain('class="time-entry"');
       expect(sitemap.some((item) => item.url.endsWith("/through-time"))).toBe(
         true,

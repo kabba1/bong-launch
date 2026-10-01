@@ -12,7 +12,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/privacy",
     "/terms",
     ...(communityEnabled() ? ["/community-rules"] : []),
-    "/contact",
     "/accessibility",
     ...getAllIdeas().map((i) => `/idea/${i.id}`),
     ...listPublishedTimeline().map((i) => `/through-time/${i.slug}`),

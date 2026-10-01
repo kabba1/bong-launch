@@ -123,7 +123,7 @@ test("@public-v1 exact homepage copy keeps the generator and destinations clear"
     "Bong Through Time",
   );
   await expect(destinations.nth(0).locator("p")).toHaveText(
-    "A closer look at human history.",
+    "Ideas that made history.",
   );
   await expect(
     destinations
@@ -187,7 +187,7 @@ test("@public-v1 public copy and metadata omit quantity claims and repeated slog
     ],
     [
       "/through-time",
-      "Explore a timeline of human history, with sourced facts and short narration in BONG’s voice.",
+      "Some ideas made history. Explore the moments that changed how people lived, the problems they were trying to solve, and what happened next.",
     ],
     [
       "/community",

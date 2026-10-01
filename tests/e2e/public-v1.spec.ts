@@ -155,8 +155,12 @@ test("@public-v1 V1-04 Coming Soon exposes only configured official social links
   await expect(
     main.getByText("Share an idea. Show what you made.", { exact: true }),
   ).toBeVisible();
-  await expect(main.getByText("Coming soon", { exact: true })).toBeVisible();
-  await expect(main.locator("p")).toHaveCount(1);
+  await expect(main.getByText("Forum coming soon", { exact: true })).toBeVisible();
+  if (socials.x || socials.telegram) {
+    await expect(main.getByRole("heading", { name: "Already here" })).toBeVisible();
+    const channels = socials.x && socials.telegram ? "X and Telegram" : socials.x ? "X" : "Telegram";
+    await expect(main.getByText(`Find BONG on ${channels}.`, { exact: true })).toBeVisible();
+  }
   await expect(main.locator("img, figure, figcaption")).toHaveCount(0);
   await expect(
     main.locator('a[href="/"], a[href="/through-time"]'),
@@ -180,22 +184,11 @@ test("@public-v1 V1-05 a small timeline omits search and token information remai
   await expect(
     page.getByRole("button", { name: "Search", exact: true }),
   ).toHaveCount(0);
-  const empty = page.getByRole("heading", {
-    name: "No stories published yet.",
-    exact: true,
-  });
-  await expect(empty).toBeVisible();
-  await expect(
-    page.getByText("A closer look at human history.", { exact: true }),
-  ).toBeVisible();
-  await expect(
-    page
-      .locator(".time-empty")
-      .getByRole("link", { name: "Get an idea", exact: true }),
-  ).toHaveAttribute("href", "/");
-  await expect(page.locator(".time-empty p")).toHaveCount(0);
+  await expect(page.locator(".time-empty")).toContainText("Coming soon.");
+  await expect(page.locator(".chronology")).toHaveCount(0);
+  await expect(page.locator("main")).not.toContainText("Some ideas made history.");
   await page.goto("/through-time?q=curiosity");
-  await expect(empty).toBeVisible();
+  await expect(page.locator(".time-empty")).toContainText("Coming soon.");
   await expect(
     page.getByRole("textbox", { name: "Search history" }),
   ).toHaveCount(0);
@@ -204,7 +197,7 @@ test("@public-v1 V1-05 a small timeline omits search and token information remai
   ).toHaveCount(0);
 });
 
-test("@public-v1 About labels the fictional narrator and retains state-dependent token copy", async ({
+test("@public-v1 About retains the requested lore and state-dependent token copy", async ({
   page,
 }) => {
   await page.goto("/about#bong-token");
@@ -212,12 +205,10 @@ test("@public-v1 About labels the fictional narrator and retains state-dependent
     page.getByRole("heading", { name: "$BONG", exact: true }),
   ).toBeVisible();
   for (const paragraph of [
-    "BONG · Fictional narrator",
-    "BONG has a long memory and an eye for the odd detail.",
-    "Most things look obvious once someone has worked them out.",
-    "BONG is a fictional narrator. The history is researched and sourced.",
-    "Press the button for an idea from a fixed list.",
-    "Explore moments from human history, with sourced facts and a short narration in BONG’s voice.",
+    "BONG has always been around.",
+    "The pyramids? BONG. The wheel? BONG. Relativity? BONG. Tinder? BONG, but that one might have been a mistake.",
+    "Click the bong and see what comes to mind.",
+    "Some ideas made history. Explore the moments that changed how people lived, the problems they were trying to solve, and what happened next.",
     "The forum is coming later. Share an idea or show what you’ve made.",
   ])
     await expect(page.getByText(paragraph, { exact: true })).toBeVisible();
@@ -226,6 +217,7 @@ test("@public-v1 About labels the fictional narrator and retains state-dependent
     page.getByRole("heading", { name: "Community", exact: true }),
   ).toBeVisible();
   await expect(page.locator(".story-opening")).not.toContainText("$BONG");
+  await expect(page.locator(".story-opening")).not.toContainText("BONG’s version");
   const token = settings.token as null | {
     network: string;
     address: string;

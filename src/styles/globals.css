@@ -374,7 +374,7 @@ svg {
 }
 .generator-card .tool-button {
   text-transform: uppercase;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.045em;
 }
 .tool-button:hover {

@@ -1,5 +1,5 @@
 import { renderToStaticMarkup } from "react-dom/server";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { TimelineEntry } from "../../src/features/timeline/types";
 import Timeline, { metadata } from "../../src/app/through-time/page";
 import { TimelineArchive } from "../../src/features/timeline/TimelineArchive";
@@ -57,7 +57,7 @@ function entry(index: number): TimelineEntry {
 async function render(q?: string | string[]) {
   return renderToStaticMarkup(
     q === undefined
-      ? Timeline()
+      ? await Timeline()
       : TimelineArchive({ entries: content.entries, query: q }),
   );
 }
@@ -65,28 +65,43 @@ async function render(q?: string | string[]) {
 describe("TIME-UI editorial archive and search threshold", () => {
   beforeEach(() => {
     content.entries = [];
+    vi.stubEnv("NODE_ENV", "production");
   });
+  afterEach(() => vi.unstubAllEnvs());
 
   it("shows an intentional empty archive without search or invented articles", async () => {
     const html = await render();
-    expect(html).toContain("No stories published yet.");
-    expect(html).toContain('class="eyebrow">Human history</p>');
-    expect(html).toContain('class="lead">A closer look at human history.</p>');
-    expect(html).toContain("Get an idea");
+    expect(html).not.toContain("No stories published yet.");
+    expect(html).not.toContain("Human history</p>");
+    expect(html).not.toContain("Some ideas made history.");
+    expect(html).not.toContain('id="timeline-tab-handaxes"');
     expect(html).not.toMatch(
       /History is still being rewritten|checking the sources|The archive \/|Questionable inspiration|The sources remember/,
     );
-    expect(html.match(/<h2[ >]/g)).toHaveLength(1);
-    expect(html.match(/<a /g)).toHaveLength(1);
+    expect(html).toContain("Coming soon.");
+    expect(html).toContain('href="/"');
     expect(html).not.toContain('name="q"');
     expect(html).not.toContain("<article");
     expect(html).not.toContain("No stories match");
+  });
+
+  it("shows sourced test points only in the development preview", async () => {
+    vi.stubEnv("NODE_ENV", "development");
+    const html = await render();
+    expect(html).toContain('id="timeline-tab-handaxes"');
+    expect(html).toContain('aria-label="Historical timeline"');
+    expect(html).toContain('aria-label="Next event"');
+    expect(html).toContain("https://humanorigins.si.edu/evidence/behavior/stone-tools");
+    expect(content.entries).toEqual([]);
   });
 
   it("ignores query parameters and keeps all 11 entries visible below the threshold", async () => {
     content.entries = Array.from({ length: 11 }, (_, i) => entry(i));
     const html = await render("a query that does not match");
     expect(html).not.toContain('name="q"');
+    expect(html).toContain('role="tablist"');
+    expect(html).toContain('role="tabpanel"');
+    expect(html).toContain('aria-label="Next event"');
     expect(html.match(/<article/g)).toHaveLength(11);
     expect(html).not.toContain("No stories published yet.");
     expect(html.indexOf("Fixture era 0")).toBeLessThan(
@@ -170,7 +185,7 @@ describe("TIME-UI editorial archive and search threshold", () => {
     const fixture = entry(1);
     content.entries = [fixture];
     expect(metadata.description).toBe(
-      "Explore a timeline of human history, with sourced facts and short narration in BONG’s voice.",
+      "Some ideas made history. Explore the moments that changed how people lived, the problems they were trying to solve, and what happened next.",
     );
     expect(metadata.alternates.canonical).toBe("/through-time");
     expect(
