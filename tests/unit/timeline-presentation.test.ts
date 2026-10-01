@@ -69,23 +69,23 @@ describe("TIME-UI editorial archive and search threshold", () => {
   });
   afterEach(() => vi.unstubAllEnvs());
 
-  it("shows an intentional empty archive without search or invented articles", async () => {
+  it("publishes all seven sourced dock events in production without search", async () => {
     const html = await render();
     expect(html).not.toContain("No stories published yet.");
     expect(html).not.toContain("Human history</p>");
     expect(html).not.toContain("Some ideas made history.");
-    expect(html).not.toContain('id="timeline-tab-handaxes"');
+    expect(html).toContain('id="timeline-tab-handaxes"');
     expect(html).not.toMatch(
       /History is still being rewritten|checking the sources|The archive \/|Questionable inspiration|The sources remember/,
     );
-    expect(html).toContain("Coming soon.");
-    expect(html).toContain('href="/"');
+    expect(html).not.toContain("Coming soon.");
+    expect(html).toContain("https://humanorigins.si.edu/evidence/behavior/stone-tools");
     expect(html).not.toContain('name="q"');
-    expect(html).not.toContain("<article");
+    expect(html.match(/<article/g)).toHaveLength(7);
     expect(html).not.toContain("No stories match");
   });
 
-  it("shows sourced test points only in the development preview", async () => {
+  it("shows the same sourced dock events in development", async () => {
     vi.stubEnv("NODE_ENV", "development");
     const html = await render();
     expect(html).toContain('id="timeline-tab-handaxes"');
@@ -109,13 +109,13 @@ describe("TIME-UI editorial archive and search threshold", () => {
     );
   });
 
-  it("marks the homepage timeline destination as coming soon while the published archive is empty", () => {
+  it("links to the public dock without a coming-soon label when there are no long-form articles", () => {
     const html = renderToStaticMarkup(Home());
     const destination = html.match(
       /<article class="thought-destination">(.*?)<\/article>/,
     )?.[1];
     expect(destination).toContain("Bong Through Time");
-    expect(destination).toContain("Coming soon");
+    expect(destination).not.toContain("Coming soon");
     expect(destination).toContain('href="/through-time"');
   });
 

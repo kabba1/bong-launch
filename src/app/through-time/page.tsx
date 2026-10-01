@@ -2,6 +2,8 @@ import { Suspense } from "react";
 import { listPublishedTimeline } from "@/server/content";
 import { TimelineArchive } from "@/features/timeline/TimelineArchive";
 import { TimelineSearch } from "@/features/timeline/TimelineSearch";
+import { TimelineDock } from "@/features/timeline/TimelineDock";
+import { timelineEvents } from "@/features/timeline/events";
 import "@/styles/timeline.css";
 export const metadata = {
   title: "Bong Through Time",
@@ -11,16 +13,11 @@ export const metadata = {
 };
 export default async function Timeline() {
   const entries = listPublishedTimeline();
-  // Owner-requested local test content is never part of the published archive.
-  if (process.env.NODE_ENV === "development" && !entries.length) {
-    const { TimelinePreview } =
-      await import("@/features/timeline/TimelinePreview");
-    const { previewEvents } =
-      await import("@/features/timeline/preview-events");
+  if (!entries.length) {
     return (
       <section className="page time-preview">
         <h1 className="sr-only">Bong Through Time</h1>
-        <TimelinePreview events={previewEvents} />
+        <TimelineDock events={timelineEvents} />
       </section>
     );
   }

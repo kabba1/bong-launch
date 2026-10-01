@@ -288,7 +288,7 @@ export function evaluateRelease(
       "The community release requires an explicitly enabled and fully verified community scope.",
     );
   if (input.activeIdeas === 0) blockers.push("The active corpus is empty.");
-  if (input.timelineCount < 8)
+  if (scope === "community" && input.timelineCount < 8)
     blockers.push(
       "At least eight genuine reviewed timeline articles are required.",
     );

@@ -111,7 +111,7 @@ test("@community BOARD-10 draft survives reload and source does not submit itsel
     page.getByRole("button", { name: "Share your thought", exact: true }),
   ).toBeDisabled();
 });
-test("TIME-08/09 no invented history is published", async ({
+test("TIME-08/09 sourced events are public and invented article URLs stay unavailable", async ({
   page,
   request,
 }) => {
@@ -119,8 +119,13 @@ test("TIME-08/09 no invented history is published", async ({
   await expect(
     page.getByRole("heading", { name: "Bong Through Time", exact: true }),
   ).toBeVisible();
-  await expect(page.locator(".chronology")).toHaveCount(0);
-  await expect(page.locator("main article")).toHaveCount(0);
+  await expect(page.locator(".chronology")).toHaveCount(1);
+  await expect(page.getByRole("tab")).toHaveCount(7);
+  await expect(page.getByRole("tabpanel")).toContainText("Acheulean");
+  await expect(page.locator(".chronology-source")).toHaveAttribute(
+    "href",
+    "https://humanorigins.si.edu/evidence/behavior/stone-tools",
+  );
   await expect(
     page.getByRole("textbox", { name: "Search history" }),
   ).toHaveCount(0);

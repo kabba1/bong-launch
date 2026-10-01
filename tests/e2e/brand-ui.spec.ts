@@ -132,7 +132,7 @@ test("@public-v1 exact homepage copy keeps the generator and destinations clear"
   ).toHaveAttribute("href", "/through-time");
   await expect(
     destinations.nth(0).getByText("Coming soon", { exact: true }),
-  ).toBeVisible();
+  ).toHaveCount(0);
   await expect(destinations.nth(1).getByRole("heading")).toHaveText(
     "Community",
   );

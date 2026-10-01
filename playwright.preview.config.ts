@@ -1,8 +1,9 @@
 import { defineConfig, devices } from "@playwright/test";
 
-// Local draft/test presentation; production is checked by playwright.config.ts.
+// Optional development run of the public dock; CI checks its production build.
 export default defineConfig({
-  testDir: "./tests/preview",
+  testDir: "./tests/e2e",
+  testMatch: /timeline-dock\.spec\.ts/,
   workers: 1,
   retries: 0,
   reporter: [["list"]],

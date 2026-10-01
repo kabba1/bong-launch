@@ -207,3 +207,12 @@ The owner explicitly requested publication of the current work to GitHub and Net
 
 - [x] Review the complete accumulated copy/design/dock diff and verify the current production candidate. Lint, types, exact content validation, build, 77 unit, 30 integration, 68 security, 33 production browser and 11 accessibility scenarios pass; secret scan passes. Release validation remains blocked with 20 outstanding gates.
 - [ ] Commit and push the reviewed candidate to the existing main branch, deploy the same revision to the existing Netlify site, and verify its identity, copy, headers, content hash and dormant-route behavior. Publication results are recorded in the delivery message after the remote operations succeed.
+
+## Publish the sourced timeline dock (2026-10-01)
+
+The owner rejected the inherited per-event approval process and eight-entry minimum, then explicitly said to push the timeline. This direction supersedes the development-only restrictions in earlier sections. Publish the seven existing sourced short events without inventing reviewer identities or promoting separate long-form or policy drafts. Existing private feature flags and noindex configuration are unchanged.
+
+- [x] Promote the seven events to `src/features/timeline/events.ts` (`timelineEvents`) and render `TimelineDock.tsx` on `/through-time` in development and production. Remove Home and About's Coming soon status for the available timeline (TIME-01/02/04/08, UX-08/09).
+- [x] Remove the public v1 eight-reviewed-article release gate while preserving source/content validation and the retained community checks (TIME-02/09, OPS-13).
+- [x] Update production assertions and run the existing dock regression coverage for magnification, selection, keyboard, touch, reduced motion, reflow, accessibility and no-JavaScript reading; validate content and the production build (TIME-05/07/08, UX-01/02/04/05/07, OPS-05).
+- [ ] Push the verified candidate to GitHub, deploy the matching revision to the existing Netlify site, and verify that the hosted timeline exposes all seven events and source links (TIME-01/08, OPS-05/13). Record actual results after verification.

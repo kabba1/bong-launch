@@ -35,7 +35,7 @@ describe("OPS-13 release gates", () => {
       checks: {},
     });
     expect(result.ready).toBe(false);
-    expect(result.blockers.some((b) => b.includes("eight"))).toBe(true);
+    expect(result.blockers.some((b) => b.includes("eight"))).toBe(false);
     expect(result.blockers.some((b) => b.includes("security"))).toBe(true);
     expect(result.blockers.some((b) => b.includes("production"))).toBe(true);
   });
@@ -122,13 +122,13 @@ describe("public v1 release boundary", () => {
       "Public v1 requires COMMUNITY_ENABLED to remain disabled.",
     );
   });
-  it("retains real history, contact and public owner approval gates", () => {
+  it("drops the v1 article minimum while preserving unrelated release checks", () => {
     const input = publicFixture();
     input.timelineCount = 0;
     delete input.approvals.independentSecurityReview;
     input.contacts.security = "";
     const result = evaluateRelease(input);
-    expect(result.blockers.some((value) => value.includes("eight"))).toBe(true);
+    expect(result.blockers.some((value) => value.includes("eight"))).toBe(false);
     expect(
       result.blockers.some((value) =>
         value.includes("independent security review"),

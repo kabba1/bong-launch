@@ -2,7 +2,6 @@ import Link from "next/link";
 import { CopyAddress } from "@/components/CopyAddress";
 import { publicSettings, safeHttps } from "@/lib/site";
 import { communityEnabled } from "@/lib/launch-scope";
-import { listPublishedTimeline } from "@/server/content";
 import "@/styles/story-pages.css";
 export const metadata = {
   title: "About / $BONG",
@@ -13,7 +12,6 @@ export const metadata = {
 export default function About() {
   const token = publicSettings.token;
   const community = communityEnabled();
-  const timelineReady = listPublishedTimeline().length > 0;
   return (
     <article className="page story-about">
       <section
@@ -49,7 +47,6 @@ export default function About() {
         >
           <div className="story-guide-heading">
             <h2 id="about-history">Bong Through Time</h2>
-            {!timelineReady && <span className="coming-note">Coming soon</span>}
           </div>
           <div className="story-guide-copy">
             <p>

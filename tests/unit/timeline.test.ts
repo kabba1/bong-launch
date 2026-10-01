@@ -138,7 +138,7 @@ describe("unreviewed timeline drafts (TIME-01/02/08/09, DATA-10, OPS-13)", () =>
     ).toThrow(/reviewedBy|reviewedAt/);
   });
 
-  it("excludes drafts from real generated content and the eight-published release count", async () => {
+  it("excludes article drafts without requiring eight articles to publish the v1 dock", async () => {
     await withDraftContent((root) => {
       expect(loadPublishedTimeline(root)).toEqual([]);
       runContentCommand("build", root);
@@ -159,7 +159,7 @@ describe("unreviewed timeline drafts (TIME-01/02/08/09, DATA-10, OPS-13)", () =>
         communityEnabled: false,
       });
       expect(release.ready).toBe(false);
-      expect(release.blockers).toContain(
+      expect(release.blockers).not.toContain(
         "At least eight genuine reviewed timeline articles are required.",
       );
     });
@@ -182,7 +182,7 @@ describe("unreviewed timeline drafts (TIME-01/02/08/09, DATA-10, OPS-13)", () =>
       expect(detail.generateStaticParams()).toEqual([]);
       expect(detail.dynamicParams).toBe(false);
       expect(html).not.toContain("No stories published yet.");
-      expect(html).not.toContain('id="timeline-tab-handaxes"');
+      expect(html).toContain('id="timeline-tab-handaxes"');
       expect(html).not.toContain('class="time-entry"');
       expect(sitemap.some((item) => item.url.endsWith("/through-time"))).toBe(
         true,

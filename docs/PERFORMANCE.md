@@ -1,11 +1,11 @@
 # Local production performance evidence
 
-Measured 2026-10-01T12:59:34.962Z; production build `CxqIuDg3UaMhDfljTYP8h`; Chromium 153.0.8010.12. Raw per-run resource, timing, error and interaction records: [performance.json](../../bong_codex_handoff/.build-evidence/performance.json). Reproduce with `npx playwright test tests/e2e/performance.spec.ts --project=chromium` after `npm run build`.
+Measured 2026-10-01T15:16:57.649Z; production build `LDNnUTtO22UgaPTbtnzcl`; Chromium 153.0.8010.12. Raw per-run resource, timing, error and interaction records: [performance.json](../../bong_codex_handoff/.build-evidence/performance.json). Reproduce with `npx playwright test tests/e2e/performance.spec.ts --project=chromium` after `npm run build`.
 
 | Profile | Median LCP | Median CLS | External JS, encoded | Corpus, encoded | Hero variants, encoded | Draw DOM commit median / worst |
 |---|---:|---:|---:|---:|---:|---:|
-| desktop | 336 ms | 0.0008 | 144.86 KiB | 51.78 KiB | 68.1 KiB | 14.2 / 15.7 ms |
-| mobile | 900 ms | 0.0007 | 144.03 KiB | 51.78 KiB | 22 KiB | 19.7 / 27.6 ms |
+| desktop | 304 ms | 0.0008 | 144.86 KiB | 51.78 KiB | 68.1 KiB | 13.7 / 15.9 ms |
+| mobile | 908 ms | 0.0007 | 144.03 KiB | 51.78 KiB | 22 KiB | 17.9 / 41.9 ms |
 
 These measured local metrics meet the listed comparison targets under the conditions below.
 

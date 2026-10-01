@@ -184,11 +184,13 @@ test("@public-v1 V1-05 a small timeline omits search and token information remai
   await expect(
     page.getByRole("button", { name: "Search", exact: true }),
   ).toHaveCount(0);
-  await expect(page.locator(".time-empty")).toContainText("Coming soon.");
-  await expect(page.locator(".chronology")).toHaveCount(0);
+  await expect(page.locator(".time-empty")).toHaveCount(0);
+  await expect(page.getByRole("tab")).toHaveCount(7);
+  await expect(page.getByRole("tabpanel")).toContainText("Acheulean");
   await expect(page.locator("main")).not.toContainText("Some ideas made history.");
   await page.goto("/through-time?q=curiosity");
-  await expect(page.locator(".time-empty")).toContainText("Coming soon.");
+  await expect(page.getByRole("tab")).toHaveCount(7);
+  await expect(page.getByRole("tabpanel")).toContainText("Acheulean");
   await expect(
     page.getByRole("textbox", { name: "Search history" }),
   ).toHaveCount(0);

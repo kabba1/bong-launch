@@ -12,7 +12,7 @@ import {
 import { Icon } from "@/components/Icon";
 import { TimelineGlyph } from "./TimelineGlyph";
 
-export interface PreviewEvent {
+export interface TimelineEvent {
   id: string;
   date: string;
   shortDate: string;
@@ -29,7 +29,7 @@ const subscribeToHydration = () => () => {};
 const hydrated = () => true;
 const serverRendered = () => false;
 
-function EventStory({ event }: { event: PreviewEvent }) {
+function EventStory({ event }: { event: TimelineEvent }) {
   return (
     <article className="chronology-story">
       <h2>{event.title}</h2>
@@ -64,8 +64,8 @@ function EventStory({ event }: { event: PreviewEvent }) {
   );
 }
 
-/** Shared interactive presentation; only the server chooses published or test data. */
-export function TimelinePreview({ events }: { events: PreviewEvent[] }) {
+/** Shared presentation for sourced short events and long-form history articles. */
+export function TimelineDock({ events }: { events: TimelineEvent[] }) {
   const enhanced = useSyncExternalStore(
     subscribeToHydration,
     hydrated,

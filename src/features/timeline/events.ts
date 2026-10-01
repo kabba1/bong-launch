@@ -1,8 +1,8 @@
-import type { PreviewEvent } from "./TimelinePreview";
+import type { TimelineEvent } from "./TimelineDock";
 
-// Local development fixtures requested by the owner. These are sourced facts,
-// not reviewed articles; never add them to content/, sitemaps or release counts.
-export const previewEvents: PreviewEvent[] = [
+// Source-backed events published in the public dock at the owner's request.
+// These short entries do not need separate long-form article pages.
+export const timelineEvents: TimelineEvent[] = [
   {
     id: "handaxes",
     date: "1.76 million years ago",

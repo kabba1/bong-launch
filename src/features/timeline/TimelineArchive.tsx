@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { TimelineEntry } from "./types";
-import { TimelinePreview } from "./TimelinePreview";
+import { TimelineDock } from "./TimelineDock";
 
 /** Shared by the static archive and its optional client search enhancement. */
 export function TimelineArchive({
@@ -57,7 +57,7 @@ export function TimelineArchive({
           <Link href="/through-time">Reset search</Link>
         </div>
       ) : (
-        <TimelinePreview
+        <TimelineDock
           key={q}
           events={found.map((entry) => ({
             id: entry.id,

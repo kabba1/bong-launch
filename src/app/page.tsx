@@ -3,10 +3,8 @@ import { Generator } from "@/features/generator/Generator";
 import { BoardPreview } from "@/components/BoardPreview";
 import { Icon } from "@/components/Icon";
 import { communityEnabled } from "@/lib/launch-scope";
-import { listPublishedTimeline } from "@/server/content";
 export default function Home() {
   const community = communityEnabled();
-  const timelineReady = listPublishedTimeline().length > 0;
   return (
     <>
       <Generator communityEnabled={community} />
@@ -14,7 +12,6 @@ export default function Home() {
         <div className="thought-destinations">
           <article className="thought-destination">
             <h2>Bong Through Time</h2>
-            {!timelineReady && <span className="coming-note">Coming soon</span>}
             <p>Ideas that made history.</p>
             <Link className="text-link" href="/through-time">
               Visit Through Time <Icon name="arrow" size={18} />
