@@ -1,13 +1,15 @@
 # Local production performance evidence
 
-Measured 2026-10-01T15:16:57.649Z; production build `LDNnUTtO22UgaPTbtnzcl`; Chromium 153.0.8010.12. Raw per-run resource, timing, error and interaction records: [performance.json](../../bong_codex_handoff/.build-evidence/performance.json). Reproduce with `npx playwright test tests/e2e/performance.spec.ts --project=chromium` after `npm run build`.
+> Historical experiment: this report measures a superseded bubble implementation, not the final local rebrand. The owner requested the original canvas motion and cursor trail with fewer, larger background bubbles, and explicitly deprioritized the mobile response-time target. The 50ms threshold remains unchanged and is not recorded as passed. See REBRAND_LOCAL.md for the final functional verification.
+
+Measured 2026-10-02T00:03:20.169Z; production build `qLoHxZU96VlkZKj7dBO4B`; Chromium 153.0.8010.12. Raw per-run resource, timing, error and interaction records: [performance.json](../../bong_codex_handoff/.build-evidence/performance.json). Reproduce with `npx playwright test tests/e2e/performance.spec.ts --project=chromium` after `npm run build`.
 
 | Profile | Median LCP | Median CLS | External JS, encoded | Corpus, encoded | Hero variants, encoded | Draw DOM commit median / worst |
 |---|---:|---:|---:|---:|---:|---:|
-| desktop | 304 ms | 0.0008 | 144.86 KiB | 51.78 KiB | 68.1 KiB | 13.7 / 15.9 ms |
-| mobile | 908 ms | 0.0007 | 144.03 KiB | 51.78 KiB | 22 KiB | 17.9 / 41.9 ms |
+| desktop | 456 ms | 0 | 145.64 KiB | 51.78 KiB | 106.89 KiB | 14.4 / 16.3 ms |
+| mobile | 1228 ms | 0.0009 | 141.7 KiB | 51.78 KiB | 35.75 KiB | 17.8 / 35.3 ms |
 
-These measured local metrics meet the listed comparison targets under the conditions below.
+- **Target miss:** mobile: requests occurred during generator draws (0, 0, 8 across the three runs); inspect raw paths and remove draw-triggered prefetch/backend work.
 
 ## Method
 

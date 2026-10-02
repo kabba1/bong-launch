@@ -216,3 +216,17 @@ The owner rejected the inherited per-event approval process and eight-entry mini
 - [x] Remove the public v1 eight-reviewed-article release gate while preserving source/content validation and the retained community checks (TIME-02/09, OPS-13).
 - [x] Update production assertions and run the existing dock regression coverage for magnification, selection, keyboard, touch, reduced motion, reflow, accessibility and no-JavaScript reading; validate content and the production build (TIME-05/07/08, UX-01/02/04/05/07, OPS-05).
 - [ ] Push the verified candidate to GitHub, deploy the matching revision to the existing Netlify site, and verify that the hosted timeline exposes all seven events and source links (TIME-01/08, OPS-05/13). Record actual results after verification.
+
+## Local Claude-reference rebrand (2026-10-01)
+
+Implement the owner-selected aqua rebrand and explicitly selected scrolling timeline. Follow the local scope and acceptance mapping in [REBRAND_LOCAL.md](REBRAND_LOCAL.md). Keep current content, generator behavior and private boundaries. The owner subsequently selected the original canvas bubble motion, fewer large background bubbles, and the existing cursor trail, and deprioritized the mobile timing target. No commit, push or deployment. Verification results and the remaining historical checks are recorded in the local rebrand report.
+
+- [x] Restore the reference's missing cursor repulsion and click-to-pop for large bubbles while preserving the reduced ambient count, trail and lifecycle controls. Verify actual rendered movement and burst fragments, pause/reduced motion and the mobile generator; lint, types and production build pass (UX-04/05/07, OPS-05). Local only.
+- [x] Exclude cursor-trail bubbles from repulsion as requested; verify their natural drift alongside the large-bubble interaction. The updated regression failed on the prior behavior, then all three focused browser checks, focused lint and the production build including TypeScript passed (UX-05/07).
+
+## Owner-authorized rebrand publication (2026-10-01)
+
+The owner explicitly requested pushing the current rebrand to GitHub and Netlify. This supersedes the local-only restriction for this candidate. Preserve the existing staging/noindex deployment settings and disabled private features.
+
+- [x] Review the accumulated rebrand and cursor refinements. Fresh lint, types, exact content validation, secret scan, 77 unit, 30 integration, 68 security, 45 functional/visual browser and 11 accessibility checks pass. The final local production build also passed. Retain the documented, owner-deprioritized timing target and 19 inherited release-check gates without falsifying their status (GEN, DATA, TIME, UX, SEC, OPS-05).
+- Push the reviewed candidate to `main`, allow the existing Git-connected Netlify build to deploy it, then verify the published commit, homepage, generator, scrolling timeline, assets and public boundaries. Record actual remote results in the delivery response and local deployment evidence (OPS-05/13).

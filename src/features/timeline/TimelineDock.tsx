@@ -6,8 +6,8 @@ import {
   useRef,
   useState,
   useSyncExternalStore,
+  type CSSProperties,
   type KeyboardEvent,
-  type PointerEvent,
 } from "react";
 import { Icon } from "@/components/Icon";
 import { TimelineGlyph } from "./TimelineGlyph";
@@ -28,11 +28,33 @@ export interface TimelineEvent {
 const subscribeToHydration = () => () => {};
 const hydrated = () => true;
 const serverRendered = () => false;
+const hues = [40, 48, 150, 205, 225, 262, 190];
+const tint = (index: number) => `hsl(${hues[index % hues.length]} 75% 84%)`;
+
+function DisplayDate({ event }: { event: TimelineEvent }) {
+  // These are display labels, never parsed dates or chronology sort keys.
+  const prehistoric = /^(\d+(?:\.\d+)?)m years ago$/.exec(event.shortDate);
+  const datedEra = /^(.*?)\s+(BCE|CE)$/.exec(event.shortDate);
+  const year = prehistoric?.[1] ?? datedEra?.[1] ?? event.shortDate;
+  const unit = prehistoric ? "million years ago" : datedEra?.[2];
+
+  return (
+    <div
+      className={`chronology-year${year.length > 10 ? " chronology-year-long" : ""}`}
+      aria-hidden="true"
+    >
+      <span>{year}</span>
+      {unit && <span className="chronology-year-unit">{unit}</span>}
+    </div>
+  );
+}
 
 function EventStory({ event }: { event: TimelineEvent }) {
   return (
-    <article className="chronology-story">
-      <h2>{event.title}</h2>
+    <div className="chronology-story">
+      <span className="chronology-era">{event.era}</span>
+      <h2 id={"timeline-heading-" + event.id}>{event.title}</h2>
+      <p className="chronology-date">{event.date}</p>
       {event.narration && (
         <div className="chronology-narration">
           <h3>BONG’s narration · Fiction</h3>
@@ -54,17 +76,17 @@ function EventStory({ event }: { event: TimelineEvent }) {
             ? { target: "_blank", rel: "noopener noreferrer" }
             : {})}
         >
-          {event.source} <Icon name="arrow" size={14} />
+          <span>{event.source}</span> <Icon name="arrow" size={16} />
           {!event.href && (
             <span className="sr-only"> (opens in a new tab)</span>
           )}
         </a>
       </div>
-    </article>
+    </div>
   );
 }
 
-/** Shared presentation for sourced short events and long-form history articles. */
+/** Scrolling presentation shared by short events and long-form history articles. */
 export function TimelineDock({ events }: { events: TimelineEvent[] }) {
   const enhanced = useSyncExternalStore(
     subscribeToHydration,
@@ -72,88 +94,102 @@ export function TimelineDock({ events }: { events: TimelineEvent[] }) {
     serverRendered,
   );
   const [selected, setSelected] = useState(0);
-  const rail = useRef<HTMLOListElement>(null);
-  const drag = useRef<{
-    x: number;
-    left: number;
-    moved: boolean;
-    pointer: number;
-  } | null>(null);
-  const blockClick = useRef(false);
-  const hoverFrame = useRef<number | null>(null);
-  const pointerX = useRef<number | null>(null);
-  useEffect(
-    () => () => {
-      if (hoverFrame.current !== null) cancelAnimationFrame(hoverFrame.current);
-    },
-    [],
-  );
+  const timeline = useRef<HTMLDivElement>(null);
+  const chapters = useRef<(HTMLLIElement | null)[]>([]);
+  const dots = useRef<HTMLOListElement>(null);
   const current = events[selected] ?? events[0];
+
+  useEffect(() => {
+    const element = timeline.current;
+    if (!element) return;
+    let frame: number | null = null;
+
+    function update() {
+      frame = null;
+      if (!element) return;
+      const style = getComputedStyle(element);
+      const header =
+        parseFloat(style.getPropertyValue("--header-height")) || 76;
+      const navigation =
+        parseFloat(style.getPropertyValue("--timeline-navigation-height")) || 0;
+      const readingLine =
+        header +
+        navigation +
+        Math.max(0, innerHeight - header - navigation) / 2;
+      let next = 0;
+      chapters.current.slice(0, events.length).forEach((chapter, index) => {
+        if (chapter && chapter.getBoundingClientRect().top <= readingLine) {
+          next = index;
+        }
+      });
+      setSelected(next);
+    }
+
+    function schedule() {
+      if (frame === null) frame = requestAnimationFrame(update);
+    }
+
+    // Observe ordinary document scrolling; wheel, touch and page keys keep their
+    // native behavior. A resized/zoomed chapter can always grow with its text.
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    const observer = new ResizeObserver(schedule);
+    observer.observe(element);
+    schedule();
+
+    return () => {
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      observer.disconnect();
+      if (frame !== null) cancelAnimationFrame(frame);
+    };
+  }, [events.length]);
+
+  useEffect(() => {
+    const list = dots.current;
+    const button =
+      list?.querySelectorAll<HTMLButtonElement>("button")[selected];
+    if (!list || !button) return;
+    const point = button.getBoundingClientRect();
+    const bounds = list.getBoundingClientRect();
+    // Only the dot rail moves here, never the reader's document scroll position.
+    list.scrollTo({
+      left:
+        list.scrollLeft +
+        point.left -
+        bounds.left -
+        (bounds.width - point.width) / 2,
+      top:
+        list.scrollTop +
+        point.top -
+        bounds.top -
+        (bounds.height - point.height) / 2,
+      behavior: "instant",
+    });
+  }, [selected]);
+
   if (!current) return null;
 
-  function resetMagnification() {
-    if (hoverFrame.current !== null) cancelAnimationFrame(hoverFrame.current);
-    hoverFrame.current = null;
-    pointerX.current = null;
-    rail.current?.querySelectorAll<HTMLElement>("li").forEach((slot) => {
-      slot.style.removeProperty("--dock-proximity");
-    });
-  }
-
-  function magnify(event: PointerEvent<HTMLOListElement>) {
-    if (
-      event.pointerType !== "mouse" ||
-      event.buttons !== 0 ||
-      !window.matchMedia(
-        "(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)",
-      ).matches
-    )
-      return;
-    pointerX.current = event.clientX;
-    if (hoverFrame.current !== null) return;
-    hoverFrame.current = requestAnimationFrame(() => {
-      hoverFrame.current = null;
-      const track = rail.current;
-      if (!track || pointerX.current === null) return;
-      const x =
-        pointerX.current -
-        track.getBoundingClientRect().left +
-        track.scrollLeft;
-      // Fixed slots are the measuring surface; the growing tiles never move it.
-      track.querySelectorAll<HTMLElement>("li").forEach((slot) => {
-        const distance = Math.abs(x - slot.offsetLeft - slot.offsetWidth / 2);
-        const weight =
-          distance < 210 ? (1 + Math.cos((Math.PI * distance) / 210)) / 2 : 0;
-        slot.style.setProperty("--dock-proximity", weight.toFixed(3));
-      });
-    });
-  }
-
-  function select(index: number, focus = false) {
-    resetMagnification();
+  function select(index: number, focusDot = false) {
     const next = Math.max(0, Math.min(events.length - 1, index));
-    setSelected(next);
-    const point =
-      rail.current?.querySelectorAll<HTMLButtonElement>("button")[next];
-    if (point && rail.current) {
-      const bounds = point.getBoundingClientRect();
-      const track = rail.current.getBoundingClientRect();
-      rail.current.scrollTo({
-        left:
-          rail.current.scrollLeft +
-          bounds.left -
-          track.left -
-          (track.width - bounds.width) / 2,
-        behavior: "instant",
-      });
+    chapters.current[next]?.scrollIntoView({
+      block: "start",
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "instant"
+        : "smooth",
+    });
+    if (focusDot) {
+      dots.current
+        ?.querySelectorAll<HTMLButtonElement>("button")
+        [next]?.focus({ preventScroll: true });
     }
-    if (focus) point?.focus({ preventScroll: true });
   }
 
   function navigate(event: KeyboardEvent<HTMLButtonElement>, index: number) {
-    blockClick.current = false;
     const next = {
+      ArrowDown: index + 1,
       ArrowRight: index + 1,
+      ArrowUp: index - 1,
       ArrowLeft: index - 1,
       Home: 0,
       End: events.length - 1,
@@ -164,154 +200,85 @@ export function TimelineDock({ events }: { events: TimelineEvent[] }) {
     }
   }
 
-  function startDrag(event: PointerEvent<HTMLOListElement>) {
-    blockClick.current = false;
-    if (event.pointerType !== "mouse" || event.button !== 0) return;
-    resetMagnification();
-    event.preventDefault();
-    drag.current = {
-      x: event.clientX,
-      left: event.currentTarget.scrollLeft,
-      moved: false,
-      pointer: event.pointerId,
-    };
-  }
-  function moveDrag(event: PointerEvent<HTMLOListElement>) {
-    const start = drag.current;
-    if (!start) {
-      magnify(event);
-      return;
-    }
-    const distance = event.clientX - start.x;
-    if (Math.abs(distance) > 6) {
-      start.moved = true;
-      blockClick.current = true;
-      event.currentTarget.setPointerCapture(start.pointer);
-      event.currentTarget.scrollLeft = start.left - distance;
-      event.currentTarget.dataset.dragging = "true";
-    }
-  }
-  function endDrag(event: PointerEvent<HTMLOListElement>) {
-    if (
-      drag.current &&
-      event.currentTarget.hasPointerCapture(drag.current.pointer)
-    ) {
-      event.currentTarget.releasePointerCapture(drag.current.pointer);
-    }
-    drag.current = null;
-    delete event.currentTarget.dataset.dragging;
-  }
-
   return (
     <div
-      className={`chronology ${enhanced ? "chronology-enhanced" : "chronology-static"}`}
+      className={`chronology chronology-scroll ${enhanced ? "chronology-enhanced" : "chronology-static"}`}
+      ref={timeline}
+      style={{ "--timeline-tint": tint(selected) } as CSSProperties}
     >
-      <div className="chronology-topline">
-        <span>{current.era}</span>
-        <div className="chronology-controls">
-          <span className="chronology-count" aria-hidden="true">
-            {String(selected + 1).padStart(2, "0")} /{" "}
-            {String(events.length).padStart(2, "0")}
-          </span>
-          <div className="chronology-arrows">
-            <button
-              type="button"
-              aria-label="Previous event"
-              disabled={selected === 0}
-              onClick={() => select(selected - 1)}
-            >
-              <Icon name="arrow" size={20} />
-            </button>
-            <button
-              type="button"
-              aria-label="Next event"
-              disabled={selected === events.length - 1}
-              onClick={() => select(selected + 1)}
-            >
-              <Icon name="arrow" size={20} />
-            </button>
-          </div>
-        </div>
-      </div>
       <nav className="chronology-navigation" aria-label="Historical timeline">
-        <div className="chronology-dock">
-          <ol
-            className="chronology-rail"
-            ref={rail}
-            role="tablist"
-            aria-label="Choose a moment in history"
-            onPointerDown={startDrag}
-            onPointerMove={moveDrag}
-            onPointerUp={endDrag}
-            onPointerCancel={(event) => {
-              resetMagnification();
-              endDrag(event);
-            }}
-            onScroll={resetMagnification}
-            onPointerLeave={(event) => {
-              resetMagnification();
-              if (!drag.current?.moved) endDrag(event);
-            }}
-            onClickCapture={(event) => {
-              if (blockClick.current) {
-                event.preventDefault();
-                event.stopPropagation();
-                blockClick.current = false;
-              }
-            }}
-          >
-            {events.map((event, index) => (
-              <li key={event.id} role="presentation">
-                <button
-                  type="button"
-                  role="tab"
-                  id={"timeline-tab-" + event.id}
-                  aria-selected={index === selected}
-                  aria-controls="timeline-detail"
-                  tabIndex={index === selected ? 0 : -1}
-                  onClick={() => select(index, true)}
-                  onKeyDown={(key) => navigate(key, index)}
-                >
-                  <span className="chronology-tile" aria-hidden="true">
-                    <TimelineGlyph id={event.id} />
-                  </span>
-                  <span className="chronology-point-date">
-                    {event.shortDate}
-                  </span>
-                  <span className="chronology-point-title">{event.title}</span>
-                </button>
-              </li>
-            ))}
-          </ol>
-        </div>
-        <span className="chronology-scale">
-          Scroll through time <span aria-hidden="true">·</span> Dates not to
-          scale
-        </span>
-      </nav>
-      <div
-        className="chronology-detail"
-        role="tabpanel"
-        tabIndex={0}
-        aria-labelledby={"timeline-tab-" + current.id}
-        id="timeline-detail"
-      >
-        <div className="chronology-date">{current.date}</div>
-        <EventStory event={current} />
-      </div>
-      <p className="sr-only" role="status">
-        {current.date + ": " + current.title}
-      </p>
-      {!enhanced && (
-        <ol className="chronology-fallback">
-          {events.slice(1).map((event) => (
+        <button
+          className="chronology-previous"
+          type="button"
+          aria-label="Previous event"
+          disabled={selected === 0}
+          onClick={() => select(selected - 1)}
+        >
+          <Icon name="arrow" size={20} />
+        </button>
+        <ol className="chronology-dots" ref={dots}>
+          {events.map((event, index) => (
             <li key={event.id}>
-              <p className="time-date">{event.date}</p>
-              <EventStory event={event} />
+              <button
+                type="button"
+                aria-label={`${event.date}: ${event.title}`}
+                aria-current={index === selected ? "step" : undefined}
+                aria-controls={"timeline-event-" + event.id}
+                title={`${event.date}: ${event.title}`}
+                tabIndex={index === selected ? 0 : -1}
+                onClick={() => select(index, true)}
+                onKeyDown={(key) => navigate(key, index)}
+              >
+                <span aria-hidden="true" />
+              </button>
             </li>
           ))}
         </ol>
-      )}
+        <button
+          className="chronology-next"
+          type="button"
+          aria-label="Next event"
+          disabled={selected === events.length - 1}
+          onClick={() => select(selected + 1)}
+        >
+          <Icon name="arrow" size={20} />
+        </button>
+      </nav>
+      <ol className="chronology-chapters">
+        {events.map((event, index) => (
+          <li
+            className="chronology-chapter"
+            key={event.id}
+            id={"timeline-event-" + event.id}
+            data-active={index === selected}
+            style={{ "--scene-tint": tint(index) } as CSSProperties}
+            ref={(element) => {
+              chapters.current[index] = element;
+            }}
+          >
+            <article
+              className="chronology-scene"
+              aria-labelledby={"timeline-heading-" + event.id}
+            >
+              <DisplayDate event={event} />
+              <div className="chronology-glyph" aria-hidden="true">
+                <TimelineGlyph id={event.id} />
+              </div>
+              <EventStory event={event} />
+              <p className="chronology-caption" aria-hidden="true">
+                <span>Bong Through Time</span>
+                <span>
+                  {String(index + 1).padStart(2, "0")} /{" "}
+                  {String(events.length).padStart(2, "0")}
+                </span>
+              </p>
+            </article>
+          </li>
+        ))}
+      </ol>
+      <p className="sr-only" role="status" aria-atomic="true">
+        {enhanced ? `${current.date}: ${current.title}` : ""}
+      </p>
     </div>
   );
 }

@@ -1,16 +1,23 @@
 @import "tailwindcss";
 :root {
-  --orange: #ff6a00;
-  --page: #fff8ee;
-  --surface: #fffdf8;
-  --ink: #191511;
-  --muted: #65574b;
-  --line: #d9c8b7;
-  --water: #a6dce7;
+  --paper: #f1fbfd;
+  --aqua: #9fe3f0;
+  --sea: #2aa7c9;
+  --accent: #ffd23f;
+  --orange: var(--accent);
+  --page: var(--paper);
+  --surface: #ffffff;
+  --ink: #062a3a;
+  --muted: #3d6170;
+  --line: #a9cad3;
+  --water: var(--aqua);
   --danger: #a52626;
   --success: #236440;
-  --display: "Space Grotesk", sans-serif;
-  --body: "DM Sans", Arial, sans-serif;
+  --display: var(--font-bricolage), "Arial Black", sans-serif;
+  --body: var(--font-dm-sans), Arial, sans-serif;
+  --font-display: var(--display);
+  --font-body: var(--body);
+  --header-height: 79px;
 }
 * {
   box-sizing: border-box;

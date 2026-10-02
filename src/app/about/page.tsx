@@ -21,10 +21,18 @@ export default function About() {
         <p className="story-index">The story</p>
         <div className="story-body">
           <h1 id="about-bong-title">So… what is BONG?</h1>
-          <p>BONG has always been around.</p>
+          <p className="story-presence">BONG has always been around.</p>
           <p className="story-voice">
-            The pyramids? BONG. The wheel? BONG. Relativity? BONG. Tinder? BONG,
-            but that one might have been a mistake.
+            <span className="story-phrase story-phrase-blue">
+              The pyramids? BONG.
+            </span>{" "}
+            <span className="story-phrase">The wheel? BONG.</span>{" "}
+            <span className="story-phrase story-phrase-blue">
+              Relativity? BONG.
+            </span>{" "}
+            <span className="story-phrase">
+              Tinder? BONG, but that one might have been a mistake.
+            </span>
           </p>
         </div>
       </section>
@@ -36,7 +44,7 @@ export default function About() {
           <h2 id="about-generator">The generator</h2>
           <div className="story-guide-copy">
             <p>Click the bong and see what comes to mind.</p>
-            <Link href="/" className="text-link">
+            <Link href="/" className="button primary story-link">
               Get an idea <span aria-hidden="true">↗</span>
             </Link>
           </div>
@@ -54,7 +62,7 @@ export default function About() {
               people lived, the problems they were trying to solve, and what
               happened next.
             </p>
-            <Link href="/through-time" className="text-link">
+            <Link href="/through-time" className="button quiet story-link">
               Visit Through Time <span aria-hidden="true">↗</span>
             </Link>
           </div>
@@ -90,7 +98,7 @@ export default function About() {
                   The forum is coming later. Share an idea or show what you’ve
                   made.
                 </p>
-                <Link href="/community" className="text-link">
+                <Link href="/community" className="button quiet story-link">
                   Find the community <span aria-hidden="true">↗</span>
                 </Link>
               </div>
@@ -103,9 +111,11 @@ export default function About() {
         className="story-section story-token"
         aria-labelledby="about-token"
       >
-        <p className="story-index">Official information</p>
-        <div className="story-body">
+        <div className="story-token-heading">
+          <p className="story-index">Official information</p>
           <h2 id="about-token">$BONG</h2>
+        </div>
+        <div className="story-body">
           {publicSettings.tokenStatus === "live" &&
           token &&
           safeHttps(token.url) ? (

@@ -8,12 +8,12 @@ export default function Home() {
   return (
     <>
       <Generator communityEnabled={community} />
-      <section className="container explore-section">
+      <section className="explore-section rebrand-dive">
         <div className="thought-destinations">
           <article className="thought-destination">
             <h2>Bong Through Time</h2>
             <p>Ideas that made history.</p>
-            <Link className="text-link" href="/through-time">
+            <Link className="text-link" href="/through-time" prefetch={false}>
               Visit Through Time <Icon name="arrow" size={18} />
             </Link>
           </article>
@@ -24,7 +24,7 @@ export default function Home() {
               <h2>Community</h2>
               <span className="coming-note">Coming soon</span>
               <p>Share an idea. Show what you made.</p>
-              <Link className="text-link" href="/community">
+              <Link className="text-link" href="/community" prefetch={false}>
                 About the community <Icon name="arrow" size={18} />
               </Link>
             </article>

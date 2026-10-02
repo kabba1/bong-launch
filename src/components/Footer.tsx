@@ -6,19 +6,33 @@ export function Footer({
   communityEnabled?: boolean;
 }) {
   return (
-    <footer className="site-footer">
+    <footer className="site-footer rebrand-footer">
       <div className="footer-top">
-        <Link href="/" className="wordmark">
+        <Link
+          href="/"
+          prefetch={false}
+          className="footer-wordmark"
+          aria-label="BONG home"
+        >
           BONG
         </Link>
-        <div className="footer-links">
-          <Link href="/through-time">Through Time</Link>
-          <Link href={communityEnabled ? "/board" : "/community"}>
+        <nav className="footer-links" aria-label="Footer navigation">
+          <Link href="/through-time" prefetch={false}>
+            Through Time
+          </Link>
+          <Link
+            href={communityEnabled ? "/board" : "/community"}
+            prefetch={false}
+          >
             {communityEnabled ? "The Board" : "Community"}
           </Link>
-          <Link href="/about">About / $BONG</Link>
+          <Link href="/about" prefetch={false}>
+            About / $BONG
+          </Link>
           {communityEnabled && (
-            <Link href="/community-rules">Community rules</Link>
+            <Link href="/community-rules" prefetch={false}>
+              Community rules
+            </Link>
           )}
           {safeHttps(publicSettings.socials.x) && (
             <a href={publicSettings.socials.x} rel="noopener noreferrer">
@@ -30,14 +44,20 @@ export function Footer({
               Telegram
             </a>
           )}
-        </div>
+        </nav>
       </div>
       <div className="footer-bottom">
-        <div>
-          <Link href="/privacy">Privacy</Link>
-          <Link href="/terms">Terms</Link>
-          <Link href="/accessibility">Accessibility</Link>
-        </div>
+        <nav className="footer-policy-links" aria-label="Policies">
+          <Link href="/privacy" prefetch={false}>
+            Privacy
+          </Link>
+          <Link href="/terms" prefetch={false}>
+            Terms
+          </Link>
+          <Link href="/accessibility" prefetch={false}>
+            Accessibility
+          </Link>
+        </nav>
       </div>
     </footer>
   );

@@ -69,29 +69,33 @@ describe("TIME-UI editorial archive and search threshold", () => {
   });
   afterEach(() => vi.unstubAllEnvs());
 
-  it("publishes all seven sourced dock events in production without search", async () => {
+  it("publishes all seven sourced scrolling events in production without search", async () => {
     const html = await render();
     expect(html).not.toContain("No stories published yet.");
     expect(html).not.toContain("Human history</p>");
     expect(html).not.toContain("Some ideas made history.");
-    expect(html).toContain('id="timeline-tab-handaxes"');
+    expect(html).toContain('id="timeline-event-handaxes"');
     expect(html).not.toMatch(
       /History is still being rewritten|checking the sources|The archive \/|Questionable inspiration|The sources remember/,
     );
     expect(html).not.toContain("Coming soon.");
-    expect(html).toContain("https://humanorigins.si.edu/evidence/behavior/stone-tools");
+    expect(html).toContain(
+      "https://humanorigins.si.edu/evidence/behavior/stone-tools",
+    );
     expect(html).not.toContain('name="q"');
     expect(html.match(/<article/g)).toHaveLength(7);
     expect(html).not.toContain("No stories match");
   });
 
-  it("shows the same sourced dock events in development", async () => {
+  it("shows the same sourced scrolling events in development", async () => {
     vi.stubEnv("NODE_ENV", "development");
     const html = await render();
-    expect(html).toContain('id="timeline-tab-handaxes"');
+    expect(html).toContain('id="timeline-event-handaxes"');
     expect(html).toContain('aria-label="Historical timeline"');
     expect(html).toContain('aria-label="Next event"');
-    expect(html).toContain("https://humanorigins.si.edu/evidence/behavior/stone-tools");
+    expect(html).toContain(
+      "https://humanorigins.si.edu/evidence/behavior/stone-tools",
+    );
     expect(content.entries).toEqual([]);
   });
 
@@ -99,8 +103,8 @@ describe("TIME-UI editorial archive and search threshold", () => {
     content.entries = Array.from({ length: 11 }, (_, i) => entry(i));
     const html = await render("a query that does not match");
     expect(html).not.toContain('name="q"');
-    expect(html).toContain('role="tablist"');
-    expect(html).toContain('role="tabpanel"');
+    expect(html).toContain('aria-label="Historical timeline"');
+    expect(html).toContain('class="chronology-scene"');
     expect(html).toContain('aria-label="Next event"');
     expect(html.match(/<article/g)).toHaveLength(11);
     expect(html).not.toContain("No stories published yet.");
@@ -109,7 +113,7 @@ describe("TIME-UI editorial archive and search threshold", () => {
     );
   });
 
-  it("links to the public dock without a coming-soon label when there are no long-form articles", () => {
+  it("links to the public timeline without a coming-soon label when there are no long-form articles", () => {
     const html = renderToStaticMarkup(Home());
     const destination = html.match(
       /<article class="thought-destination">(.*?)<\/article>/,

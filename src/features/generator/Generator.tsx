@@ -7,6 +7,7 @@ import { createDeck, drawNext, restoreDeck } from "./deck";
 import type { Corpus, CorpusManifest, Idea } from "./types";
 import type { DeckState } from "./deck";
 import { IdeaActions } from "./IdeaActions";
+import { BubbleField } from "@/components/BubbleField";
 const KEY = "bong:deck:v1";
 export function Generator({
   communityEnabled = false,
@@ -26,6 +27,22 @@ export function Generator({
   const inFlight = useRef(false);
   const alive = useRef(true);
   const memoryOnly = useRef(false);
+  const resultCard = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!idea) return;
+    const frame = requestAnimationFrame(() => {
+      const card = resultCard.current;
+      if (card && card.getBoundingClientRect().bottom > innerHeight - 24) {
+        card.scrollIntoView({
+          block: "nearest",
+          behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
+            ? "instant"
+            : "smooth",
+        });
+      }
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [idea]);
   useEffect(() => {
     alive.current = true;
     loadCorpus()
@@ -81,7 +98,6 @@ export function Generator({
   const generate = useCallback(async () => {
     if (!loaded || inFlight.current || !state.current) return;
     inFlight.current = true;
-    setBusy(true);
     try {
       const draw = () => {
         const ids = loaded.corpus.ideas.map((i) => i.id);
@@ -111,6 +127,10 @@ export function Generator({
       const result = navigator.locks
         ? await navigator.locks.request("bong-deck-draw", draw)
         : draw();
+      // Batch the reveal/disabled styling with the result, rather than making
+      // the browser paint it while the cross-tab lock callback is waiting.
+      // inFlight already prevents duplicate input throughout the lock wait.
+      setBusy(true);
       if (result.next) {
         setIdea(result.next);
       }
@@ -121,8 +141,8 @@ export function Generator({
       if (alive.current) setBusy(false);
     }
   }, [loaded]);
-  const art = (mobile = false) => (
-    <figure className={mobile ? "mobile-art" : "art-figure desktop-art"}>
+  const art = (
+    <figure className="art-figure rebrand-art">
       <div className="art-frame">
         <button
           className={`art-button ${busy ? "revealing" : ""}`}
@@ -131,13 +151,13 @@ export function Generator({
           aria-label="Give me an idea from the bong"
         >
           <img
-            src="/images/bong-800.webp?v=6258878bd703"
-            srcSet="/images/bong-480.webp?v=6258878bd703 480w, /images/bong-800.webp?v=6258878bd703 800w, /images/bong-1254.webp?v=6258878bd703 1254w"
-            sizes={mobile ? "240px" : "(max-width: 760px) 240px, 42vw"}
-            width="1254"
-            height="1254"
+            src="/images/bong-rebrand-900.webp"
+            srcSet="/images/bong-rebrand-500.webp 500w, /images/bong-rebrand-900.webp 900w"
+            sizes="(max-width: 700px) 64vw, 44vw"
+            width="900"
+            height="1127"
             alt="The BONG glass bong illustration"
-            fetchPriority={mobile ? "auto" : "high"}
+            fetchPriority="high"
           />
           <span className="bong-bubbles" aria-hidden="true">
             <span />
@@ -149,86 +169,85 @@ export function Generator({
     </figure>
   );
   return (
-    <section className="container hero" aria-label="The idea generator">
+    <section className="hero rebrand-hero" aria-label="The idea generator">
+      <BubbleField burstKey={idea?.id} />
       <div className="hero-grid">
         <div className="hero-copy">
           <h1>
-            Some ideas change
-            <br />
-            the world.
-            <br />
-            Some just{" "}
-            <span className="highlight">
-              sound
-              <br />
-              good at the time.
-            </span>
+            Some ideas change the world. Some just{" "}
+            <span className="highlight">sound good at the time.</span>
           </h1>
-          {art(true)}
-          <div className="generator-actions">
-            {failure ? (
-              <button
-                className="button primary"
-                onClick={() => {
-                  setFailure(false);
-                  setAttempt((a) => a + 1);
-                }}
+          <div className="generator-talk">
+            {idea && (
+              <div
+                ref={resultCard}
+                className="generator-card"
+                data-has-idea="true"
               >
-                Try loading the ideas again
-              </button>
-            ) : (
-              <button
-                className="button primary"
-                onClick={generate}
-                disabled={!loaded || busy}
-              >
-                {!loaded
-                  ? "Loading the ideas…"
-                  : idea
-                    ? "Another idea"
-                    : "Give me an idea"}
-                <Icon name="arrow" size={20} />
-              </button>
-            )}
-          </div>
-          <p className="sr-only" aria-live="polite" aria-atomic="true">
-            {idea?.text ?? ""}
-          </p>
-          {idea && (
-            <div className="generator-card" data-has-idea="true">
-              <div data-idea-id={idea.id}>
-                <p className="idea-text" key={idea.id}>
-                  {idea.text}
-                </p>
+                <div data-idea-id={idea.id}>
+                  <p className="idea-text" key={idea.id}>
+                    {idea.text}
+                  </p>
+                </div>
+                <IdeaActions
+                  key={idea.id}
+                  idea={idea}
+                  communityEnabled={communityEnabled}
+                />
               </div>
-              <IdeaActions
-                idea={idea}
-                communityEnabled={communityEnabled}
-              />
+            )}
+            <div className="generator-actions">
+              {failure ? (
+                <button
+                  className="button primary"
+                  onClick={() => {
+                    setFailure(false);
+                    setAttempt((a) => a + 1);
+                  }}
+                >
+                  Try loading the ideas again
+                </button>
+              ) : (
+                <button
+                  className="button primary"
+                  onClick={generate}
+                  disabled={!loaded || busy}
+                >
+                  {!loaded
+                    ? "Loading the ideas…"
+                    : idea
+                      ? "Another idea"
+                      : "Give me an idea"}
+                  <Icon name="arrow" size={20} />
+                </button>
+              )}
             </div>
-          )}
-          {failure && (
-            <p className="status-message" role="alert">
-              The ideas couldn’t load. Give it another try. The rest of the site
-              is still here.
+            <p className="sr-only" aria-live="polite" aria-atomic="true">
+              {idea?.text ?? ""}
             </p>
-          )}
-          {!storageOk && (
-            <p className="storage-note">
-              Your browser isn’t saving progress. You can keep generating in
-              this tab.
-            </p>
-          )}
-          <noscript>
-            <p>
-              The random button needs JavaScript. Read{" "}
-              <Link href="/idea/BONG-0001">idea 1</Link>,{" "}
-              <Link href="/idea/BONG-0284">idea 284</Link>, or{" "}
-              <Link href="/idea/BONG-0792">idea 792</Link> instead.
-            </p>
-          </noscript>
+            {failure && (
+              <p className="status-message" role="alert">
+                The ideas couldn’t load. Give it another try. The rest of the
+                site is still here.
+              </p>
+            )}
+            {!storageOk && (
+              <p className="storage-note">
+                Your browser isn’t saving progress. You can keep generating in
+                this tab.
+              </p>
+            )}
+            <noscript>
+              <p>
+                The random button needs JavaScript. Read{" "}
+                <Link href="/idea/BONG-0001">idea 1</Link>,{" "}
+                <Link href="/idea/BONG-0284">idea 284</Link>, or{" "}
+                <Link href="/idea/BONG-0792">idea 792</Link> instead.
+              </p>
+            </noscript>
+          </div>
         </div>
-        {art()}
+        {art}
       </div>
     </section>
   );

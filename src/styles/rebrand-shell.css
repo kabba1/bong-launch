@@ -1,0 +1,267 @@
+/* Shared shell: the header remains in document flow, including its open menu. */
+.site-header.rebrand-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  border-bottom: 3px solid var(--ink);
+  background: var(--paper);
+  background: color-mix(in srgb, var(--paper) 94%, transparent);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.rebrand-header .header-inner {
+  width: 100%;
+  max-width: 1536px;
+  height: 76px;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 56px);
+  gap: 20px;
+}
+
+.rebrand-header .wordmark {
+  flex: 0 0 auto;
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.055em;
+}
+
+.rebrand-header .desktop-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.rebrand-header .desktop-nav a,
+.rebrand-header .mobile-nav a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 99px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.rebrand-header .desktop-nav a:hover,
+.rebrand-header .mobile-nav a:hover {
+  background: var(--aqua);
+}
+
+.rebrand-header .desktop-nav a[aria-current="page"],
+.rebrand-header .mobile-nav a[aria-current="page"] {
+  color: var(--paper);
+  background: var(--ink);
+  text-decoration: none;
+}
+
+.rebrand-header .desktop-nav a[aria-current="page"]::after {
+  content: none;
+}
+
+.rebrand-header .sign-in-link {
+  min-height: 44px;
+  padding: 8px 16px;
+  gap: 8px;
+  border: 2px solid var(--ink);
+  border-radius: 99px;
+  background: var(--accent);
+  font-weight: 600;
+}
+
+.rebrand-header .sign-in-link:hover {
+  background: var(--aqua);
+}
+
+.rebrand-header .mobile-toggle.icon-button {
+  display: none;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.rebrand-header .mobile-toggle:hover,
+.rebrand-header .mobile-toggle[aria-expanded="true"] {
+  background: var(--aqua);
+}
+
+.rebrand-header .mobile-nav {
+  display: none;
+}
+
+.site-footer.rebrand-footer {
+  width: 100%;
+  max-width: none;
+  padding: clamp(40px, 6vw, 88px) clamp(16px, 4vw, 56px) 28px;
+  border-top: 0;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.rebrand-footer .footer-top,
+.rebrand-footer .footer-bottom {
+  width: 100%;
+  max-width: 1424px;
+  margin-inline: auto;
+}
+
+.rebrand-footer .footer-top {
+  display: block;
+}
+
+.rebrand-footer .footer-wordmark {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 0 clamp(30px, 4vw, 56px);
+  color: var(--sea);
+  font-family: var(--font-display);
+  font-size: clamp(88px, 28vw, 432px);
+  font-weight: 800;
+  line-height: 0.83;
+  letter-spacing: -0.065em;
+  text-decoration: none;
+}
+
+.rebrand-footer .footer-wordmark:hover {
+  color: var(--aqua);
+}
+
+.rebrand-footer .footer-links,
+.rebrand-footer .footer-policy-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  max-width: none;
+  gap: 6px;
+  padding: 0;
+}
+
+.rebrand-footer .footer-links a,
+.rebrand-footer .footer-policy-links a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 99px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.35;
+  text-decoration: none;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.rebrand-footer .footer-links a:hover,
+.rebrand-footer .footer-policy-links a:hover {
+  color: var(--ink);
+  background: var(--aqua);
+  text-decoration: none;
+}
+
+.rebrand-footer .footer-bottom {
+  display: block;
+  padding-top: 20px;
+  margin-top: 24px;
+  border-top: 1px solid color-mix(in srgb, var(--aqua) 32%, transparent);
+  color: var(--aqua);
+}
+
+.rebrand-footer .footer-policy-links a {
+  font-size: 14px;
+}
+
+.rebrand-footer a:focus-visible {
+  outline-color: var(--accent);
+}
+
+@media (max-width: 900px) {
+  .rebrand-header .header-inner {
+    gap: 12px;
+  }
+
+  .rebrand-header .desktop-nav a {
+    padding-inline: 12px;
+    font-size: 14px;
+  }
+
+  .rebrand-header .sign-in-link {
+    font-size: 13px;
+    padding-inline: 10px;
+  }
+}
+
+@media (max-width: 760px) {
+  .rebrand-header .header-inner {
+    height: 68px;
+  }
+
+  .rebrand-header .wordmark {
+    font-size: 34px;
+  }
+
+  .rebrand-header .desktop-nav,
+  .rebrand-header .sign-in-link {
+    display: none;
+  }
+
+  .rebrand-header .mobile-toggle.icon-button {
+    display: inline-flex;
+  }
+
+  .rebrand-header .mobile-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px 16px 16px;
+    border-top: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+    background: var(--paper);
+    max-height: calc(100svh - 71px);
+    overflow-y: auto;
+  }
+
+  .rebrand-header .mobile-nav a {
+    border-radius: 14px;
+    padding-inline: 16px;
+  }
+
+  .rebrand-footer .footer-links {
+    gap: 4px;
+  }
+
+  .rebrand-footer .footer-links a {
+    padding-inline: 12px;
+    font-size: 15px;
+  }
+}
+
+@media (forced-colors: active) {
+  .rebrand-header .desktop-nav a[aria-current="page"],
+  .rebrand-header .mobile-nav a[aria-current="page"] {
+    outline: 2px solid CanvasText;
+    outline-offset: -2px;
+  }
+
+  .rebrand-footer .footer-wordmark {
+    color: LinkText;
+  }
+}

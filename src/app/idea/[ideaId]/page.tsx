@@ -31,7 +31,7 @@ export async function generateMetadata({
       title: `${idea.id} · BONG`,
       description: idea.text,
       images: [
-        `/idea/${idea.id}/opengraph-image?v=${getCorpusManifest().hash}`,
+        `/idea/${idea.id}/opengraph-image?v=${getCorpusManifest().hash}-aqua-v1`,
       ],
     },
   };
@@ -47,7 +47,7 @@ export default async function IdeaPage({
   const idea = getIdea(ideaId);
   const community = communityEnabled();
   return (
-    <section className="page narrow">
+    <section className="page narrow idea-page">
       <p className="eyebrow">A thought from the collection / {ideaId}</p>
       {status === "withdrawn" || !idea ? (
         <>

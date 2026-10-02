@@ -6,7 +6,7 @@ test("UX-01/07 capture public brand screens and reflow at phone, tablet, laptop 
 }) => {
   test.setTimeout(120000);
   const folder =
-    "../bong_codex_handoff/.build-evidence/copy-edit/screenshots" +
+    "../bong_codex_handoff/.build-evidence/rebrand/screenshots" +
     (process.env.COMMUNITY_ENABLED === "true" ? "/community-v2" : "");
   await mkdir(folder, { recursive: true });
   await page.emulateMedia({ reducedMotion: "reduce" });
@@ -50,6 +50,15 @@ test("UX-01/07 capture public brand screens and reflow at phone, tablet, laptop 
           path: `${folder}/home-pre-result-${width}.png`,
           fullPage: true,
         });
+        if (width === 1440) {
+          await page.emulateMedia({ reducedMotion: "no-preference" });
+          await expect(page.locator(".bubble-field")).toBeVisible();
+          await page.screenshot({
+            path: `${folder}/home-desktop-preview.png`,
+            fullPage: false,
+          });
+          await page.emulateMedia({ reducedMotion: "reduce" });
+        }
         await firstDraw.click();
         await expect(page.locator("[data-idea-id]")).toBeVisible();
         await expect(

@@ -155,13 +155,27 @@ test("@public-v1 V1-04 Coming Soon exposes only configured official social links
   await expect(
     main.getByText("Share an idea. Show what you made.", { exact: true }),
   ).toBeVisible();
-  await expect(main.getByText("Forum coming soon", { exact: true })).toBeVisible();
+  await expect(
+    main.getByText("Forum coming soon", { exact: true }),
+  ).toBeVisible();
   if (socials.x || socials.telegram) {
-    await expect(main.getByRole("heading", { name: "Already here" })).toBeVisible();
-    const channels = socials.x && socials.telegram ? "X and Telegram" : socials.x ? "X" : "Telegram";
-    await expect(main.getByText(`Find BONG on ${channels}.`, { exact: true })).toBeVisible();
+    await expect(
+      main.getByRole("heading", { name: "Already here" }),
+    ).toBeVisible();
+    const channels =
+      socials.x && socials.telegram
+        ? "X and Telegram"
+        : socials.x
+          ? "X"
+          : "Telegram";
+    await expect(
+      main.getByText(`Find BONG on ${channels}.`, { exact: true }),
+    ).toBeVisible();
   }
-  await expect(main.locator("img, figure, figcaption")).toHaveCount(0);
+  await expect(
+    main.locator('.community-art[aria-hidden="true"] img'),
+  ).toHaveAttribute("alt", "");
+  await expect(main.locator("figcaption")).toHaveCount(0);
   await expect(
     main.locator('a[href="/"], a[href="/through-time"]'),
   ).toHaveCount(0);
@@ -185,12 +199,18 @@ test("@public-v1 V1-05 a small timeline omits search and token information remai
     page.getByRole("button", { name: "Search", exact: true }),
   ).toHaveCount(0);
   await expect(page.locator(".time-empty")).toHaveCount(0);
-  await expect(page.getByRole("tab")).toHaveCount(7);
-  await expect(page.getByRole("tabpanel")).toContainText("Acheulean");
-  await expect(page.locator("main")).not.toContainText("Some ideas made history.");
+  await expect(page.locator(".chronology-scene")).toHaveCount(7);
+  await expect(page.locator(".chronology-scene").first()).toContainText(
+    "Acheulean",
+  );
+  await expect(page.locator("main")).not.toContainText(
+    "Some ideas made history.",
+  );
   await page.goto("/through-time?q=curiosity");
-  await expect(page.getByRole("tab")).toHaveCount(7);
-  await expect(page.getByRole("tabpanel")).toContainText("Acheulean");
+  await expect(page.locator(".chronology-scene")).toHaveCount(7);
+  await expect(page.locator(".chronology-scene").first()).toContainText(
+    "Acheulean",
+  );
   await expect(
     page.getByRole("textbox", { name: "Search history" }),
   ).toHaveCount(0);
@@ -219,7 +239,9 @@ test("@public-v1 About retains the requested lore and state-dependent token copy
     page.getByRole("heading", { name: "Community", exact: true }),
   ).toBeVisible();
   await expect(page.locator(".story-opening")).not.toContainText("$BONG");
-  await expect(page.locator(".story-opening")).not.toContainText("BONG’s version");
+  await expect(page.locator(".story-opening")).not.toContainText(
+    "BONG’s version",
+  );
   const token = settings.token as null | {
     network: string;
     address: string;

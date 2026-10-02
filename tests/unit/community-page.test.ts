@@ -84,9 +84,17 @@ describe("V1-04 configured community social links", () => {
     expect(html).not.toContain("user:password");
   });
 
-  it("removes the artwork and unrelated destinations from the Community teaser", () => {
+  it("shows the supplied artwork as decoration without unrelated destinations", () => {
     const html = render();
-    expect(html).not.toMatch(/<img[ >]|<figure[ >]|<figcaption[ >]/);
+    const artwork = html.match(
+      /<div class="community-art" aria-hidden="true">(<img[^>]+>)<\/div>/,
+    )?.[1];
+    expect(html.match(/<img[ >]/g)).toHaveLength(1);
+    expect(artwork).toContain('src="/images/bong-800.webp?');
+    expect(artwork).toContain('alt=""');
+    expect(artwork).toContain('width="1254"');
+    expect(artwork).toContain('height="1254"');
+    expect(html).not.toMatch(/<figcaption[ >]/);
     expect(html).not.toMatch(/href="\/(?:through-time)?"/);
     expect(html).not.toMatch(/Get an idea|highdea|The usual suspect/i);
   });
@@ -95,6 +103,7 @@ describe("V1-04 configured community social links", () => {
 describe("About BONG lore and state-dependent token details", () => {
   it("uses the requested story, generator and sourced timeline paragraphs", () => {
     const html = renderAbout();
+    const text = html.replace(/<[^>]*>/g, "");
     for (const paragraph of [
       "BONG has always been around.",
       "The pyramids? BONG. The wheel? BONG. Relativity? BONG. Tinder? BONG, but that one might have been a mistake.",
@@ -102,7 +111,7 @@ describe("About BONG lore and state-dependent token details", () => {
       "Some ideas made history. Explore the moments that changed how people lived, the problems they were trying to solve, and what happened next.",
       "The forum is coming later. Share an idea or show what you’ve made.",
     ])
-      expect(html).toContain(paragraph);
+      expect(text).toContain(paragraph);
     expect(html).not.toMatch(/\bhighdeas?\b/i);
     expect(html).not.toMatch(/href="\/(sign-in|account|board)/);
   });

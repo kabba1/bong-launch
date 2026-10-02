@@ -1,14 +1,51 @@
 import type { Metadata } from "next";
-import "@fontsource/space-grotesk/latin-600.css";
-import "@fontsource/space-grotesk/latin-700.css";
-import "@fontsource/dm-sans/latin-400.css";
-import "@fontsource/dm-sans/latin-500.css";
-import "@fontsource/dm-sans/latin-600.css";
+import localFont from "next/font/local";
 import "@/styles/globals.css";
+import "@/styles/rebrand.css";
+import "@/styles/rebrand-shell.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { origin, isProduction } from "@/lib/site";
 import { communityEnabled } from "@/lib/launch-scope";
+const displayFont = localFont({
+  src: [
+    {
+      path: "../../node_modules/@fontsource/bricolage-grotesque/files/bricolage-grotesque-latin-700-normal.woff2",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../../node_modules/@fontsource/bricolage-grotesque/files/bricolage-grotesque-latin-800-normal.woff2",
+      weight: "800",
+      style: "normal",
+    },
+  ],
+  variable: "--font-bricolage",
+  display: "swap",
+  preload: true,
+});
+const bodyFont = localFont({
+  src: [
+    {
+      path: "../../node_modules/@fontsource/dm-sans/files/dm-sans-latin-400-normal.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../node_modules/@fontsource/dm-sans/files/dm-sans-latin-500-normal.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../../node_modules/@fontsource/dm-sans/files/dm-sans-latin-600-normal.woff2",
+      weight: "600",
+      style: "normal",
+    },
+  ],
+  variable: "--font-dm-sans",
+  display: "swap",
+  preload: true,
+});
 export const metadata: Metadata = {
   metadataBase: new URL(origin()),
   title: {
@@ -25,7 +62,11 @@ export const metadata: Metadata = {
 export default function Layout({ children }: { children: React.ReactNode }) {
   const community = communityEnabled();
   return (
-    <html lang="en" data-scroll-behavior="smooth">
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${displayFont.variable} ${bodyFont.variable}`}
+    >
       <body>
         <a className="skip-link" href="#main">
           Skip to content

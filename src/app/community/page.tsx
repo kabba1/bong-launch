@@ -1,7 +1,6 @@
 import { Icon } from "@/components/Icon";
 import { publicSettings, safeHttps } from "@/lib/site";
 import "@/styles/story-pages.css";
-import "@/styles/info-pages.css";
 
 export const metadata = {
   title: "Community — Coming Soon",
@@ -20,8 +19,8 @@ export default function Community() {
       </header>
       <div className="community-teaser-layout">
         <div className="community-teaser-copy">
-          <p className="eyebrow">Forum coming soon</p>
           <p className="story-lead">Share an idea. Show what you made.</p>
+          <p className="coming-note">Forum coming soon</p>
           {(x || telegram) && (
             <div className="community-socials">
               <h2>Already here</h2>
@@ -32,7 +31,7 @@ export default function Community() {
               <div className="form-actions">
                 {x && (
                   <a
-                    className="button dark"
+                    className="button primary"
                     href={x}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -53,6 +52,16 @@ export default function Community() {
               </div>
             </div>
           )}
+        </div>
+        <div className="community-art" aria-hidden="true">
+          <img
+            src="/images/bong-800.webp?v=6258878bd703"
+            srcSet="/images/bong-480.webp?v=6258878bd703 480w, /images/bong-800.webp?v=6258878bd703 800w, /images/bong-1254.webp?v=6258878bd703 1254w"
+            sizes="(max-width: 760px) 260px, (max-width: 1200px) 34vw, 420px"
+            width="1254"
+            height="1254"
+            alt=""
+          />
         </div>
       </div>
     </section>

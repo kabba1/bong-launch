@@ -120,9 +120,11 @@ test("TIME-08/09 sourced events are public and invented article URLs stay unavai
     page.getByRole("heading", { name: "Bong Through Time", exact: true }),
   ).toBeVisible();
   await expect(page.locator(".chronology")).toHaveCount(1);
-  await expect(page.getByRole("tab")).toHaveCount(7);
-  await expect(page.getByRole("tabpanel")).toContainText("Acheulean");
-  await expect(page.locator(".chronology-source")).toHaveAttribute(
+  await expect(page.locator(".chronology-scene")).toHaveCount(7);
+  await expect(page.locator(".chronology-scene").first()).toContainText(
+    "Acheulean",
+  );
+  await expect(page.locator(".chronology-source").first()).toHaveAttribute(
     "href",
     "https://humanorigins.si.edu/evidence/behavior/stone-tools",
   );

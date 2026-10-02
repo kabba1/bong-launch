@@ -23,6 +23,10 @@ export function Header({
   );
   const [open, setOpen] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
+  const isCurrent = (href: string) =>
+    href === "/"
+      ? pathname === "/"
+      : pathname === href || pathname.startsWith(`${href}/`);
   useEffect(() => {
     if (!communityEnabled) return;
     const controller = new AbortController();
@@ -36,7 +40,7 @@ export function Header({
   const toggle = useRef<HTMLButtonElement>(null);
   return (
     <header
-      className="site-header"
+      className="site-header rebrand-header"
       onKeyDown={(e) => {
         if (open && e.key === "Escape") {
           setOpen(false);
@@ -45,7 +49,13 @@ export function Header({
       }}
     >
       <div className="header-inner">
-        <Link href="/" className="wordmark" aria-label="BONG home">
+        <Link
+          href="/"
+          prefetch={false}
+          className="wordmark"
+          aria-label="BONG home"
+          onClick={() => setOpen(false)}
+        >
           BONG
         </Link>
         <nav aria-label="Main navigation" className="desktop-nav">
@@ -53,11 +63,8 @@ export function Header({
             <Link
               key={href}
               href={href}
-              aria-current={
-                (href === "/" ? pathname === "/" : pathname.startsWith(href))
-                  ? "page"
-                  : undefined
-              }
+              prefetch={false}
+              aria-current={isCurrent(href) ? "page" : undefined}
             >
               {label}
             </Link>
@@ -67,18 +74,20 @@ export function Header({
           <Link
             className="sign-in-link"
             href={signedIn ? "/account" : "/sign-in"}
+            prefetch={false}
           >
             {signedIn ? "Your account" : "Come on in"}{" "}
             <Icon name="arrow" size={17} />
           </Link>
         )}
         <button
+          type="button"
           ref={toggle}
           className="mobile-toggle icon-button"
           aria-label={open ? "Close navigation" : "Open navigation"}
           aria-expanded={open}
           aria-controls="mobile-nav"
-          onClick={() => setOpen(!open)}
+          onClick={() => setOpen((visible) => !visible)}
         >
           <Icon name={open ? "close" : "menu"} />
         </button>
@@ -89,21 +98,21 @@ export function Header({
           aria-label="Mobile navigation"
           className="mobile-nav"
         >
-          {links
-            .filter(([h]) => h !== "/")
-            .map(([href, label]) => (
-              <Link
-                key={href}
-                href={href}
-                onClick={() => setOpen(false)}
-                aria-current={pathname.startsWith(href) ? "page" : undefined}
-              >
-                {label}
-              </Link>
-            ))}
+          {links.map(([href, label]) => (
+            <Link
+              key={href}
+              href={href}
+              prefetch={false}
+              onClick={() => setOpen(false)}
+              aria-current={isCurrent(href) ? "page" : undefined}
+            >
+              {label}
+            </Link>
+          ))}
           {communityEnabled && (
             <Link
               href={signedIn ? "/account" : "/sign-in"}
+              prefetch={false}
               onClick={() => setOpen(false)}
             >
               {signedIn ? "Your account" : "Sign in"}
