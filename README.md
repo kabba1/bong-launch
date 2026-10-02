@@ -1,58 +1,28 @@
 # BONG
 
-BONG v1 is a public canned idea generator, canonical idea pages, reviewed timeline, About/lore and $BONG information, with **Community Coming Soon**. The source corpus, supplied artwork, application code and release documentation are included in this standalone folder.
+BONG is a public idea generator and a short, sourced trip through history. V1 contains the existing 1,000 ideas, shareable idea pages and images, seven scrolling timeline events, About/lore, prelaunch $BONG information, and the configured X and Telegram links. Community is Coming Soon.
 
-`COMMUNITY_ENABLED` is disabled by default. Public v1 requires no database, Supabase, email delivery, CAPTCHA, accounts, staff or private upload service. The implemented community code is retained for a separately reviewed v2 release; credentials alone must never activate it. Direct private pages, APIs and privileged migration/maintenance/staff commands remain closed in v1.
+There are no active accounts, posts, uploads, wallets, trading or live AI. The retained Community-v2 code is disabled and requires no database, email, CAPTCHA or private storage to run v1.
 
-**Public deployment still requires real content and owner approval.** At least eight genuinely sourced/reviewed timeline entries, public legal/contact/rights information, security/accessibility/visual/performance review, hosting checks and production authorization remain gates. No historical articles, official accounts, token address or approval identity may be invented.
+## Run
 
-## Run locally
+Use Node **24.19.0** and the committed lockfile:
 
-Use Node **24.19.0** (Node 24 LTS):
-
-```powershell
+```sh
 npm ci
 npm run content:build
 npm run dev
 ```
 
-Open `http://127.0.0.1:3210`. Keep `COMMUNITY_ENABLED=false` or unset. Leave all private-service environment variables empty; no cloud project or paid service is needed for the public preview.
+Open [localhost](http://127.0.0.1:3210). Leave Community and its participation flags false or unset. For a production-build preview, stop the dev server, run `npm run build`, then `npm run start`.
 
-For a production-build preview, stop the development server and run:
+## Verify
 
-```powershell
-npm run build
-npm run start
-```
-
-## Verify the public release
-
-```powershell
-npm run lint
-npm run typecheck
-npm run content:validate
-npm run test:unit
-npm run test:integration
-npm run test:security
-npm exec -- playwright install chromium
-npm run build
-npm run test:e2e
-npm run test:a11y
-npm run security:scan
-npm audit --audit-level=high
+```sh
+npx playwright install chromium
 npm run release:check
 ```
 
-The default release check is **v1**. Local integration tests retain real PostgreSQL/WASM regression coverage for dormant community code; they do not need a provisioned database and do not certify hosted private services. Public browser/axe results must identify the v1 scope and exact candidate. Release checks remain blocked until their genuine applicable requirements pass.
+Stop other servers on port 3210 first. This runs lint, TypeScript, exact content validation, unit/integration/security tests, the production build, secret scan, dependency audit, browser tests and automated accessibility checks. It uses fresh command results, not historical approval files. Logs are in ignored `.runtime/release-check/`. Each check is also an individual package script.
 
-The full future community gate is `npm run release:check:community` (equivalent to `npm run release:check -- --scope=community`). It preserves the original 148 scenarios, full ASVS review, private-service configuration, staff, real provider journeys and recovery requirements. Public-only evidence cannot authorize that release.
-
-## Content and configuration
-
-All 1,000 original IDs/texts and 22 categories are preserved. `content:import`, `content:validate` and `content:build` verify exact source equality and deterministic artifacts. The browser loads the public corpus and draws locally without AI, accounts or database calls. Generated SQL catalog output remains for future v2; deploying it is not a v1 prerequisite.
-
-Supplied art is retained in `assets/bong-logo.png`; optimized public variants and self-hosted licensed fonts have their records in `docs/ASSETS.md`. Actual artwork rights still need owner approval. Historical entries belong in `content/timeline`; drafts remain private to the build inputs. At least eight real reviewed entries are required before public release.
-
-Configure only genuine owner-approved social links and token state in `content/site.json`. Missing social values are omitted; prelaunch mode has no invented contract. No wallet, trading or token gate is present. Approved public legal JSON belongs in `content/legal/{privacy,terms,accessibility}.json`. Community rules and account privacy operations remain v2 concerns while those features are disabled.
-
-Read [V1_SCOPE.md](docs/V1_SCOPE.md), [SETUP.md](docs/SETUP.md), [CONTENT_AND_RELEASE.md](docs/CONTENT_AND_RELEASE.md) and [RELEASE_REPORT.md](docs/RELEASE_REPORT.md). The current public acceptance map is [v1-acceptance-evidence.json](docs/v1-acceptance-evidence.json); the historical full matrix is preserved separately. Neither local preview nor a passing build authorizes production deployment, DNS changes or paid provisioning.
+Read the short [v1 launch guide and human checklist](docs/V1_LAUNCH.md). The existing Netlify site is Git-connected but remains staging/noindex. Pushing to main deploys it; do so only when the owner asks to publish. [Historical generated-spec records](docs/archive/generated-spec/README.md) do not define current v1 readiness.

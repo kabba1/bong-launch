@@ -14,7 +14,7 @@ export default defineConfig({
   retries: 0,
   workers: 1,
   reporter: [["list"]],
-  outputDir: "../bong_codex_handoff/.build-evidence/playwright",
+  outputDir: ".runtime/playwright",
   use: {
     baseURL: "http://127.0.0.1:3210",
     trace: "retain-on-failure",

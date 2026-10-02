@@ -14,7 +14,6 @@ import {
   validateTimelineEntries,
 } from "../../src/features/timeline/content";
 import { runContentCommand } from "../../scripts/content";
-import { evaluateRelease } from "../../scripts/release-policy";
 
 // Isolated validation fixture, intentionally never written to production content.
 const entry = (slug = "fixture-entry", sortYear = -300) => ({
@@ -138,7 +137,7 @@ describe("unreviewed timeline drafts (TIME-01/02/08/09, DATA-10, OPS-13)", () =>
     ).toThrow(/reviewedBy|reviewedAt/);
   });
 
-  it("excludes article drafts without requiring eight articles to publish the v1 dock", async () => {
+  it("excludes long-form article drafts while the sourced v1 events remain separate", async () => {
     await withDraftContent((root) => {
       expect(loadPublishedTimeline(root)).toEqual([]);
       runContentCommand("build", root);
@@ -147,21 +146,6 @@ describe("unreviewed timeline drafts (TIME-01/02/08/09, DATA-10, OPS-13)", () =>
         readFileSync(join(root, "content/generated/timeline.json"), "utf8"),
       );
       expect(published).toEqual([]);
-      const release = evaluateRelease({
-        timelineCount: published.length,
-        activeIdeas: 1000,
-        contacts: {},
-        legal: [],
-        approvals: {},
-        environment: "staging",
-        configured: [],
-        checks: {},
-        communityEnabled: false,
-      });
-      expect(release.ready).toBe(false);
-      expect(release.blockers).not.toContain(
-        "At least eight genuine reviewed timeline articles are required.",
-      );
     });
   });
 

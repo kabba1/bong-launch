@@ -17,6 +17,7 @@ import type {
   Idea,
 } from "../src/features/generator/types";
 import { loadPublishedTimeline } from "../src/features/timeline/content";
+import { timelineEvents } from "../src/features/timeline/events";
 import { siteSchema, policySchema } from "../src/lib/content-config";
 
 const INITIAL_SOURCE_HASH =
@@ -364,7 +365,7 @@ export function runContentCommand(command: string, root = process.cwd()): void {
     }
   }
   process.stdout.write(
-    `Content ${command}: 1000 exact source rows, 22 categories, ${artifacts.manifest.activeCount} active ideas, ${timeline.length} published timeline entries.\nSHA-256 ${artifacts.manifest.hash}\n`,
+    `Content ${command}: 1000 exact source rows, 22 categories, ${artifacts.manifest.activeCount} active ideas, ${timeline.length || timelineEvents.length} public timeline events (${timeline.length} published long-form articles).\nSHA-256 ${artifacts.manifest.hash}\n`,
   );
 }
 

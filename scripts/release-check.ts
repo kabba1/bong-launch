@@ -1,102 +1,101 @@
-import { readFileSync, existsSync, readdirSync } from "node:fs";
-import { createHash } from "node:crypto";
+import { spawnSync } from "node:child_process";
 import {
-  evaluateRelease,
-  acceptanceBlockers,
-  publicAcceptanceBlockers,
-  asvsBlockers,
-  releaseScope,
-  productionOriginBlockers,
-  evidenceScopeBlockers,
+  closeSync,
+  mkdirSync,
+  openSync,
+  readFileSync,
+  writeFileSync,
+} from "node:fs";
+import { resolve } from "node:path";
+import nextEnv from "@next/env";
+import {
+  configurationBlockers,
+  releaseMode,
+  runTechnicalChecks,
 } from "./release-policy";
-import { candidateHash } from "./candidate";
-import { siteSchema, policySchema } from "../src/lib/content-config";
-const json = (path: string) => JSON.parse(readFileSync(path, "utf8"));
-const scope = releaseScope(process.argv.slice(2));
-const site = siteSchema.parse(json("content/site.json"));
-const manifest = json("content/generated/manifest.json");
-const evidence = existsSync("docs/release-evidence.json")
-  ? json("docs/release-evidence.json")
-  : { checks: {} };
-const entries = json("content/generated/timeline.json");
-const configured = Object.entries(process.env)
-  .filter(([, value]) => !!value)
-  .map(([key]) => key);
-const legal = readdirSync("content/legal")
-  .filter((f) => f.endsWith(".json"))
-  .filter((f) => {
-    return policySchema.safeParse(json(`content/legal/${f}`)).success;
-  })
-  .map((f) => f.replace(".json", ""));
-const evaluation = evaluateRelease(
-  {
-    timelineCount: Array.isArray(entries)
-      ? entries.length
-      : (entries.entries?.length ?? 0),
-    activeIdeas: manifest.activeCount,
-    contacts: site.contacts,
-    legal,
-    approvals: site.approvals,
-    environment: process.env.APP_ENV ?? "local",
-    configured,
-    checks: evidence.checks ?? {},
-    communityEnabled: process.env.COMMUNITY_ENABLED === "true",
-  },
-  scope,
-);
-evaluation.blockers.push(...evidenceScopeBlockers(evidence.scope, scope));
-const corpus = readFileSync(`public${manifest.url}`);
-const acceptancePath =
-  scope === "v1"
-    ? "docs/v1-acceptance-evidence.json"
-    : "docs/acceptance-evidence.json";
-const acceptance = existsSync(acceptancePath) ? json(acceptancePath) : {};
-evaluation.blockers.push(
-  ...(scope === "v1"
-    ? publicAcceptanceBlockers(acceptance.scenarios)
-    : acceptanceBlockers(acceptance.scenarios)),
-);
-const asvsPath =
-  scope === "v1"
-    ? "docs/v1-asvs-evidence.json"
-    : "docs/asvs-5.0-l2-evidence.json";
-const asvs = existsSync(asvsPath) ? json(asvsPath) : {};
-evaluation.blockers.push(...asvsBlockers(asvs.controls, scope));
-if (asvs.exactCandidateSHA256 !== candidateHash())
-  evaluation.blockers.push(
-    "The ASVS working record is not bound to this source candidate.",
+
+// Match Next's production-build .env precedence without logging file contents.
+nextEnv.loadEnvConfig(process.cwd(), false, { info() {}, error() {} });
+const mode = releaseMode(process.argv.slice(2), process.env);
+const blockers = configurationBlockers(process.env, mode);
+console.log(`BONG v1 engineering verification (${mode})`);
+if (blockers.length) {
+  for (const blocker of blockers)
+    console.error(`FAIL configuration: ${blocker}`);
+  process.exitCode = 1;
+} else {
+  const npm = process.env.npm_execpath;
+  if (!npm) throw new Error("Run this command through npm run release:check.");
+  const directory = resolve(".runtime/release-check");
+  mkdirSync(directory, { recursive: true });
+  // Browser regressions exercise the existing staging/noindex behavior. The
+  // production configuration above is inspected, never written to any host.
+  const env = {
+    ...process.env,
+    APP_ENV: "staging",
+    APP_ORIGIN: "http://127.0.0.1:3210",
+    COMMUNITY_ENABLED: "false",
+    REGISTRATIONS_ENABLED: "false",
+    POSTING_ENABLED: "false",
+    UPLOADS_ENABLED: "false",
+    BONG_E2E_SCOPE: "v1",
+  };
+  const results = runTechnicalChecks(
+    (script) => {
+      console.log(`Checking ${script}…`);
+      const logfile = resolve(directory, `${script.replaceAll(":", "-")}.log`);
+      const descriptor = openSync(logfile, "w");
+      try {
+        const child = spawnSync(process.execPath, [npm, "run", script], {
+          env,
+          stdio: ["ignore", descriptor, descriptor],
+        });
+        if (child.error)
+          console.error(`Could not run ${script}: ${child.error.message}`);
+        return child.status === 0;
+      } finally {
+        closeSync(descriptor);
+      }
+    },
+    (result) => {
+      console.log(
+        `${result.status} ${result.script}${result.status === "SKIP" ? " (requires a successful build)" : ""}`,
+      );
+      if (result.status === "FAIL") {
+        const logfile = resolve(
+          directory,
+          `${result.script.replaceAll(":", "-")}.log`,
+        );
+        console.error(
+          readFileSync(logfile, "utf8")
+            .trim()
+            .split(/\r?\n/)
+            .slice(-24)
+            .join("\n"),
+        );
+      }
+    },
   );
-if (acceptance.exactCandidateSHA256 !== candidateHash())
-  evaluation.blockers.push(
-    "The acceptance record is not bound to this exact source candidate.",
+  const failures = results.filter((result) => result.status !== "PASS");
+  writeFileSync(
+    resolve(directory, "summary.json"),
+    JSON.stringify(
+      { checkedAt: new Date().toISOString(), mode, results },
+      null,
+      2,
+    ) + "\n",
   );
-if (evidence.candidateSHA256 !== candidateHash())
-  evaluation.blockers.push(
-    "Automated evidence does not identify this exact source candidate; rerun checks and record its hash.",
+  console.log(
+    failures.length
+      ? `Engineering checks incomplete: ${failures.map((result) => result.script).join(", ")}.`
+      : "PASS: all 11 engineering checks passed.",
   );
-if (createHash("sha256").update(corpus).digest("hex") !== manifest.hash)
-  evaluation.blockers.push("Public artifact hash does not match its manifest.");
-if (scope === "community" && process.env.PROVIDER_CAPTCHA_ENABLED !== "true")
-  evaluation.blockers.push(
-    "Provider Auth CAPTCHA has not been confirmed enabled.",
+  console.log(
+    "Logs: .runtime/release-check/. Human launch decisions: docs/V1_LAUNCH.md. No deployment performed.",
   );
-if (process.env.APP_ENV === "production")
-  evaluation.blockers.push(...productionOriginBlockers(process.env.APP_ORIGIN));
-if (
-  process.env.APP_ENV === "production" &&
-  scope === "community" &&
-  /^1x|^2x|^3x/.test(process.env.TURNSTILE_SITE_KEY ?? "")
-)
-  evaluation.blockers.push("Production must not use a Turnstile test key.");
-if (
-  process.env.BONG_OWNER_DATABASE_URL ||
-  process.env.BONG_MIGRATION_DATABASE_URL
-)
-  evaluation.blockers.push(
-    "Owner and migration credentials must be absent from the application release runtime.",
-  );
-console.log(
-  `BONG ${scope} release check — ${evaluation.blockers.length ? "NOT READY FOR PUBLIC LAUNCH" : "GATES SATISFIED"}\nCorpus: ${manifest.activeCount} active ideas · ${manifest.hash}`,
-);
-for (const blocker of evaluation.blockers) console.log(`BLOCKED: ${blocker}`);
-if (evaluation.blockers.length) process.exitCode = 1;
+  if (mode === "local")
+    console.log(
+      "Production configuration was not evaluated. Use --production with the intended production environment when preparing to launch.",
+    );
+  if (failures.length) process.exitCode = 1;
+}

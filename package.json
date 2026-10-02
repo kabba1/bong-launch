@@ -20,13 +20,15 @@
     "test:a11y": "playwright test --project=accessibility",
     "build": "npm run content:build && tsx scripts/netlify-headers.ts && next build",
     "release:check": "tsx scripts/release-check.ts",
-    "release:check:community": "tsx scripts/release-check.ts --scope=community",
+    "release:check:production": "tsx scripts/release-check.ts --production",
+    "release:check:community": "tsx scripts/community/release-check.ts",
     "db:migrate": "tsx scripts/db-migrate.ts",
     "staff:manage": "node --conditions=react-server --import tsx scripts/staff.ts",
     "maintenance": "node --conditions=react-server --import tsx scripts/maintenance.ts",
     "assets:build": "tsx scripts/assets.ts",
     "format": "prettier --write src scripts tests *.ts *.mjs",
-    "security:scan": "tsx scripts/secret-scan.ts"
+    "security:scan": "tsx scripts/secret-scan.ts",
+    "security:audit": "npm audit --audit-level=high"
   },
   "dependencies": {
     "@fontsource/bricolage-grotesque": "5.3.0",
@@ -43,6 +45,7 @@
     "zod": "4.6.5"
   },
   "devDependencies": {
+    "@next/env": "16.3.6",
     "@axe-core/playwright": "4.13.0",
     "@electric-sql/pglite": "0.5.8",
     "@eslint/compat": "2.1.1",

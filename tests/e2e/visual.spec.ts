@@ -6,7 +6,7 @@ test("UX-01/07 capture public brand screens and reflow at phone, tablet, laptop 
 }) => {
   test.setTimeout(120000);
   const folder =
-    "../bong_codex_handoff/.build-evidence/rebrand/screenshots" +
+    ".runtime/screenshots" +
     (process.env.COMMUNITY_ENABLED === "true" ? "/community-v2" : "");
   await mkdir(folder, { recursive: true });
   await page.emulateMedia({ reducedMotion: "reduce" });

@@ -1,3 +1,5 @@
+> FUTURE COMMUNITY V2 — retained technical notes, not public-v1 launch instructions. See [current v1 launch](../V1_LAUNCH.md). Historical public-scope references below are superseded.
+
 # BONG BFF contract
 
 All account/community data travels through `/api`. The browser has no provider Auth, SQL, or Storage client. The API is private `no-store`, including public board responses and media authorization. Successful responses are `{data,requestId}`; paged results may also include `page`. Failure responses are `{error:{code,message,fields?},requestId}`. Clients must preserve inputs on failure and distinguish 201 `pending` from `published`; 202 means a durable job was queued.
